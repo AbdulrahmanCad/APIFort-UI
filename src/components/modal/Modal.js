@@ -22,7 +22,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "30%",
+  width: "38%",
   height: "549px",
   display: "flex",
   flexDirection: "column",
@@ -30,8 +30,8 @@ const style = {
   border: "1px solid #EBE9E1",
   borderRadius: "12px",
   boxShadow: 2,
-  px: 8,
-  py: 4
+  px: 6,
+  pt: 2
 };
 
 const SecondModalStyle = {
@@ -123,7 +123,9 @@ export default function BasicModal({modal, setModal}) {
     <div>
       <Modal
         open={modal}
-        onClose={() => setModal(false)}
+        onClose={() => {
+          setModal(false)
+        }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -159,7 +161,7 @@ export default function BasicModal({modal, setModal}) {
             Create new profile
           </Typography>
           <Box display="flex" flexDirection="column">
-            <FormControl variant="outlined" sx={{ my: 1.5 }}>
+            <FormControl variant="outlined" sx={{ mt: 3.5, mb: 1.5 }}>
               <Typography>
                 Profile Name {" "}
                 <Tooltip placement="top" describeChild title="The main name of your profile">
@@ -168,7 +170,7 @@ export default function BasicModal({modal, setModal}) {
             <Grid xs={12}>
                 <OutlinedInput
                   error={profile_name_valid}
-                  sx={{ height: 40, backgroundColor: "#F4F3EE", width: "100%" }}
+                  sx={{ height: 40, backgroundColor: "#F4F3EE", borderColor: "red", width: "100%", }}
                   name="profile_name"
                   onChange={onChange}
                   placeholder="Enter name"
@@ -290,6 +292,7 @@ export default function BasicModal({modal, setModal}) {
           <Box height="2.5rem" mt="0.5rem" display="flex" justifyContent="end">
           <Button
             onClick={() => setModal(false)}
+            style={{ backgroundColor: 'transparent' }}
             sx={{
               textTransform: 'none',
               textDecoration: "underline",
@@ -300,8 +303,7 @@ export default function BasicModal({modal, setModal}) {
               animationTimeline: 5000,
               "&:hover": {
                 opacity: 1,
-                color: "#FC574E",
-                boxShadow: "none",
+                color: "#FC574E"
               },
             }}
           >

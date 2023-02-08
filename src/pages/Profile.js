@@ -53,12 +53,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Profile() {
   const [modal, setModal] = React.useState(false)
+  const [search, setSearch] = React.useState("")
   const [queryList, setQueryList] = React.useState([])
   const [profiles, setProfiles] = React.useState([
     { id: 0, profile_name: "Loading..." },
   ]);
 
   React.useEffect(() => {
+    setSearch("")
     updateData();
   }, [modal]);
   
@@ -82,6 +84,7 @@ export default function Profile() {
 
   function handleSearch(e){
     let q = e.target.value.trim()
+    setSearch(q)
     let allData = queryList
     allData = allData.filter((item) => {
     return item.profile_name.toLowerCase().indexOf(q.toLowerCase()) !== -1;
@@ -114,6 +117,7 @@ export default function Profile() {
                   </SearchIconWrapper>
                   <StyledInputBase
                     onChange={handleSearch}
+                    value={search}
                     placeholder="Search Profiles…"
                     inputProps={{ "aria-label": "search" }}
                   />

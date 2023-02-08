@@ -1,6 +1,6 @@
 import React, {lazy} from "react"
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { createTheme, ThemeProvider} from '@mui/material/styles';
 
 const Sidebar = lazy (() => import("./components/Sidebar/Sidebar"))
@@ -11,7 +11,7 @@ var mainBgStyle = {
   backgroundColor : '#F4F3EE',
   height: '100vh',
   display: "flex",
-  minHeight : '100vh'
+  minHeight : '100vh',
 }
 const theme = createTheme({
   typography: { fontFamily: ["Yellowtail", "Poppins"].join(",") },
@@ -32,7 +32,7 @@ function App() {
     <Routes>
       <Route path="/profile" element={<Profile />}></Route>
       <Route path="/profile/:id" element={<Endpoint />}></Route>
-      <Route path="*" element={<Profile />}></Route>
+      <Route path="*" element={<Navigate to="/profile" replace />}/>
     </Routes>
   </Router>
   </ div>
