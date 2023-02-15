@@ -1,1 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+
+.css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+    border-color: '#EBE9E1' !important;
+}
+
+.MuiButtonBase-root-MuiTab-root.Mui-selected{
+    color: "red" !important;
+}
+
+.Mui-selected{
+    color: "red" !important;
+}
