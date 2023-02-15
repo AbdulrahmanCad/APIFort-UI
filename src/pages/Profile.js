@@ -1,5 +1,5 @@
 import * as React from "react";
-import ProfileList from "../components/ProfileItem/ProfileList";
+import ProfileList from "../components/Profile/ProfileList";
 import { styled, alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import SearchIcon from "@mui/icons-material/Search";
