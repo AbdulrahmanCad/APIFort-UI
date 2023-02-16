@@ -131,6 +131,7 @@ export default function Profile() {
                       bgcolor: "#CA463E",
                       color: "white",
                     },
+                    color: "white",
                     textTransform: 'none',
                     backgroundColor: "#FC574E",
                   }}

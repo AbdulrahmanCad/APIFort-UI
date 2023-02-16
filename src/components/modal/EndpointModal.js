@@ -9,7 +9,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { FormControl } from "@mui/material";
+import { FormControl, FormControlLabel } from "@mui/material";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import profileService from "../../services/profileService";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
@@ -17,14 +17,16 @@ import HelpIcon from "@mui/icons-material/Help";
 import Tooltip from "@mui/material/Tooltip";
 import CloseIcon from "@mui/icons-material/Close";
 import styled from "@emotion/styled";
+import SelectInput from "./SelectInput";
+import Switch from "@mui/material/Switch";
 
 const style = {
   position: "absolute",
-  top: "50%", 
+  top: "60%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "45%",
   height: "100vh",
+  width: "100%",
   display: "flex",
   flexDirection: "column",
   bgcolor: "#FBFBF9",
@@ -32,12 +34,27 @@ const style = {
   borderRadius: "12px",
   boxShadow: 2,
   my: 12,
+  
+
+  "@media (min-width: 576px)": {
+    width: "26rem",
+  },
+
+  "@media (min-width: 780px)": {
+    width: "32rem",
+  },
+
+  "@media (min-width: 1280px)": {
+    width: "42rem",
+  },
 };
 
 const contant = {
   display: "flex",
   flexDirection: "column",
   px: 6,
+  // overflow: "hidden",
+  // overflow: "scroll", 
 };
 
 const cloes = {
@@ -80,16 +97,29 @@ const ValidationTextField = styled(OutlinedInput)({
   "&:hover": {
     backgroundColor: "#EBE9E1",
     border: "#D4D2CB",
-  },"&:hover .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+  },
+  "&:hover .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
     border: " 1px solid #D4D2CB",
   },
 });
 
 const sxStyle = {
-  height: 40, 
+  height: 40,
   backgroundColor: "#F4F3EE",
   width: "100%",
 };
+const ColorSwitch = styled(Switch)(({ theme }) => ({
+  "& .MuiSwitch-switchBase.Mui-checked": {
+    color: "#FC574E",
+  },
+  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track ": {
+    backgroundColor: "#FC574E",
+    // ColorSwitch: "red",
+  },
+  "& .css-1dnugo-MuiSwitch-root .MuiSwitch-switchBase.Mui-checked": {
+    color: "white",
+  },
+}));
 
 export default function BasicModal({ modal, setModal }) {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -97,6 +127,15 @@ export default function BasicModal({ modal, setModal }) {
   const [showPassword2, setShowPassword2] = React.useState(false);
   const [showPassword3, setShowPassword3] = React.useState(false);
   const [done, setDone] = React.useState(false);
+  const [checked, setChecked] = React.useState(false);
+  const [accessibility, setAccessibility] = React.useState(false);
+
+  const toggleOffline = () => {
+    setChecked((prev) => !prev);
+  };
+  const toggleAccessibility = () => {
+    setAccessibility((prev) => !prev);
+  };
 
   const [formData, setFormData] = React.useState({
     profile_name: "",
@@ -187,7 +226,7 @@ export default function BasicModal({ modal, setModal }) {
   return (
     <>
       {!done ? (
-        <div>
+        <div style={{ overflow: "scroll" }}>
           <Modal
             open={modal}
             onClose={() => {
@@ -195,6 +234,7 @@ export default function BasicModal({ modal, setModal }) {
             }}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
+            style={{ overflow: 'scroll',  }}
           >
             <Box sx={style}>
               <Box sx={cloes}>
@@ -262,7 +302,7 @@ export default function BasicModal({ modal, setModal }) {
                     <Tooltip
                       placement="top"
                       describeChild
-                      title="The description of your endpoint"
+                      title="The description of your  "
                     >
                       <HelpIcon fontSize="inherit" />
                     </Tooltip>
@@ -291,13 +331,7 @@ export default function BasicModal({ modal, setModal }) {
                       <HelpIcon fontSize="inherit" />
                     </Tooltip>
                     <Grid xs={12}>
-                      <ValidationTextField
-                        error={profile_name_valid}
-                        sx={sxStyle}
-                        name="profile_name"
-                        onChange={onChange}
-                        placeholder="Enter name"
-                      />
+                      <SelectInput />
                     </Grid>
                   </Typography>
                 </FormControl>
@@ -349,7 +383,89 @@ export default function BasicModal({ modal, setModal }) {
                     </Grid>
                   </Typography>
                 </FormControl>
+                <FormControl
+                  variant="outlined"
+                  sx={{ mt: 3.5, mb: 1.5, color: "#112849" }}
+                >
+                  <Typography>
+                    Auth Claim Value{" "}
+                    <Tooltip
+                      placement="top"
+                      describeChild
+                      title="Tooltip text goes here."
+                    >
+                      <HelpIcon fontSize="inherit" />
+                    </Tooltip>
+                    <Grid xs={12}>
+                      <ValidationTextField
+                        error={profile_name_valid}
+                        sx={sxStyle}
+                        name="profile_name"
+                        onChange={onChange}
+                        placeholder="Enter value"
+                      />
+                    </Grid>
+                  </Typography>
+                </FormControl>
 
+                <FormControl
+                  variant="outlined"
+                  sx={{ mt: 3.5, mb: 1.5, color: "#112849" }}
+                >
+                  <Typography>
+                    Accessibility{" "}
+                    <Tooltip
+                      placement="top"
+                      describeChild
+                      title="Tooltip text goes here."
+                    >
+                      <HelpIcon fontSize="inherit" />
+                    </Tooltip>
+                    <br />
+                    <FormControlLabel
+                      value="start"
+                      labelPlacement="start"
+                      control={
+                        <ColorSwitch
+                          checked={accessibility}
+                          onChange={toggleAccessibility}
+                          size=""
+                        />
+                      }
+                      sx={{ color: accessibility ? `#FC574E` : ``, m: 0 }}
+                      label={accessibility ? "Enabled" : "Disabled"}
+                    />
+                  </Typography>
+                </FormControl>
+                <FormControl
+                  variant="outlined"
+                  sx={{ mt: 3.5, mb: 1.5, color: "#112849" }}
+                >
+                  <Typography>
+                    Offline Authentication{" "}
+                    <Tooltip
+                      placement="top"
+                      describeChild
+                      title="Tooltip text goes here."
+                    >
+                      <HelpIcon fontSize="inherit" />
+                    </Tooltip>
+                    <br />
+                    <FormControlLabel
+                      value="start"
+                      labelPlacement="start"
+                      control={
+                        <ColorSwitch
+                          checked={checked}
+                          onChange={toggleOffline}
+                          size=""
+                        />
+                      }
+                      sx={{ color: checked ? `#FC574E` : ``, m: 0 }}
+                      label={checked ? "Enabled" : "Disabled"}
+                    />
+                  </Typography>
+                </FormControl>
 
                 <Typography sx={{ color: "red" }}>{error}</Typography>
                 <Box
@@ -449,7 +565,9 @@ export default function BasicModal({ modal, setModal }) {
                   font: "bold 14px/22px Poppins",
                 }}
               >
-                <span style={{ fontWeight: 'bold', color: "black" }}>{profile_name}</span>{" "}
+                <span style={{ fontWeight: "bold", color: "black" }}>
+                  {profile_name}
+                </span>{" "}
                 profile has been successfully created.
               </Typography>
               <Button

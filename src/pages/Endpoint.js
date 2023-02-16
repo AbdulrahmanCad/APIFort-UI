@@ -7,7 +7,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import Container from "@mui/material/Container";
 import { Button, Grid, Typography, Card, CardContent, FormGroup, FormControlLabel } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import { createTheme } from "@mui/system";
 import InputBase from "@mui/material/InputBase";
 import EndpointModal from "../components/modal/EndpointModal";
 import endpointService from "../services/endpointService";
@@ -19,7 +18,22 @@ import TabPanel from '@mui/lab/TabPanel';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Switch from '@mui/material/Switch';
 import { styled } from '@mui/system';
+import EndpointFilter from "../components/Endpoint/filter/EndpointFilter"
+import { createTheme, ThemeProvider} from '@mui/material/styles';
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#FC574E'
+    }
+  },
+  typography: { fontFamily: ["Poppins"].join(",") },
+  transitions: {
+    easing: {
+      easeInOut: 'cubic-bezier(.25,.1,.36,1.18)',
+    },
+  },
+});
 
 const SingleTab = styled(Tab)({
   "& .MuiTab-notchedTab ": {
@@ -29,7 +43,7 @@ const SingleTab = styled(Tab)({
     color: "#EBE9E1",
   },
   "& .MuiTab-root.Mui-selected": {
-    color: 'red'
+    // color: 'red'
   },
   "&:hover": {
     border: "#D4D2CB",
@@ -84,9 +98,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Endpoint() {
   const [modal, setModal] = React.useState(false)
-  const [profileName, setProfileName] = React.useState("")
+  const [profileName, setProfileName] = React.useState("Profile Name")
+  const [search, setSearch] = React.useState("")
   const [queryList, setQueryList] = React.useState([])
-
+  const [endpoints, setEndpoints] = React.useState([
+    { id: 0, name: "Loading..." },
+  ]);
   const navigate = useNavigate()
 
   const [value, setValue] = React.useState('1');
@@ -98,20 +115,32 @@ export default function Endpoint() {
   const params = useParams()
 
   React.useEffect(() => {
+    setSearch("")
     updateData();
   }, [modal]);
   
   async function updateData() {
-    await endpointService.getProfile(params.id).then((result) => {
-      setProfileName(result.data.profile_name)
+    await endpointService.getAllData().then((result) => {
+      let data = result.data;
+      let profilesData = [];
+      for (const key in data) {
+        profilesData.push(data[key]);
+      }
+      console.log(profilesData)
+      setEndpoints(profilesData);
+      setQueryList(profilesData);
     });
   }
 
-  const theme = createTheme({
-    typography: {
-      fontSize: 22,
-    },
-  });
+  function handleSearch(e){
+    let q = e.target.value.trim()
+    setSearch(q)
+    let allData = queryList
+    allData = allData.filter((item) => {
+    return item.name.toLowerCase().indexOf(q.toLowerCase()) !== -1;
+    }  );
+    setEndpoints(allData)
+  }
 
   return (
     <>
@@ -142,10 +171,12 @@ export default function Endpoint() {
         <Box sx={{ width: '100%', typography: 'body1' }}>
       <TabContext value={value}>
         <Box sx={{ px: 2, marginTop: 1,  borderBottom: 1, borderColor: 'divider' }}>
+          <ThemeProvider theme={theme} >
           <TabList TabIndicatorProps={{style: {color: "#FC574E", background:"#FC574E"}}} onChange={handleChange} aria-label="lab API tabs example">
             <SingleTab style={{ textTransform: "none" }} label="Endpoints" value="1" />
             <SingleTab style={{ textTransform: "none" }} label="Services" value="2" />
           </TabList>
+          </ThemeProvider>
         </Box>
         <TabPanel sx={{ px: 2, pt: 0, pb: 12}} value="1">
         <Box my={3}>
@@ -167,26 +198,13 @@ export default function Endpoint() {
                     <SearchIcon />
                   </SearchIconWrapper>
                   <StyledInputBase
+                    onChange={handleSearch}
+                    value={search}
                     placeholder="Search Endpoints..."
                     inputProps={{ "aria-label": "search" }}
                   />
                 </Search>
-                <Button
-                onClick={() => setModal(true)}
-                  sx={{
-                    ":hover": {
-                      bgcolor: "#EBE9E1",
-                      color: "#7E8282",
-                    },
-                    textTransform: 'none',
-                    backgroundColor: "#F4F3EE",
-                    color: "#7E8282",
-                    px: 2,
-                  }}
-                  variant="text"
-                >
-                  Method
-                </Button>
+                <EndpointFilter />
               </Box>
               <Box>
                 <Button
@@ -196,6 +214,7 @@ export default function Endpoint() {
                       bgcolor: "#CA463E",
                       color: "white",
                     },
+                    color: "white",
                     textTransform: 'none',
                     backgroundColor: "#FC574E",
                   }}
@@ -206,7 +225,7 @@ export default function Endpoint() {
               </Box>
             </Box>
           </Box>
-          <EndpointList />
+          <EndpointList endpoints={endpoints}/>
         </TabPanel>
         <TabPanel value="2">Services</TabPanel>
       </TabContext>

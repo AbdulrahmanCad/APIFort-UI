@@ -36,14 +36,14 @@ const ColorSwitch = styled(Switch)(({ theme }) => ({
   },
   "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track ": {
     backgroundColor: "#FC574E",
-    ColorSwitch: "red",
+    // ColorSwitch: "red",
   },
   "& .css-1dnugo-MuiSwitch-root .MuiSwitch-switchBase.Mui-checked": {
     color: "white",
   },
 }));
 
-function EndpointList() {
+function EndpointList({endpoints}) {
   const [checked, setChecked] = React.useState(false);
 
   const toggleChecked = () => {
@@ -52,7 +52,9 @@ function EndpointList() {
 
   return (
     <>
-      <Accordion>
+    {endpoints.map((endpoint) => ( 
+      <Box mb={2}>
+      <Accordion >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -65,30 +67,33 @@ function EndpointList() {
                 component="h5"
                 sx={{ width: "100%", color: "#112849" }}
               >
-                Service Name Goes Here
+                {endpoint.name}
               </Typography>
               <Typography variant="div" component="div"  sx={{ width: "100%", color: '#7E8282',  }}>
-              <Box sx={{ fontWeight: 'light',}}>Service Name Goes Here</Box>
+              <Box sx={{ fontWeight: 'light',}}>{endpoint.description}</Box>
               </Typography>
             </Box>
             <Box mt={2} mr={2}>
               <Typography
                 sx={{ width: "100%", color: "#7E8282", font: "14px" }}
               >
-                3 endpoints
+               {endpoint.endpoints && endpoint.endpoints.length} endpoints
               </Typography>
             </Box>
           </Box>
         </AccordionSummary>
         <AccordionDetails>
+          {endpoint.endpoints && endpoint.endpoints.map((api) => (
           <Card
             sx={{ minWidth: 275, border: 1, borderColor: "#C7C7C1", mb: 1.5 }}
           >
             <CardContent>
               <Box display="flex">
                 <Grid sx={{ width: "15%" }}>
+                  { api.method === "Post" &&
                   <Box
                     sx={{
+                      border: '1px solid #C8E7D3',
                       bgcolor: "#E8F3EB",
                       color: "#0D9943",
                       fontWeight: "bold",
@@ -97,63 +102,13 @@ function EndpointList() {
                       textAlign: "center",
                     }}
                   >
-                    Post
+                    {api.method}
                   </Box>
-                </Grid>
-                <Grid sx={{ width: "60%" }}>
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    <span style={{fontWeight: 100, color: '#7E8282'}}>
-                      <span>0021 </span>
-                      <span
-                        style={{
-                          marginLeft: "0.75rem",
-                          marginRight: "0.75rem",
-                          borderRightStyle: "solid",
-                          borderRightColor: "#ebe9e1",
-                        }}
-                      ></span>
-                      <span>Public Service</span>
-                      <span
-                        style={{
-                          marginLeft: "0.75rem",
-                          marginRight: "0.75rem",
-                          borderRightStyle: "solid",
-                          borderRightColor: "#ebe9e1",
-                        }}
-                      ></span>
-                      <span>Offline Authentication</span>
-                    </span>
-                  </Typography>
-                  <Typography sx={{color: '#112849'}}variant="body2">/admin-api/cache</Typography>
-                  <Typography sx={{color: '#7E8282'}}variant="body2">
-                    Api Description Goes Here
-                  </Typography>
-                  <Typography sx={{color: '#7E8282'}}variant="body2">Created on 2023</Typography>
-                </Grid>
-                <Grid sx={{ width: "5%", marginTop: 4 }}>
-                  <FormGroup>
-                    <FormControlLabel
-                      value="start"
-                      labelPlacement="start"
-                      control={<ColorSwitch checked={checked} onChange={toggleChecked} size="" />}
-                      label={checked ?"Enabled":"Disabled"}
-                    />
-                  </FormGroup>
-                </Grid>
-                <Grid sx={{ width: "20%" }}>
-                  
-                </Grid>
-              </Box>
-            </CardContent>
-          </Card>
-          <Card
-            sx={{ minWidth: 275, border: 1, borderColor: "#C7C7C1", mb: 1.5 }}
-          >
-            <CardContent>
-              <Box display="flex">
-                <Grid sx={{ width: "15%" }}>
-                  <Box
+                  }
+                  { api.method === "Get" &&
+                    <Box
                     sx={{
+                      border: '1px solid #D0DBF7',
                       bgcolor: "#E7EDFB",
                       color: "#124BD8",
                       fontWeight: "bold",
@@ -162,8 +117,39 @@ function EndpointList() {
                       textAlign: "center",
                     }}
                   >
-                    Get
+                    {api.method}
                   </Box>
+                    }
+                    { api.method === "Put" &&
+                    <Box
+                    sx={{
+                      border: '1px solid #F7E5D8',
+                      background: '#F9EFE7 0% 0% no-repeat padding-box',
+                      color: "#DE6918",
+                      fontWeight: "bold",
+                      width: "8rem",
+                      p: 1,
+                      textAlign: "center",
+                    }}
+                  >
+                    {api.method}
+                  </Box>
+                    }
+                     { api.method === "Delete" &&
+                    <Box
+                    sx={{
+                       border: '1px solid #F54949',
+                      bgcolor: "#FFCCCB",
+                      color: "#FF0000",
+                      fontWeight: "bold",
+                      width: "8rem",
+                      p: 1,
+                      textAlign: "center",
+                    }}
+                  >
+                    {api.method}
+                  </Box>
+                    }
                 </Grid>
                 <Grid sx={{ width: "60%" }}>
                   <Typography sx={{ mb: 1.5 }} color="text.secondary">
@@ -189,9 +175,9 @@ function EndpointList() {
                       <span>Offline Authentication</span>
                     </span>
                   </Typography>
-                  <Typography sx={{color: '#112849'}}variant="body2">/admin-api/cache</Typography>
-                  <Typography sx={{color: '#7E8282'}} variant="body2">
-                    Api Description Goes Here
+                  <Typography sx={{color: '#112849'}}variant="body2">{api.path}</Typography>
+                  <Typography sx={{color: '#7E8282'}}variant="body2">
+                    {api.api_description}
                   </Typography>
                   <Typography sx={{color: '#7E8282'}}variant="body2">Created on 2023</Typography>
                 </Grid>
@@ -201,6 +187,7 @@ function EndpointList() {
                       value="start"
                       labelPlacement="start"
                       control={<ColorSwitch checked={checked} onChange={toggleChecked} size="" />}
+                      sx={{color: checked ? `#FC574E`:``}}
                       label={checked ?"Enabled":"Disabled"}
                     />
                   </FormGroup>
@@ -211,8 +198,11 @@ function EndpointList() {
               </Box>
             </CardContent>
           </Card>
+          ))}
         </AccordionDetails>
       </Accordion>
+      </Box>
+    ))}
     </>
   );
 }

@@ -23,7 +23,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "45%",
+  width: "100%",
   height: "549px",
   display: "flex",
   flexDirection: "column",
@@ -31,6 +31,9 @@ const style = {
   border: "1px solid #EBE9E1",
   borderRadius: "12px",
   boxShadow: 2,
+  "@media (min-width: 780px)": {
+    width: "48rem"
+  },
 };
 
 const contant = {
@@ -61,6 +64,7 @@ const SecondModalStyle = {
   boxShadow: 2,
   px: 8,
   pt: 6,
+
 };
 
 const ValidationTextField = styled(OutlinedInput)({
