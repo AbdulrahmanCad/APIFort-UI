@@ -25,7 +25,7 @@ const style = {
   top: "60%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  height: "100vh",
+  height: "110vh",
   width: "100%",
   display: "flex",
   flexDirection: "column",
@@ -33,7 +33,8 @@ const style = {
   border: "1px solid #EBE9E1",
   borderRadius: "12px",
   boxShadow: 2,
-  my: 12,
+  my: 16,
+
   
 
   "@media (min-width: 576px)": {
@@ -128,6 +129,7 @@ export default function BasicModal({ modal, setModal }) {
   const [showPassword3, setShowPassword3] = React.useState(false);
   const [done, setDone] = React.useState(false);
   const [checked, setChecked] = React.useState(false);
+  const [scroll, setScroll] = React.useState(false);
   const [accessibility, setAccessibility] = React.useState(false);
 
   const toggleOffline = () => {
@@ -226,15 +228,19 @@ export default function BasicModal({ modal, setModal }) {
   return (
     <>
       {!done ? (
-        <div style={{ overflow: "scroll" }}>
+        <div 
+        onScroll={() => setScroll(true)}
+        style={{ overflow: "scroll" }}>
           <Modal
             open={modal}
             onClose={() => {
               handleCloseModal();
             }}
+        onScroll={() => setScroll(true)}
+
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
-            style={{ overflow: 'scroll',  }}
+            style={{ overflow: 'scroll', marginTop: scroll ? `` : `10rem`,  }}
           >
             <Box sx={style}>
               <Box sx={cloes}>
