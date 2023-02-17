@@ -203,12 +203,12 @@ export default function BasicModal({ modal, setModal }) {
     <>
       {!done ? (
         <div 
-        onScroll={() => setScroll(true)}
         style={{ overflow: "scroll" }}>
           <Modal
             open={modal}
             onClose={() => {
               handleCloseModal();
+              setScroll(false)
             }}
         onScroll={() => setScroll(true)}
 
