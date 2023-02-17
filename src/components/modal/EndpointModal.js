@@ -3,10 +3,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { FormControl, FormControlLabel } from "@mui/material";
@@ -123,10 +119,7 @@ const ColorSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 export default function BasicModal({ modal, setModal }) {
-  const [showPassword, setShowPassword] = React.useState(false);
   const [error, setError] = React.useState("");
-  const [showPassword2, setShowPassword2] = React.useState(false);
-  const [showPassword3, setShowPassword3] = React.useState(false);
   const [done, setDone] = React.useState(false);
   const [checked, setChecked] = React.useState(false);
   const [scroll, setScroll] = React.useState(false);
@@ -155,19 +148,19 @@ export default function BasicModal({ modal, setModal }) {
     number_of_services,
   } = formData;
 
-  const [validateForm, setValidateForm] = React.useState({
-    profile_name_valid: false,
-    api_key_valid: false,
-    auth_calim_valid: false,
-    realm_key_valid: false,
-  });
+  // const [validateForm, setValidateForm] = React.useState({
+  //   profile_name_valid: false,
+  //   api_key_valid: false,
+  //   auth_calim_valid: false,
+  //   realm_key_valid: false,
+  // });
 
-  const {
-    profile_name_valid,
-    api_key_valid,
-    auth_calim_valid,
-    realm_key_valid,
-  } = validateForm;
+  // const {
+  //   profile_name_valid,
+  //   api_key_valid,
+  //   auth_calim_valid,
+  //   realm_key_valid,
+  // } = validateForm;
 
   const onChange = (e) => {
     setError("");
@@ -175,22 +168,6 @@ export default function BasicModal({ modal, setModal }) {
       ...prevState,
       [e.target.name]: e.target.value,
     }));
-  };
-
-  const handleClickShowPasswordAPI = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPasswordAPI = (event) => {
-    event.preventDefault();
-  };
-  const handleClickShowPasswordAuth = () => setShowPassword2((show) => !show);
-
-  const handleMouseDownPasswordAuth = (event) => {
-    event.preventDefault();
-  };
-  const handleClickShowPasswordRealm = () => setShowPassword3((show) => !show);
-
-  const handleMouseDownPasswordRealm = (event) => {
-    event.preventDefault();
   };
 
   async function handleAddProfile() {
@@ -220,9 +197,6 @@ export default function BasicModal({ modal, setModal }) {
 
   function handleCloseModal() {
     setModal(false);
-    setShowPassword(false);
-    setShowPassword2(false);
-    setShowPassword3(false);
   }
 
   return (
@@ -240,7 +214,7 @@ export default function BasicModal({ modal, setModal }) {
 
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
-            style={{ overflow: 'scroll', marginTop: scroll ? `` : `10rem`,  }}
+            style={{ overflow: 'scroll', marginTop: scroll ? `` : `10rem` }}
           >
             <Box sx={style}>
               <Box sx={cloes}>
@@ -290,7 +264,7 @@ export default function BasicModal({ modal, setModal }) {
                     </Tooltip>
                     <Grid xs={12}>
                       <ValidationTextField
-                        error={profile_name_valid}
+                        // error={profile_name_valid}
                         sx={sxStyle}
                         name="profile_name"
                         onChange={onChange}
@@ -314,7 +288,7 @@ export default function BasicModal({ modal, setModal }) {
                     </Tooltip>
                     <Grid xs={12}>
                       <ValidationTextField
-                        error={profile_name_valid}
+                        // error={profile_name_valid}
                         sx={sxStyle}
                         name="profile_name"
                         onChange={onChange}
@@ -356,7 +330,7 @@ export default function BasicModal({ modal, setModal }) {
                     </Tooltip>
                     <Grid xs={12}>
                       <ValidationTextField
-                        error={profile_name_valid}
+                        // error={profile_name_valid}
                         sx={sxStyle}
                         name="profile_name"
                         onChange={onChange}
@@ -380,7 +354,7 @@ export default function BasicModal({ modal, setModal }) {
                     </Tooltip>
                     <Grid xs={12}>
                       <ValidationTextField
-                        error={profile_name_valid}
+                        // error={profile_name_valid}
                         sx={sxStyle}
                         name="profile_name"
                         onChange={onChange}
@@ -404,7 +378,7 @@ export default function BasicModal({ modal, setModal }) {
                     </Tooltip>
                     <Grid xs={12}>
                       <ValidationTextField
-                        error={profile_name_valid}
+                        // error={profile_name_valid}
                         sx={sxStyle}
                         name="profile_name"
                         onChange={onChange}

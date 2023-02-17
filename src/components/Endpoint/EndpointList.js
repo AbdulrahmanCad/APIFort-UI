@@ -5,7 +5,6 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/material/styles";
 import {
-  Button,
   Grid,
   Box,
   Typography,
@@ -15,7 +14,6 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import Switch from "@mui/material/Switch";
-import { alpha } from "@mui/material/styles";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />

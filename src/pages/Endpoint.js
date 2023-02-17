@@ -1,22 +1,19 @@
 import * as React from "react";
 import EndpointList from "../components/Endpoint/EndpointList";
 import { alpha } from "@mui/material/styles";
-import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import SearchIcon from "@mui/icons-material/Search";
-import Container from "@mui/material/Container";
-import { Button, Grid, Typography, Card, CardContent, FormGroup, FormControlLabel } from "@mui/material";
+import { Button, Typography} from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import InputBase from "@mui/material/InputBase";
 import EndpointModal from "../components/modal/EndpointModal";
 import endpointService from "../services/endpointService";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import Switch from '@mui/material/Switch';
 import { styled } from '@mui/system';
 import EndpointFilter from "../components/Endpoint/filter/EndpointFilter"
 import { createTheme, ThemeProvider} from '@mui/material/styles';
@@ -98,7 +95,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Endpoint() {
   const [modal, setModal] = React.useState(false)
-  const [profileName, setProfileName] = React.useState("Profile Name")
   const [search, setSearch] = React.useState("")
   const [queryList, setQueryList] = React.useState([])
   const [endpoints, setEndpoints] = React.useState([
@@ -112,7 +108,6 @@ export default function Endpoint() {
     setValue(newValue);
   };
 
-  const params = useParams()
 
   React.useEffect(() => {
     setSearch("")
@@ -126,7 +121,6 @@ export default function Endpoint() {
       for (const key in data) {
         profilesData.push(data[key]);
       }
-      console.log(profilesData)
       setEndpoints(profilesData);
       setQueryList(profilesData);
     });

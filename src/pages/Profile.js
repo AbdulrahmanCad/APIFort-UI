@@ -3,9 +3,8 @@ import ProfileList from "../components/Profile/ProfileList";
 import { styled, alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import SearchIcon from "@mui/icons-material/Search";
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import { createTheme } from "@mui/system";
 import InputBase from "@mui/material/InputBase";
 import Modal from "../components/modal/Modal";
 import profileService from "../services/profileService";
@@ -76,11 +75,6 @@ export default function Profile() {
     });
   }
 
-  const theme = createTheme({
-    typography: {
-      fontSize: 22,
-    },
-  });
 
   function handleSearch(e){
     let q = e.target.value.trim()
