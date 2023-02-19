@@ -28,8 +28,8 @@ const navigate = useNavigate()
       }}
     >
       <Grid container spacing={2}>
-        {profiles.map((profile) => (
-          <Grid key={profile.id} item xs={12} md={6} lg={4}>
+        {profiles.map((profile, i) => (
+          <Grid key={i} item xs={12} md={6} lg={4}>
             <ListItem sx={{
                ":hover": {
                 bgcolor: "#f4f3ee",

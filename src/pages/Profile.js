@@ -6,7 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Button, Typography } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import InputBase from "@mui/material/InputBase";
-import Modal from "../components/modal/Modal";
+import Modal from "../components/modal/ProfileModal";
 import profileService from "../services/profileService";
 
 const Search = styled("div")(({ theme }) => ({
