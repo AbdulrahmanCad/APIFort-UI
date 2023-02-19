@@ -50,8 +50,8 @@ function EndpointList({endpoints}) {
 
   return (
     <>
-    {endpoints.map((endpoint) => ( 
-      <Box mb={2}>
+    {endpoints.map((endpoint, i) => ( 
+      <Box key={i} mb={2}>
       <Accordion >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -81,8 +81,9 @@ function EndpointList({endpoints}) {
           </Box>
         </AccordionSummary>
         <AccordionDetails>
-          {endpoint.endpoints && endpoint.endpoints.map((api) => (
+          {endpoint.endpoints && endpoint.endpoints.map((api, i) => (
           <Card
+            key={i}
             sx={{ minWidth: 275, border: 1, borderColor: "#C7C7C1", mb: 1.5 }}
           >
             <CardContent>

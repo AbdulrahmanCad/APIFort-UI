@@ -124,6 +124,7 @@ export default function BasicModal({ modal, setModal }) {
   const [checked, setChecked] = React.useState(false);
   const [scroll, setScroll] = React.useState(false);
   const [accessibility, setAccessibility] = React.useState(false);
+  const [publicService, setPublicService] = React.useState(false);
 
   const toggleOffline = () => {
     setChecked((prev) => !prev);
@@ -131,6 +132,9 @@ export default function BasicModal({ modal, setModal }) {
   const toggleAccessibility = () => {
     setAccessibility((prev) => !prev);
   };
+  const togglePublic = () => {
+    setPublicService((prev) => !prev)
+  }
 
   const [formData, setFormData] = React.useState({
     profile_name: "",
@@ -238,9 +242,9 @@ export default function BasicModal({ modal, setModal }) {
               </Box>
               <Box sx={contant}>
                 <Typography
+                  component={'span'}
                   id="modal-modal-title"
                   variant="h5"
-                  component="h2"
                   fontFamily={"normal normal 600 22px Poppins"}
                   sx={{
                     color: "#112849",
@@ -248,12 +252,36 @@ export default function BasicModal({ modal, setModal }) {
                 >
                   Create new endpoint
                 </Typography>
+                <FormControl
+                  variant="outlined"
+                  sx={{my: 4, color: "#112849" }}
+                >
+                  <Typography 
+                  component={'span'}
+                  >
+                    Service{" "}
+                    <Tooltip
+                      placement="top"
+                      describeChild
+                      title="The method of your profile"
+                    >
+                      <HelpIcon fontSize="inherit" />
+                    </Tooltip>
+                    <Grid 
+                  component={'span'}
+                  item xs={12}>
+                      <SelectInput />
+                    </Grid>
+                  </Typography>
+                </FormControl>
 
                 <FormControl
                   variant="outlined"
-                  sx={{ mt: 3.5, mb: 1.5, color: "#112849" }}
+                  sx={{my: 1, color: "#112849" }}
                 >
-                  <Typography>
+                  <Typography
+                  component={'span'}
+                  >
                     Name{" "}
                     <Tooltip
                       placement="top"
@@ -262,7 +290,9 @@ export default function BasicModal({ modal, setModal }) {
                     >
                       <HelpIcon fontSize="inherit" />
                     </Tooltip>
-                    <Grid xs={12}>
+                    <Grid 
+                  component={'span'}
+                  item xs={12}>
                       <ValidationTextField
                         // error={profile_name_valid}
                         sx={sxStyle}
@@ -275,9 +305,11 @@ export default function BasicModal({ modal, setModal }) {
                 </FormControl>
                 <FormControl
                   variant="outlined"
-                  sx={{ mt: 3.5, mb: 1.5, color: "#112849" }}
+                  sx={{my: 1, color: "#112849" }}
                 >
-                  <Typography>
+                  <Typography
+                  component={'span'}
+                  >
                     Description{" "}
                     <Tooltip
                       placement="top"
@@ -286,7 +318,9 @@ export default function BasicModal({ modal, setModal }) {
                     >
                       <HelpIcon fontSize="inherit" />
                     </Tooltip>
-                    <Grid xs={12}>
+                    <Grid 
+                  component={'span'}
+                  item xs={12}>
                       <ValidationTextField
                         // error={profile_name_valid}
                         sx={sxStyle}
@@ -299,9 +333,11 @@ export default function BasicModal({ modal, setModal }) {
                 </FormControl>
                 <FormControl
                   variant="outlined"
-                  sx={{ mt: 3.5, mb: 1.5, color: "#112849" }}
+                  sx={{my: 1, color: "#112849" }}
                 >
-                  <Typography>
+                  <Typography 
+                  component={'span'}
+                  >
                     Method{" "}
                     <Tooltip
                       placement="top"
@@ -310,16 +346,20 @@ export default function BasicModal({ modal, setModal }) {
                     >
                       <HelpIcon fontSize="inherit" />
                     </Tooltip>
-                    <Grid xs={12}>
+                    <Grid 
+                  component={'span'}
+                  item xs={12}>
                       <SelectInput />
                     </Grid>
                   </Typography>
                 </FormControl>
                 <FormControl
                   variant="outlined"
-                  sx={{ mt: 3.5, mb: 1.5, color: "#112849" }}
+                  sx={{my: 1.5, color: "#112849" }}
                 >
-                  <Typography>
+                  <Typography
+                  component={'span'}
+                  >
                     Path/URL{" "}
                     <Tooltip
                       placement="top"
@@ -328,7 +368,9 @@ export default function BasicModal({ modal, setModal }) {
                     >
                       <HelpIcon fontSize="inherit" />
                     </Tooltip>
-                    <Grid xs={12}>
+                    <Grid 
+                  component={'span'}
+                  item xs={12}>
                       <ValidationTextField
                         // error={profile_name_valid}
                         sx={sxStyle}
@@ -341,9 +383,11 @@ export default function BasicModal({ modal, setModal }) {
                 </FormControl>
                 <FormControl
                   variant="outlined"
-                  sx={{ mt: 3.5, mb: 1.5, color: "#112849" }}
+                  sx={{my: 1, color: "#112849" }}
                 >
-                  <Typography>
+                  <Typography
+                  component={'span'}
+                  >
                     Version Number{" "}
                     <Tooltip
                       placement="top"
@@ -352,7 +396,9 @@ export default function BasicModal({ modal, setModal }) {
                     >
                       <HelpIcon fontSize="inherit" />
                     </Tooltip>
-                    <Grid xs={12}>
+                    <Grid 
+                  component={'span'}
+                  item xs={12}>
                       <ValidationTextField
                         // error={profile_name_valid}
                         sx={sxStyle}
@@ -365,9 +411,11 @@ export default function BasicModal({ modal, setModal }) {
                 </FormControl>
                 <FormControl
                   variant="outlined"
-                  sx={{ mt: 3.5, mb: 1.5, color: "#112849" }}
+                  sx={{my: 1.5, color: "#112849" }}
                 >
-                  <Typography>
+                  <Typography
+                  component={'span'}
+                  >
                     Auth Claim Value{" "}
                     <Tooltip
                       placement="top"
@@ -376,7 +424,9 @@ export default function BasicModal({ modal, setModal }) {
                     >
                       <HelpIcon fontSize="inherit" />
                     </Tooltip>
-                    <Grid xs={12}>
+                    <Grid 
+                  component={'span'}
+                  item xs={12}>
                       <ValidationTextField
                         // error={profile_name_valid}
                         sx={sxStyle}
@@ -390,9 +440,11 @@ export default function BasicModal({ modal, setModal }) {
 
                 <FormControl
                   variant="outlined"
-                  sx={{ mt: 3.5, mb: 1.5, color: "#112849" }}
+                  sx={{my: 1, color: "#112849" }}
                 >
-                  <Typography>
+                  <Typography
+                  component={'span'}
+                  >
                     Accessibility{" "}
                     <Tooltip
                       placement="top"
@@ -419,7 +471,7 @@ export default function BasicModal({ modal, setModal }) {
                 </FormControl>
                 <FormControl
                   variant="outlined"
-                  sx={{ mt: 3.5, mb: 1.5, color: "#112849" }}
+                  sx={{my: 1, color: "#112849" }}
                 >
                   <Typography>
                     Offline Authentication{" "}
@@ -443,6 +495,35 @@ export default function BasicModal({ modal, setModal }) {
                       }
                       sx={{ color: checked ? `#FC574E` : ``, m: 0 }}
                       label={checked ? "Enabled" : "Disabled"}
+                    />
+                  </Typography>
+                </FormControl>
+                <FormControl
+                  variant="outlined"
+                  sx={{my: 1, color: "#112849" }}
+                >
+                  <Typography>
+                    Public Service{" "}
+                    <Tooltip
+                      placement="top"
+                      describeChild
+                      title="Tooltip text goes here."
+                    >
+                      <HelpIcon fontSize="inherit" />
+                    </Tooltip>
+                    <br />
+                    <FormControlLabel
+                      value="start"
+                      labelPlacement="start"
+                      control={
+                        <ColorSwitch
+                          checked={publicService}
+                          onChange={togglePublic}
+                          size=""
+                        />
+                      }
+                      sx={{ color: publicService ? `#FC574E` : ``, m: 0 }}
+                      label={publicService ? "Enabled" : "Disabled"}
                     />
                   </Typography>
                 </FormControl>

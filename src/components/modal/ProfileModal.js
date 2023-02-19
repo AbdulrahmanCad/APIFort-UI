@@ -223,7 +223,7 @@ export default function BasicModal({ modal, setModal }) {
                 <Typography
                   id="modal-modal-title"
                   variant="h5"
-                  component="h2"
+                  component={'span'}
                   sx={{
                     color: "#112849",
                   }}
@@ -235,7 +235,9 @@ export default function BasicModal({ modal, setModal }) {
                   variant="outlined"
                   sx={{ mt: 3.5, mb: 1.5, color: "#112849" }}
                 >
-                  <Typography>
+                  <Typography 
+                  component={'span'}
+                  >
                     Profile Name{" "}
                     <Tooltip
                       placement="top"
@@ -244,7 +246,9 @@ export default function BasicModal({ modal, setModal }) {
                     >
                       <HelpIcon fontSize="inherit" />
                     </Tooltip>
-                    <Grid xs={12}>
+                    <Grid 
+                  component={'span'}
+                  item xs={12}>
                       <ValidationTextField
                         error={profile_name_valid}
                         sx={sxStyle}
@@ -260,7 +264,9 @@ export default function BasicModal({ modal, setModal }) {
                   variant="outlined"
                   sx={{ my: 1.5, color: "#112849" }}
                 >
-                  <Typography>
+                  <Typography
+                  component={'span'}
+                  >
                     API Key{" "}
                     <Tooltip
                       placement="top"
@@ -269,7 +275,9 @@ export default function BasicModal({ modal, setModal }) {
                     >
                       <HelpIcon fontSize="inherit" />
                     </Tooltip>
-                    <Grid  xs={12}>
+                    <Grid 
+                  component={'span'}
+                  item xs={12}>
                       <ValidationTextField
                         error={api_key_valid}
                         sx={sxStyle}
@@ -302,7 +310,9 @@ export default function BasicModal({ modal, setModal }) {
                   variant="outlined"
                   sx={{ my: 1.5, color: "#112849" }}
                 >
-                  <Typography>
+                  <Typography
+                  component={'span'}
+                  >
                     Auth Calim Key{" "}
                     <Tooltip
                       placement="top"
@@ -311,7 +321,9 @@ export default function BasicModal({ modal, setModal }) {
                     >
                       <HelpIcon fontSize="inherit" />
                     </Tooltip>
-                    <Grid  xs={12}>
+                    <Grid 
+                  component={'span'}
+                  item xs={12}>
                       <ValidationTextField
                         error={auth_calim_valid}
                         sx={sxStyle}
@@ -344,7 +356,9 @@ export default function BasicModal({ modal, setModal }) {
                   variant="outlined"
                   sx={{ my: 1.5, color: "#112849" }}
                 >
-                  <Typography>
+                  <Typography
+                  component={'span'}
+                  >
                     Realm Key{" "}
                     <Tooltip
                       placement="top"
@@ -353,7 +367,9 @@ export default function BasicModal({ modal, setModal }) {
                     >
                       <HelpIcon fontSize="inherit" />
                     </Tooltip>
-                    <Grid xs={12}>
+                    <Grid 
+                  component={'span'}
+                  item xs={12}>
                       <ValidationTextField
                         required
                         error={realm_key_valid}
@@ -473,7 +489,7 @@ export default function BasicModal({ modal, setModal }) {
               <Typography
                 id="modal-modal-title"
                 variant="h5"
-                component="h2"
+                component={'span'}
                 align="center"
                 fontFamily={"600 22px Poppins"}
                 sx={{
