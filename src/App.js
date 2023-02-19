@@ -16,10 +16,10 @@ var mainBgStyle = {
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#FC574E'
-    }
+      main: '#FFFFFF'
+    },
   },
-  typography: { fontFamily: ["Yellowtail", "Poppins"].join(",") },
+  typography: { fontFamily: ["Poppins"].join(",") },
   transitions: {
     easing: {
       easeInOut: 'cubic-bezier(.25,.1,.36,1.18)',
