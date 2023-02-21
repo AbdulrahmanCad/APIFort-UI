@@ -14,6 +14,8 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import Switch from "@mui/material/Switch";
+import { useParams } from "react-router-dom";
+import endpointService from "../../services/endpointService";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -41,8 +43,10 @@ const ColorSwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-function EndpointList({endpoints}) {
+function EndpointList({endpoints, handleAccessUpdate}) {
   const [checked, setChecked] = React.useState(false);
+
+  const params = useParams();
 
   const toggleChecked = () => {
     setChecked((prev) => !prev);
@@ -50,8 +54,8 @@ function EndpointList({endpoints}) {
 
   return (
     <>
-    {endpoints.map((endpoint, i) => ( 
-      <Box key={i} mb={2}>
+    {endpoints.map((endpoint, serviceIndex) => ( 
+      <Box key={serviceIndex} mb={2}>
       <Accordion >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -162,7 +166,7 @@ function EndpointList({endpoints}) {
                           borderRightColor: "#ebe9e1",
                         }}
                       ></span>
-                      <span>Public Service</span>
+                      <span>{api.isPublic ? 'Public': 'Private'} Service</span>
                       <span
                         style={{
                           marginLeft: "0.75rem",
@@ -171,23 +175,25 @@ function EndpointList({endpoints}) {
                           borderRightColor: "#ebe9e1",
                         }}
                       ></span>
-                      <span>Offline Authentication</span>
+                      <span>{api.isOffline ? 'Offline': 'Online'} Authentication</span>
                     </span>
                   </Typography>
                   <Typography sx={{color: '#112849'}}variant="body2">{api.path}</Typography>
                   <Typography sx={{color: '#7E8282'}}variant="body2">
                     {api.api_description}
                   </Typography>
-                  <Typography sx={{color: '#7E8282'}}variant="body2">Created on 2023</Typography>
+                  <Typography sx={{color: '#7E8282'}}variant="body2">Created at {api.created_at}</Typography>
                 </Grid>
                 <Grid sx={{ width: "5%", marginTop: 4 }}>
                   <FormGroup>
                     <FormControlLabel
                       value="start"
                       labelPlacement="start"
-                      control={<ColorSwitch checked={checked} onChange={toggleChecked} size="" />}
-                      sx={{color: checked ? `#FC574E`:``}}
-                      label={checked ?"Enabled":"Disabled"}
+                      control={<ColorSwitch checked={api.isAccess} 
+                      onChange={() => handleAccessUpdate(api, serviceIndex, i)} 
+                      size="" />}
+                      sx={{color: api.isAccess ? `#FC574E`:``}}
+                      label={api.isAccess ?"Enabled":"Disabled"}
                     />
                   </FormGroup>
                 </Grid>

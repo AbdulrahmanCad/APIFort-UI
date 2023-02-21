@@ -4,6 +4,8 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import endpointService from '../../services/endpointService';
+import { useParams } from 'react-router-dom';
 
 const ITEM_HEIGHT = 106;
 const ITEM_PADDING_TOP = 12;
@@ -16,13 +18,6 @@ const MenuProps = {
   },
 };
 
-const names = [
-  'Post',
-  'Get',
-  'Put',
-  'Delete',
-];
-
 function getStyles(name, personName, theme) {
   return {
     fontWeight:
@@ -34,7 +29,18 @@ function getStyles(name, personName, theme) {
 
 export default function MultipleSelectPlaceholder() {
   const theme = useTheme();
+  const params = useParams()
   const [personName, setPersonName] = React.useState([]);
+
+  const [names, setNames] = React.useState(["Loading..."]);
+
+  React.useEffect(() => {
+    endpointService.getEndpoint(params.id).then((result) => {
+      if(result.data.services){
+        setNames(result.data.services)
+      }
+    })
+  })
 
   const handleChange = (event) => {
     const {
@@ -48,16 +54,28 @@ export default function MultipleSelectPlaceholder() {
 
   return (
     <div>
-      <FormControl sx={{ width: "100%" }}>
+      <FormControl size="small" sx={{ width: "100%" }}>
         <Select
           multiple
           displayEmpty
           value={personName}
           onChange={handleChange}
+          fontFamily= {"bold 14px/22px Poppins"}
+          sx={{
+            backgroundColor: "white",
+            border: "1px solid #C7C7C1",
+            color: "#7E8282",
+            fontFamily: "bold 14px/22px Poppins",
+            "&:hover .css-vd98qc-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-vd98qc-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-vd98qc-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": {
+              color: '#7E8282',
+              border: "1px solid #D4D2CB",
+              backgroundColor: "#EBE9E1"
+            }
+          }}
           input={<OutlinedInput />}
           renderValue={(selected) => {
             if (selected.length === 0) {
-              return <em style={{fontSize: '12px', padding: 0}}>Select Method</em>;
+              return <em style={{fontSize: '12px', padding: 0}}>Select Service</em>;
             }
 
             return selected.join(', ');
@@ -66,15 +84,15 @@ export default function MultipleSelectPlaceholder() {
           inputProps={{ 'aria-label': 'Without label' }}
         >
           <MenuItem disabled value="">
-            <em>Select Method</em>
+            <em>Select Service</em>
           </MenuItem>
-          {names.map((name) => (
+          {names.map((item, i) => (
             <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, personName, theme)}
+              key={i}
+              value={item.name}
+              style={getStyles(item.name, personName, theme)}
             >
-              {name}
+              {item.name}
             </MenuItem>
           ))}
         </Select>

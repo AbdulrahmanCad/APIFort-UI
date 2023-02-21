@@ -15,11 +15,6 @@ const navigate = useNavigate()
     navigate("/profile/"+id)
   }
 
-  let secondaryProfileText = <span>
-    <span>3 Services </span>
-    <span style={{marginLeft: "0.75rem", marginRight: "0.75rem", borderRightStyle: "solid", borderRightColor: "#ebe9e1"}}></span>
-    <span>3 Endpoints</span>
-    </span>
   return (
     <List
       sx={{
@@ -36,7 +31,7 @@ const navigate = useNavigate()
                 cursor: "pointer"
               },
               border: "1px solid #c7c7c1", borderRadius: 2 }}
-              onClick={() => handleProfileClick(1)}
+              onClick={() => handleProfileClick(profile.id)}
               >
               <ListItemAvatar>
                 <Avatar sx={{backgroundColor: "#7968d3"}}>
@@ -45,7 +40,11 @@ const navigate = useNavigate()
               </ListItemAvatar>
               <ListItemText
                 primary={profile.profile_name}
-                secondary={secondaryProfileText}
+                secondary={<span>
+                  <span>{profile.services && profile.services.length} Services </span>
+                  <span style={{marginLeft: "0.75rem", marginRight: "0.75rem", borderRightStyle: "solid", borderRightColor: "#ebe9e1"}}></span>
+                  <span>{profile.services && profile.services.length} Endpoints</span>
+                  </span>}
               />          
             </ListItem>
           </Grid>

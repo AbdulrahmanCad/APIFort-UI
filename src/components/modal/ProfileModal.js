@@ -114,7 +114,6 @@ export default function BasicModal({ modal, setModal }) {
     api_key,
     auth_calim_key,
     realm_key,
-    number_of_services,
   } = formData;
 
   const [validateForm, setValidateForm] = React.useState({
@@ -172,7 +171,6 @@ export default function BasicModal({ modal, setModal }) {
       api_key,
       auth_calim_key,
       realm_key,
-      number_of_services,
     };
     await profileService.postProfile(data).then((result) => {
       console.log(result);
