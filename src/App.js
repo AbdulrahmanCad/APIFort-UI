@@ -25,6 +25,7 @@ const theme = createTheme({
       easeInOut: 'cubic-bezier(.25,.1,.36,1.18)',
     },
   },
+  Select: { fontFamily: ["Poppins"].join(",")}
 });
 
 function App() {

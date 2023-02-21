@@ -68,6 +68,7 @@ export default function Profile() {
       let data = result.data;
       let profilesData = [];
       for (const key in data) {
+        data[key].id = key;
         profilesData.push(data[key]);
       }
       setProfiles(profilesData);

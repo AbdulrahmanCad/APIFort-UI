@@ -13,7 +13,8 @@ import HelpIcon from "@mui/icons-material/Help";
 import Tooltip from "@mui/material/Tooltip";
 import CloseIcon from "@mui/icons-material/Close";
 import styled from "@emotion/styled";
-import SelectInput from "./SelectInput";
+import SelectMethod from "./SelectMethod";
+import SelectService from "./SelectService";
 import Switch from "@mui/material/Switch";
 
 const style = {
@@ -137,19 +138,23 @@ export default function BasicModal({ modal, setModal }) {
   }
 
   const [formData, setFormData] = React.useState({
-    profile_name: "",
-    api_key: "",
-    auth_calim_key: "",
-    realm_key: "",
-    number_of_services: "",
+    api_description: "",
+    path: "",
+    created_at: "",
+    method: "",
+    isAccess:false,
+    isOffline: false,
+    isPublic: false
   });
 
   const {
-    profile_name,
-    api_key,
-    auth_calim_key,
-    realm_key,
-    number_of_services,
+    api_description,
+    path,
+    created_at,
+    method,
+    isAccess,
+    isOffline,
+    isPublic
   } = formData;
 
   // const [validateForm, setValidateForm] = React.useState({
@@ -176,10 +181,8 @@ export default function BasicModal({ modal, setModal }) {
 
   async function handleAddProfile() {
     if (
-      profile_name === "" ||
-      api_key === "" ||
-      realm_key === "" ||
-      auth_calim_key === ""
+      path === "" ||
+      api_description === "" 
     ) {
       setError("Please fill out all fields!");
       return;
@@ -187,11 +190,7 @@ export default function BasicModal({ modal, setModal }) {
     setDone(true);
 
     const data = {
-      profile_name,
-      api_key,
-      auth_calim_key,
-      realm_key,
-      number_of_services,
+      path
     };
     await profileService.postProfile(data).then((result) => {
       console.log(result);
@@ -270,7 +269,7 @@ export default function BasicModal({ modal, setModal }) {
                     <Grid 
                   component={'span'}
                   item xs={12}>
-                      <SelectInput />
+                      <SelectService />
                     </Grid>
                   </Typography>
                 </FormControl>
@@ -326,7 +325,7 @@ export default function BasicModal({ modal, setModal }) {
                         sx={sxStyle}
                         name="profile_name"
                         onChange={onChange}
-                        placeholder="Enter Description"
+                        placeholder="Enter description"
                       />
                     </Grid>
                   </Typography>
@@ -349,7 +348,7 @@ export default function BasicModal({ modal, setModal }) {
                     <Grid 
                   component={'span'}
                   item xs={12}>
-                      <SelectInput />
+                      <SelectMethod />
                     </Grid>
                   </Typography>
                 </FormControl>
@@ -627,9 +626,9 @@ export default function BasicModal({ modal, setModal }) {
                 }}
               >
                 <span style={{ fontWeight: "bold", color: "black" }}>
-                  {profile_name}
+                  Endpoint
                 </span>{" "}
-                profile has been successfully created.
+                 has been successfully created.
               </Typography>
               <Button
                 onClick={() => {

@@ -7,8 +7,7 @@ import { Button, Typography} from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import InputBase from "@mui/material/InputBase";
 import EndpointModal from "../components/modal/EndpointModal";
-import endpointService from "../services/endpointService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
@@ -17,6 +16,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { styled } from '@mui/system';
 import EndpointFilter from "../components/Endpoint/filter/EndpointFilter"
 import { createTheme, ThemeProvider} from '@mui/material/styles';
+import endpointService from "../services/endpointService";
+import profileService from "../services/profileService"
 
 const theme = createTheme({
   palette: {
@@ -95,12 +96,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Endpoint() {
   const [modal, setModal] = React.useState(false)
+  const [profileName, setProfileName] = React.useState("")
   const [search, setSearch] = React.useState("")
   const [queryList, setQueryList] = React.useState([])
   const [endpoints, setEndpoints] = React.useState([
     { id: 0, name: "Loading..." },
   ]);
   const navigate = useNavigate()
+  const params = useParams()
 
   const [value, setValue] = React.useState('1');
 
@@ -115,8 +118,9 @@ export default function Endpoint() {
   }, [modal]);
   
   async function updateData() {
-    await endpointService.getAllData().then((result) => {
-      let data = result.data;
+    await endpointService.getEndpoint(params.id).then((result) => {
+      setProfileName(result.data.profile_name)
+      let data = result.data.services;
       let profilesData = [];
       for (const key in data) {
         profilesData.push(data[key]);
@@ -124,6 +128,13 @@ export default function Endpoint() {
       setEndpoints(profilesData);
       setQueryList(profilesData);
     });
+  }
+
+  async function handleAccessUpdate(data, serviceId, endpointId){
+    console.log(data)
+    data.isAccess = !data.isAccess
+   await endpointService.updateAccess(data, params.id, serviceId, endpointId)
+    updateData()
   }
 
   function handleSearch(e){
@@ -159,9 +170,9 @@ export default function Endpoint() {
           >
             <ArrowBackIcon />
           </Button>
-        Profile Name </Typography>
+          {profileName}
+         </Typography>
         <Box display="grid" mt={4} mb={24} backgroundColor="white">
-            
         <Box sx={{ width: '100%', typography: 'body1' }}>
       <TabContext value={value}>
         <Box sx={{ px: 2, marginTop: 1,  borderBottom: 1, borderColor: 'divider' }}>
@@ -219,7 +230,7 @@ export default function Endpoint() {
               </Box>
             </Box>
           </Box>
-          <EndpointList endpoints={endpoints}/>
+          <EndpointList endpoints={endpoints} handleAccessUpdate={handleAccessUpdate}/>
         </TabPanel>
         <TabPanel value="2">Services</TabPanel>
       </TabContext>
