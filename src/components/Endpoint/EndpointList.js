@@ -44,8 +44,6 @@ const ColorSwitch = styled(Switch)(({ theme }) => ({
 
 function EndpointList({endpoints, handleAccessUpdate}) {
 
-
-
   return (
     <>
      {endpoints.length === 0 ? 

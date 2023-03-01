@@ -7,6 +7,19 @@ import Avatar from "@mui/material/Avatar";
 import { Grid, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
+const listStyle = {
+  width: "100%",
+  bgcolor: "background.paper",
+}
+
+const listItemStyle = {
+  ":hover": {
+    bgcolor: "#f4f3ee",
+    cursor: "pointer"
+  },
+  border: "1px solid #c7c7c1", borderRadius: 2
+}
+
 export default function ProfileList({profiles}) {
 const navigate = useNavigate()
 
@@ -16,13 +29,10 @@ const navigate = useNavigate()
 
   return (
     <List
-      sx={{
-        width: "100%",
-        bgcolor: "background.paper",
-      }}
+      sx={listStyle}
     >
        {profiles.length === 0 ? 
-        <Box sx={{ display: 'flex', justifyContent: 'center'}} mt={12}>
+        <Box display="flex" justifyContent="center" mt={12}>
          <Typography
          variant="h6"
          component="h5"
@@ -36,12 +46,7 @@ const navigate = useNavigate()
       <Grid container spacing={2}>
         {profiles.map((profile, i) => (
           <Grid key={i} item xs={12} md={6} lg={4}>
-            <ListItem sx={{
-               ":hover": {
-                bgcolor: "#f4f3ee",
-                cursor: "pointer"
-              },
-              border: "1px solid #c7c7c1", borderRadius: 2 }}
+            <ListItem sx={listItemStyle}
               onClick={() => handleProfileClick(profile.id)}
               >
               <ListItemAvatar>
