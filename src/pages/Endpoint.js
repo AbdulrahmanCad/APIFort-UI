@@ -17,7 +17,6 @@ import { styled } from '@mui/system';
 import EndpointFilter from "../components/Endpoint/filter/EndpointFilter"
 import { createTheme, ThemeProvider} from '@mui/material/styles';
 import endpointService from "../services/endpointService";
-import profileService from "../services/profileService"
 
 const theme = createTheme({
   palette: {

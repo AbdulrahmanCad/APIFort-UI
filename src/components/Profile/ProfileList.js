@@ -5,7 +5,6 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import { Grid, Typography, Box } from "@mui/material";
-import ImageIcon from "@mui/icons-material/Image";
 import { useNavigate } from "react-router-dom";
 
 export default function ProfileList({profiles}) {
@@ -22,6 +21,18 @@ const navigate = useNavigate()
         bgcolor: "background.paper",
       }}
     >
+       {profiles.length === 0 ? 
+        <Box sx={{ display: 'flex', justifyContent: 'center'}} mt={12}>
+         <Typography
+         variant="h6"
+         component="h5"
+         sx={{ color: "#112849" }}
+       >
+        No data found!
+       </Typography>
+       </Box>
+        :
+        ''}
       <Grid container spacing={2}>
         {profiles.map((profile, i) => (
           <Grid key={i} item xs={12} md={6} lg={4}>

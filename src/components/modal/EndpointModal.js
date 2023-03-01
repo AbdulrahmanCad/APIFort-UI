@@ -22,7 +22,7 @@ const style = {
   top: "60%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  height: "110vh",
+  height: "100vh",
   width: "100%",
   display: "flex",
   flexDirection: "column",
@@ -124,14 +124,10 @@ export default function BasicModal({ modal, setModal }) {
   const [done, setDone] = React.useState(false);
   const [checked, setChecked] = React.useState(false);
   const [scroll, setScroll] = React.useState(false);
-  const [accessibility, setAccessibility] = React.useState(false);
   const [publicService, setPublicService] = React.useState(false);
 
   const toggleOffline = () => {
     setChecked((prev) => !prev);
-  };
-  const toggleAccessibility = () => {
-    setAccessibility((prev) => !prev);
   };
   const togglePublic = () => {
     setPublicService((prev) => !prev)
@@ -142,7 +138,6 @@ export default function BasicModal({ modal, setModal }) {
     path: "",
     created_at: "",
     method: "",
-    isAccess:false,
     isOffline: false,
     isPublic: false
   });
@@ -150,26 +145,7 @@ export default function BasicModal({ modal, setModal }) {
   const {
     api_description,
     path,
-    created_at,
-    method,
-    isAccess,
-    isOffline,
-    isPublic
   } = formData;
-
-  // const [validateForm, setValidateForm] = React.useState({
-  //   profile_name_valid: false,
-  //   api_key_valid: false,
-  //   auth_calim_valid: false,
-  //   realm_key_valid: false,
-  // });
-
-  // const {
-  //   profile_name_valid,
-  //   api_key_valid,
-  //   auth_calim_valid,
-  //   realm_key_valid,
-  // } = validateForm;
 
   const onChange = (e) => {
     setError("");
@@ -436,38 +412,7 @@ export default function BasicModal({ modal, setModal }) {
                     </Grid>
                   </Typography>
                 </FormControl>
-
-                <FormControl
-                  variant="outlined"
-                  sx={{my: 1, color: "#112849" }}
-                >
-                  <Typography
-                  component={'span'}
-                  >
-                    Accessibility{" "}
-                    <Tooltip
-                      placement="top"
-                      describeChild
-                      title="Tooltip text goes here."
-                    >
-                      <HelpIcon fontSize="inherit" />
-                    </Tooltip>
-                    <br />
-                    <FormControlLabel
-                      value="start"
-                      labelPlacement="start"
-                      control={
-                        <ColorSwitch
-                          checked={accessibility}
-                          onChange={toggleAccessibility}
-                          size=""
-                        />
-                      }
-                      sx={{ color: accessibility ? `#FC574E` : ``, m: 0 }}
-                      label={accessibility ? "Enabled" : "Disabled"}
-                    />
-                  </Typography>
-                </FormControl>
+                <Box display="flex" justifyContent="space-between" mr={8} my={4}>
                 <FormControl
                   variant="outlined"
                   sx={{my: 1, color: "#112849" }}
@@ -526,7 +471,7 @@ export default function BasicModal({ modal, setModal }) {
                     />
                   </Typography>
                 </FormControl>
-
+                </Box>
                 <Typography sx={{ color: "red" }}>{error}</Typography>
                 <Box
                   height="2.5rem"

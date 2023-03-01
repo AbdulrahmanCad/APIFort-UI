@@ -12,10 +12,10 @@ import {
   CardContent,
   FormGroup,
   FormControlLabel,
+  Switch
 } from "@mui/material";
-import Switch from "@mui/material/Switch";
-import { useParams } from "react-router-dom";
-import endpointService from "../../services/endpointService";
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import HttpsIcon from '@mui/icons-material/Https';
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -36,7 +36,6 @@ const ColorSwitch = styled(Switch)(({ theme }) => ({
   },
   "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track ": {
     backgroundColor: "#FC574E",
-    // ColorSwitch: "red",
   },
   "& .css-1dnugo-MuiSwitch-root .MuiSwitch-switchBase.Mui-checked": {
     color: "white",
@@ -44,16 +43,23 @@ const ColorSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 function EndpointList({endpoints, handleAccessUpdate}) {
-  const [checked, setChecked] = React.useState(false);
 
-  const params = useParams();
 
-  const toggleChecked = () => {
-    setChecked((prev) => !prev);
-  };
 
   return (
     <>
+     {endpoints.length === 0 ? 
+        <Box sx={{ display: 'flex', justifyContent: 'center'}} mt={12}>
+         <Typography
+         variant="h6"
+         component="h5"
+         sx={{ color: "#112849" }}
+       >
+        No data found!
+       </Typography>
+       </Box>
+        :
+        ''}
     {endpoints.map((endpoint, serviceIndex) => ( 
       <Box key={serviceIndex} mb={2}>
       <Accordion >
@@ -155,7 +161,7 @@ function EndpointList({endpoints, handleAccessUpdate}) {
                     }
                 </Grid>
                 <Grid sx={{ width: "60%" }}>
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                  <Typography sx={{ mb: 4 }} color="text.secondary">
                     <span style={{fontWeight: 100, color: '#7E8282'}}>
                       <span>0021 </span>
                       <span
@@ -166,7 +172,17 @@ function EndpointList({endpoints, handleAccessUpdate}) {
                           borderRightColor: "#ebe9e1",
                         }}
                       ></span>
-                      <span>{api.isPublic ? 'Public': 'Private'} Service</span>
+                      <span>{api.isPublic ? 
+                      <>
+                      Public Service {' '}
+                      <LockOpenIcon />
+                      </>
+                      : 
+                      <>
+                      Private Service {' '}
+                      <HttpsIcon />
+                      </>
+                      } </span>
                       <span
                         style={{
                           marginLeft: "0.75rem",
