@@ -283,7 +283,7 @@ export default function Endpoint() {
               </Box>
             </Box>
           </Box>
-          <ServiceList endpoints={endpoints}/>
+          <ServiceList services={endpoints}/>
         </TabPanel>
       </TabContext>
     </Box>        

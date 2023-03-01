@@ -4,10 +4,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { FormControl } from "@mui/material";
@@ -36,6 +32,81 @@ const style = {
     width: "48rem"
   },
 };
+
+const closeBtnStyle = {
+  display: "flex",
+  justifyContent: "end",
+  color: "#A3A4A2",
+  minWidth: "2rem",
+  minHeight: "2.5rem",
+  animationTimeline: 5000,
+  "&:hover": {
+    opacity: 1,
+    boxShadow: 4,
+  },
+}
+
+const checkStyle= {
+  alignItems: "center",
+  bgcolor: "#e8f3eb",
+  width: 70,
+  height: 70,
+}
+
+const formInputStyle ={
+  my: 1.5, color: "#112849"
+}
+
+const createAccountBtnStyle ={
+  my: 1,
+  textTransform: "none",
+  fontSize: 16,
+  borderRadius: "6px",
+  backgroundColor: "#FC574E",
+  color: "white",
+  "&:hover": {
+    backgroundColor: "#CA463E",
+    boxShadow: "none",
+  },
+}
+
+const doneBtnStyle = { 
+  my: 1,
+  textTransform: "none",
+  fontSize: 16,
+  borderRadius: "6px",
+  backgroundColor: "#ebe9e1",
+  color: "#363d43",
+  "&:hover": {
+    backgroundColor: "#C7C7C1",
+  },
+}
+
+const cancelBtnStyle = {
+      textTransform: "none",
+      textDecoration: "underline",
+      color: "#A3A4A2",
+      my: 1.5,
+      mr: 1,
+      fontSize: 16,
+      animationTimeline: 5000,
+      "&:hover": {
+        opacity: 1,
+        color: "#FC574E",
+      },}
+
+const createBtnStyle = {
+  textTransform: "none",
+  boxShadow: "none",
+  fontSize: 16,
+  padding: "6px 12px",
+  borderRadius: "6px",
+  backgroundColor: "#FC574E",
+  color: "white",
+  "&:hover": {
+    backgroundColor: "#CA463E",
+    boxShadow: "none",
+  },}
 
 const contant = {
   display: "flex",
@@ -96,10 +167,7 @@ const sxStyle = {
 };
 
 export default function BasicModal({ serviceModal, setServiceModal }) {
-  const [showPassword, setShowPassword] = React.useState(false);
   const [error, setError] = React.useState("");
-  const [showPassword2, setShowPassword2] = React.useState(false);
-  const [showPassword3, setShowPassword3] = React.useState(false);
   const [done, setDone] = React.useState(false);
 
   const [formData, setFormData] = React.useState({
@@ -127,9 +195,6 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
 
   const {
     profile_name_valid,
-    api_key_valid,
-    auth_calim_valid,
-    realm_key_valid,
   } = validateForm;
 
   const onChange = (e) => {
@@ -138,22 +203,6 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
       ...prevState,
       [e.target.name]: e.target.value,
     }));
-  };
-
-  const handleClickShowPasswordAPI = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPasswordAPI = (event) => {
-    event.preventDefault();
-  };
-  const handleClickShowPasswordAuth = () => setShowPassword2((show) => !show);
-
-  const handleMouseDownPasswordAuth = (event) => {
-    event.preventDefault();
-  };
-  const handleClickShowPasswordRealm = () => setShowPassword3((show) => !show);
-
-  const handleMouseDownPasswordRealm = (event) => {
-    event.preventDefault();
   };
 
   async function handleAddProfile() {
@@ -183,9 +232,6 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
 
   function handleCloseModal() {
     setServiceModal(false);
-    setShowPassword(false);
-    setShowPassword2(false);
-    setShowPassword3(false);
   }
 
   return (
@@ -204,19 +250,7 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
               <Box sx={cloes}>
                 <Button
                   onClick={() => handleCloseModal()}
-                  sx={{
-                    display: "flex",
-                    justifyContent: "end",
-                    color: "#A3A4A2",
-                    minWidth: "2rem",
-                    minHeight: "2.5rem",
-                    animationTimeline: 5000,
-                    "&:hover": {
-                      opacity: 1,
-                      boxShadow: 4,
-                    },
-                  }}
-                >
+                  sx={closeBtnStyle}>
                   <CloseIcon />
                 </Button>
               </Box>
@@ -226,6 +260,7 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
                   variant="h5"
                   component="h2"
                   sx={{
+                    mb: 2,
                     color: "#112849",
                   }}
                 >
@@ -234,7 +269,7 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
 
                 <FormControl
                   variant="outlined"
-                  sx={{ mt: 3.5, mb: 1.5, color: "#112849" }}
+                  sx={formInputStyle}
                 >
                   <Typography
                   component={'span'}
@@ -258,10 +293,9 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
                     </Grid>
                   </Typography>
                 </FormControl>
-
                 <FormControl
                   variant="outlined"
-                  sx={{ my: 1.5, color: "#112849" }}
+                  sx={formInputStyle}
                 >
                   <Typography
                   component={'span'}
@@ -288,7 +322,7 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
 
                 <FormControl
                   variant="outlined"
-                  sx={{ my: 1.5, color: "#112849" }}
+                  sx={formInputStyle}
                 >
                   <Typography
                   component={'span'}
@@ -315,7 +349,7 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
 
                 <FormControl
                   variant="outlined"
-                  sx={{ my: 1.5, color: "#112849" }}
+                  sx={formInputStyle}
                 >
                   <Typography
                   component={'span'}
@@ -339,7 +373,6 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
                     </Grid>
                   </Typography>
                 </FormControl>
-
                 <Typography sx={{ color: "red" }}>{error}</Typography>
                 <Box
                   height="2.5rem"
@@ -350,39 +383,15 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
                   <Button
                     onClick={() => handleCloseModal(false)}
                     style={{ backgroundColor: "transparent" }}
-                    sx={{
-                      textTransform: "none",
-                      textDecoration: "underline",
-                      color: "#A3A4A2",
-                      my: 1.5,
-                      mr: 1,
-                      fontSize: 16,
-                      animationTimeline: 5000,
-                      "&:hover": {
-                        opacity: 1,
-                        color: "#FC574E",
-                      },
-                    }}
+                    sx={cancelBtnStyle}
                   >
                     Cancel
                   </Button>
                   <Button
                     onClick={() => handleAddProfile()}
-                    sx={{
-                      textTransform: "none",
-                      boxShadow: "none",
-                      fontSize: 16,
-                      padding: "6px 12px",
-                      borderRadius: "6px",
-                      backgroundColor: "#FC574E",
-                      color: "white",
-                      "&:hover": {
-                        backgroundColor: "#CA463E",
-                        boxShadow: "none",
-                      },
-                    }}
+                    sx={createBtnStyle}
                   >
-                    Create Profile
+                    Create Service
                   </Button>
                 </Box>
               </Box>
@@ -403,12 +412,7 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
             <Box sx={SecondModalStyle}>
               <Box display="flex" justifyContent="center">
                 <Avatar
-                  sx={{
-                    alignItems: "center",
-                    bgcolor: "#e8f3eb",
-                    width: 70,
-                    height: 70,
-                  }}
+                  sx={checkStyle}
                 >
                   <CheckCircleOutlineIcon fontSize="large" color="success" />
                 </Avatar>
@@ -438,7 +442,7 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
                   font: "bold 14px/22px Poppins",
                 }}
               >
-                <span style={{ fontWeight: 'bold',   color: "black" }}>{profile_name}</span>{" "}
+                <span style={{ fontWeight: 'bold', color: "black" }}>{profile_name}</span>{" "}
                 profile has been successfully created.
               </Typography>
               <Button
@@ -446,18 +450,7 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
                   setDone(false);
                   setServiceModal(true);
                 }}
-                sx={{
-                  my: 1,
-                  textTransform: "none",
-                  fontSize: 16,
-                  borderRadius: "6px",
-                  backgroundColor: "#FC574E",
-                  color: "white",
-                  "&:hover": {
-                    backgroundColor: "#CA463E",
-                    boxShadow: "none",
-                  },
-                }}
+                sx={createAccountBtnStyle}
               >
                 Create Another Account
               </Button>
@@ -466,17 +459,7 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
                   setServiceModal(false);
                   setDone(false);
                 }}
-                sx={{
-                  my: 1,
-                  textTransform: "none",
-                  fontSize: 16,
-                  borderRadius: "6px",
-                  backgroundColor: "#ebe9e1",
-                  color: "#363d43",
-                  "&:hover": {
-                    backgroundColor: "#C7C7C1",
-                  },
-                }}
+                sx={doneBtnStyle}
               >
                 Ok
               </Button>

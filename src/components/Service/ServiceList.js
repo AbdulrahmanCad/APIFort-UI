@@ -2,18 +2,13 @@ import React from "react";
 import MuiAccordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/material/styles";
 import {
-  Grid,
   Box,
   Typography,
-  Card,
-  CardContent,
-  FormGroup,
-  FormControlLabel,
+  Divider
 } from "@mui/material";
-import Divider from "@mui/material/Divider";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -28,16 +23,11 @@ const Accordion = styled((props) => (
   },
 }));
 
-function ServiceList({endpoints}) {
-  const [checked, setChecked] = React.useState(false);
-
-  const toggleChecked = () => {
-    setChecked((prev) => !prev);
-  };
-
+function ServiceList({services}) {
+ 
   return (
     <>
-    {endpoints.map((endpoint, i) => ( 
+    {services.map((service, i) => ( 
       <Box key={i} mb={2}>
       <Accordion >
         <AccordionSummary
@@ -52,10 +42,10 @@ function ServiceList({endpoints}) {
                 component="h5"
                 sx={{ width: "100%", color: "#112849" }}
               >
-                {endpoint.name}
+                {service.name}
               </Typography>
               <Typography variant="div" component="div"  sx={{ width: "100%", color: '#7E8282',  }}>
-              <Box sx={{ fontWeight: 'light',}}>{endpoint.description}</Box>
+              <Box sx={{ fontWeight: 'light',}}>{service.description}</Box>
               </Typography>
             </Box>
           </Box>
@@ -68,14 +58,14 @@ function ServiceList({endpoints}) {
                 component="h5"
                 sx={{ width: "100%" }}
               >
-                Service path/host: {endpoint.host}
+                Service path/host: {service.host}
               </Typography>
               <Typography
                 variant="subtitle1"
                 component="h5"
                 sx={{ width: "100%" }}
               >
-               Service context: {endpoint.context}
+               Service context: {service.context}
               </Typography>
           </Box>
         </AccordionDetails>
