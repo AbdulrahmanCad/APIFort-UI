@@ -200,44 +200,12 @@ export default function Endpoint() {
         <Box sx={{ px: 2, marginTop: 1,  borderBottom: 1, borderColor: 'divider' }}>
           <ThemeProvider theme={theme} >
           <TabList TabIndicatorProps={{style: {color: "#FC574E", background:"#FC574E"}}} onChange={handleChange} aria-label="lab API tabs example">
-            <SingleTab style={{ textTransform: "none" }} label="Endpoints" value="1" />
-            <SingleTab style={{ textTransform: "none" }} label="Services" value="2" />
+            <SingleTab style={{ textTransform: "none" }} label="Services" value="1" />
+            <SingleTab style={{ textTransform: "none" }} label="Endpoints" value="2" />
           </TabList>
           </ThemeProvider>
         </Box>
         <TabPanel sx={{ px: 2, pt: 0, pb: 12}} value="1">
-        <Box my={3}>
-            <Box display="flex" justifyContent="space-between">
-              <Box display="flex">
-                <Search
-                  sx={searchInputStyle}
-                >
-                  <SearchIconWrapper>
-                    <SearchIcon />
-                  </SearchIconWrapper>
-                  <StyledInputBase
-                    onChange={handleSearch}
-                    value={search}
-                    placeholder="Search Endpoints..."
-                    inputProps={{ "aria-label": "search" }}
-                  />
-                </Search>
-                <EndpointFilter />
-              </Box>
-              <Box>
-                <Button
-                onClick={() => setModal(true)}
-                  sx={newEndpointBtnStyle}
-                  variant="contained"
-                >
-                  New Endpoint
-                </Button>
-              </Box>
-            </Box>
-          </Box>
-          <EndpointList endpoints={endpoints} handleAccessUpdate={handleAccessUpdate}/>
-        </TabPanel>
-        <TabPanel sx={{ px: 2, pt: 0, pb: 12}} value="2">
         <Box my={3}>
             <Box display="flex" justifyContent="space-between">
               <Box display="flex">
@@ -286,7 +254,39 @@ export default function Endpoint() {
           </Box>
           <ServiceList services={endpoints}/>
         </TabPanel>
-      </TabContext>
+        <TabPanel sx={{ px: 2, pt: 0, pb: 12}} value="2">
+        <Box my={3}>
+            <Box display="flex" justifyContent="space-between">
+              <Box display="flex">
+                <Search
+                  sx={searchInputStyle}
+                >
+                  <SearchIconWrapper>
+                    <SearchIcon />
+                  </SearchIconWrapper>
+                  <StyledInputBase
+                    onChange={handleSearch}
+                    value={search}
+                    placeholder="Search Endpoints..."
+                    inputProps={{ "aria-label": "search" }}
+                  />
+                </Search>
+                <EndpointFilter />
+              </Box>
+              <Box>
+                <Button
+                onClick={() => setModal(true)}
+                  sx={newEndpointBtnStyle}
+                  variant="contained"
+                >
+                  New Endpoint
+                </Button>
+              </Box>
+            </Box>
+          </Box>
+          <EndpointList endpoints={endpoints} handleAccessUpdate={handleAccessUpdate}/>
+        </TabPanel>
+      </TabContext> 
     </Box>        
         </Box>
       </Box>
