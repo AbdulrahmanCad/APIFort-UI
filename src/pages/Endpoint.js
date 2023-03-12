@@ -18,6 +18,9 @@ import EndpointFilter from "../components/Endpoint/filter/EndpointFilter"
 import { createTheme, ThemeProvider} from '@mui/material/styles';
 import endpointService from "../services/endpointService";
 import profileService from "../services/profileService"
+import ServiceList from "../components/Service/ServiceList";
+import ServiceModal from "../components/modal/ServiceModal";
+
 
 const theme = createTheme({
   palette: {
@@ -96,6 +99,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Endpoint() {
   const [modal, setModal] = React.useState(false)
+  const [serviceModal, setServiceModal] = React.useState(false)
   const [profileName, setProfileName] = React.useState("")
   const [search, setSearch] = React.useState("")
   const [queryList, setQueryList] = React.useState([])
@@ -232,12 +236,61 @@ export default function Endpoint() {
           </Box>
           <EndpointList endpoints={endpoints} handleAccessUpdate={handleAccessUpdate}/>
         </TabPanel>
-        <TabPanel value="2">Services</TabPanel>
+        <TabPanel sx={{ px: 2, pt: 0, pb: 12}} value="2">
+        <Box my={3}>
+            <Box display="flex" justifyContent="space-between">
+              <Box display="flex">
+                <Search
+                  sx={{
+                    ":hover": {
+                      bgcolor: "#ebe9e1",
+                      color: "#7e8282",
+                    },
+                    border: 1,
+                    borderColor: "#EBE9E1",
+                    borderRadius: 2,
+                    marginRight: "1rem"
+                  }}
+                >
+                  <SearchIconWrapper>
+                    <SearchIcon />
+                  </SearchIconWrapper>
+                  <StyledInputBase
+                    onChange={handleSearch}
+                    value={search}
+                    placeholder="Search Services..."
+                    inputProps={{ "aria-label": "search" }}
+                  />
+                </Search>
+                  
+              </Box>
+              <Box>
+                <Button
+                onClick={() => setServiceModal(true)}
+                  sx={{
+                    ":hover": {
+                      bgcolor: "#CA463E",
+                      color: "white",
+                    },
+                    color: "white",
+                    textTransform: 'none',
+                    backgroundColor: "#FC574E",
+                  }}
+                  variant="contained"
+                >
+                  New Servcie
+                </Button>
+              </Box>
+            </Box>
+          </Box>
+          <ServiceList services={endpoints}/>
+        </TabPanel>
       </TabContext>
     </Box>        
         </Box>
       </Box>
       <EndpointModal setModal={setModal} modal={modal} />
+      <ServiceModal setServiceModal={setServiceModal} serviceModal={serviceModal} />
 
     </>
   );
