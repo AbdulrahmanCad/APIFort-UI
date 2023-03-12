@@ -88,11 +88,89 @@ const ValidationTextField = styled(OutlinedInput)({
   },
 });
 
-const sxStyle = {
+const validationTextStyle = {
   height: 40, 
   backgroundColor: "#F4F3EE",
   width: "100%",
 };
+
+const closeIconStyle = {
+  display: "flex",
+  justifyContent: "end",
+  color: "#A3A4A2",
+  minWidth: "2rem",
+  minHeight: "2.5rem",
+  animationTimeline: 5000,
+  "&:hover": {
+    opacity: 1,
+    boxShadow: 4,
+  },
+};
+
+const cancelBtnStyle = {
+  textTransform: "none",
+  textDecoration: "underline",
+  color: "#A3A4A2",
+  my: 1.5,
+  mr: 1,
+  fontSize: 16,
+  animationTimeline: 5000,
+  "&:hover": {
+    opacity: 1,
+    color: "#FC574E",
+  },
+};
+
+const createProfileBtnStyle = {
+  textTransform: "none",
+  boxShadow: "none",
+  fontSize: 16,
+  padding: "6px 12px",
+  borderRadius: "6px",
+  backgroundColor: "#FC574E",
+  color: "white",
+  "&:hover": {
+    backgroundColor: "#CA463E",
+    boxShadow: "none",
+  },
+}
+
+const doneBtnStyle = {
+   my: 1,
+   textTransform: "none",
+   fontSize: 16,
+   borderRadius: "6px",
+   backgroundColor: "#ebe9e1",
+   color: "#363d43",
+    "&:hover": {
+      backgroundColor: "#C7C7C1",
+    },
+};
+
+const formInputStyle = {
+  my: 1.5,
+  color: "#112849" 
+};
+
+const createAnotherAccountBtnStyle = {
+  my: 1,
+  textTransform: "none",
+  fontSize: 16,
+  borderRadius: "6px",
+  backgroundColor: "#FC574E",
+  color: "white",
+  "&:hover": {
+    backgroundColor: "#CA463E",
+    boxShadow: "none",
+  },
+};
+
+const checkStyle = {
+  alignItems: "center",
+  bgcolor: "#e8f3eb",
+  width: 70,
+  height: 70,
+}
 
 export default function BasicModal({ modal, setModal }) {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -201,18 +279,7 @@ export default function BasicModal({ modal, setModal }) {
               <Box sx={cloes}>
                 <Button
                   onClick={() => handleCloseModal()}
-                  sx={{
-                    display: "flex",
-                    justifyContent: "end",
-                    color: "#A3A4A2",
-                    minWidth: "2rem",
-                    minHeight: "2.5rem",
-                    animationTimeline: 5000,
-                    "&:hover": {
-                      opacity: 1,
-                      boxShadow: 4,
-                    },
-                  }}
+                  sx={closeIconStyle}
                 >
                   <CloseIcon />
                 </Button>
@@ -222,16 +289,14 @@ export default function BasicModal({ modal, setModal }) {
                   id="modal-modal-title"
                   variant="h5"
                   component={'span'}
-                  sx={{
-                    color: "#112849",
-                  }}
+                  sx={{ mb: 2, color: "#112849"}}
                 >
                   Create new profile
                 </Typography>
-
+                
                 <FormControl
                   variant="outlined"
-                  sx={{ mt: 3.5, mb: 1.5, color: "#112849" }}
+                  sx={formInputStyle}
                 >
                   <Typography 
                   component={'span'}
@@ -249,7 +314,7 @@ export default function BasicModal({ modal, setModal }) {
                   item xs={12}>
                       <ValidationTextField
                         error={profile_name_valid}
-                        sx={sxStyle}
+                        sx={validationTextStyle}
                         name="profile_name"
                         onChange={onChange}
                         placeholder="Enter name"
@@ -257,10 +322,9 @@ export default function BasicModal({ modal, setModal }) {
                     </Grid>
                   </Typography>
                 </FormControl>
-
                 <FormControl
                   variant="outlined"
-                  sx={{ my: 1.5, color: "#112849" }}
+                  sx={formInputStyle}
                 >
                   <Typography
                   component={'span'}
@@ -278,7 +342,7 @@ export default function BasicModal({ modal, setModal }) {
                   item xs={12}>
                       <ValidationTextField
                         error={api_key_valid}
-                        sx={sxStyle}
+                        sx={validationTextStyle}
                         id="outlined-adornment-password"
                         name="api_key"
                         type={showPassword ? "text" : "password"}
@@ -306,7 +370,7 @@ export default function BasicModal({ modal, setModal }) {
                 </FormControl>
                 <FormControl
                   variant="outlined"
-                  sx={{ my: 1.5, color: "#112849" }}
+                  sx={formInputStyle}
                 >
                   <Typography
                   component={'span'}
@@ -324,7 +388,7 @@ export default function BasicModal({ modal, setModal }) {
                   item xs={12}>
                       <ValidationTextField
                         error={auth_calim_valid}
-                        sx={sxStyle}
+                        sx={validationTextStyle}
                         id="outlined-adornment-password"
                         type={showPassword2 ? "text" : "password"}
                         name="auth_calim_key"
@@ -352,7 +416,7 @@ export default function BasicModal({ modal, setModal }) {
                 </FormControl>
                 <FormControl
                   variant="outlined"
-                  sx={{ my: 1.5, color: "#112849" }}
+                  sx={formInputStyle}
                 >
                   <Typography
                   component={'span'}
@@ -371,7 +435,7 @@ export default function BasicModal({ modal, setModal }) {
                       <ValidationTextField
                         required
                         error={realm_key_valid}
-                        sx={sxStyle}
+                        sx={validationTextStyle}
                         id="outlined-adornment-password"
                         type={showPassword3 ? "text" : "password"}
                         name="realm_key"
@@ -408,37 +472,13 @@ export default function BasicModal({ modal, setModal }) {
                   <Button
                     onClick={() => handleCloseModal(false)}
                     style={{ backgroundColor: "transparent" }}
-                    sx={{
-                      textTransform: "none",
-                      textDecoration: "underline",
-                      color: "#A3A4A2",
-                      my: 1.5,
-                      mr: 1,
-                      fontSize: 16,
-                      animationTimeline: 5000,
-                      "&:hover": {
-                        opacity: 1,
-                        color: "#FC574E",
-                      },
-                    }}
+                    sx={cancelBtnStyle}
                   >
                     Cancel
                   </Button>
                   <Button
                     onClick={() => handleAddProfile()}
-                    sx={{
-                      textTransform: "none",
-                      boxShadow: "none",
-                      fontSize: 16,
-                      padding: "6px 12px",
-                      borderRadius: "6px",
-                      backgroundColor: "#FC574E",
-                      color: "white",
-                      "&:hover": {
-                        backgroundColor: "#CA463E",
-                        boxShadow: "none",
-                      },
-                    }}
+                    sx={createProfileBtnStyle}
                   >
                     Create Profile
                   </Button>
@@ -461,12 +501,7 @@ export default function BasicModal({ modal, setModal }) {
             <Box sx={SecondModalStyle}>
               <Box display="flex" justifyContent="center">
                 <Avatar
-                  sx={{
-                    alignItems: "center",
-                    bgcolor: "#e8f3eb",
-                    width: 70,
-                    height: 70,
-                  }}
+                  sx={checkStyle}
                 >
                   <CheckCircleOutlineIcon fontSize="large" color="success" />
                 </Avatar>
@@ -504,18 +539,7 @@ export default function BasicModal({ modal, setModal }) {
                   setDone(false);
                   setModal(true);
                 }}
-                sx={{
-                  my: 1,
-                  textTransform: "none",
-                  fontSize: 16,
-                  borderRadius: "6px",
-                  backgroundColor: "#FC574E",
-                  color: "white",
-                  "&:hover": {
-                    backgroundColor: "#CA463E",
-                    boxShadow: "none",
-                  },
-                }}
+                sx={createAnotherAccountBtnStyle}
               >
                 Create Another Account
               </Button>
@@ -524,17 +548,7 @@ export default function BasicModal({ modal, setModal }) {
                   setModal(false);
                   setDone(false);
                 }}
-                sx={{
-                  my: 1,
-                  textTransform: "none",
-                  fontSize: 16,
-                  borderRadius: "6px",
-                  backgroundColor: "#ebe9e1",
-                  color: "#363d43",
-                  "&:hover": {
-                    backgroundColor: "#C7C7C1",
-                  },
-                }}
+                sx={doneBtnStyle}
               >
                 Ok
               </Button>

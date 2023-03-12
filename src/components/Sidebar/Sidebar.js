@@ -1,12 +1,9 @@
 import * as React from "react";
-import { styled, useTheme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
-import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
@@ -43,7 +40,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
@@ -66,19 +62,14 @@ const Drawer = styled(MuiDrawer, {
 
 
 export default function MiniDrawer() {
-  const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
   const handleDrawerClose = () => {
-    setOpen(!open);
+    setOpen((prev) => !prev);
   };
 
   return (
-    <Box sx={{ display: "flex" }} style={{ backgroundColor: "#052056" }}>
+    <Box display="flex" sx={{ backgroundColor: "#052056" }}>
       <CssBaseline />
       <div onMouseOver={() => setOpen(true)} onMouseOut={() => setOpen(false)}>
         <Drawer
@@ -118,7 +109,7 @@ export default function MiniDrawer() {
                       justifyContent: "center",
                     }}
                   >
-                    <img src={profileIcon} />
+                    <img src={profileIcon} alt="icon"/>
                   </ListItemIcon>
                   <ListItemText
                     primary={text}

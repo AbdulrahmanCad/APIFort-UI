@@ -41,7 +41,6 @@ export default function MultipleSelectPlaceholder() {
       target: { value },
     } = event;
     setPersonName(
-      // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
   };
@@ -71,7 +70,6 @@ export default function MultipleSelectPlaceholder() {
             if (selected.length === 0) {
               return <em style={{fontSize: '12px', padding: 0}}>Select Method</em>;
             }
-
             return selected.join(', ');
           }}
           MenuProps={MenuProps}

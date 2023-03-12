@@ -31,9 +31,7 @@ const style = {
   borderRadius: "12px",
   boxShadow: 2,
   my: 16,
-
   
-
   "@media (min-width: 576px)": {
     width: "26rem",
   },
@@ -47,12 +45,51 @@ const style = {
   },
 };
 
+const closeIconStyle = {
+  display: "flex",
+  justifyContent: "end",
+  color: "#A3A4A2",
+  minWidth: "2rem",
+  minHeight: "2.5rem",
+  animationTimeline: 5000,
+   "&:hover": {
+     opacity: 1,
+     boxShadow: 4,
+   },
+}
+
+const cancelBtnStyle = {
+  textTransform: "none",
+  textDecoration: "underline",
+  color: "#A3A4A2",
+  my: 1.5,
+  mr: 1,
+  fontSize: 16,
+  animationTimeline: 5000,
+  "&:hover": {
+    opacity: 1,
+    color: "#FC574E",
+  },
+}
+
+const createBtnStyle = {
+   textTransform: "none",
+   boxShadow: "none",
+   fontSize: 16,
+   padding: "6px 12px",
+   borderRadius: "6px",
+   backgroundColor: "#FC574E",
+   color: "white",
+   "&:hover": {
+     backgroundColor: "#CA463E",
+     boxShadow: "none",
+   },
+};
+
 const contant = {
   display: "flex",
   flexDirection: "column",
-  px: 6,
-  // overflow: "hidden",
-  // overflow: "scroll", 
+  px: 6
 };
 
 const cloes = {
@@ -79,6 +116,38 @@ const SecondModalStyle = {
   pt: 6,
 };
 
+const checkStyle = {
+  alignItems: "center",
+  bgcolor: "#e8f3eb",
+  width: 70,
+  height: 70,
+};
+
+const createAnotherAccountStyle = {
+  my: 1,
+  textTransform: "none",
+  fontSize: 16,
+  borderRadius: "6px",
+  backgroundColor: "#FC574E",
+  color: "white",
+  "&:hover": {
+    backgroundColor: "#CA463E",
+    boxShadow: "none",
+}
+};
+
+const doneBtnStyle = {
+  my: 1,
+  textTransform: "none",
+  fontSize: 16,
+  borderRadius: "6px",
+  backgroundColor: "#ebe9e1",
+  color: "#363d43",
+  "&:hover": {
+    backgroundColor: "#C7C7C1",
+  },
+}
+
 const ValidationTextField = styled(OutlinedInput)({
   ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
     borderColor: "#EBE9E1",
@@ -101,7 +170,7 @@ const ValidationTextField = styled(OutlinedInput)({
   },
 });
 
-const sxStyle = {
+const validationTextStyle = {
   height: 40,
   backgroundColor: "#F4F3EE",
   width: "100%",
@@ -112,7 +181,6 @@ const ColorSwitch = styled(Switch)(({ theme }) => ({
   },
   "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track ": {
     backgroundColor: "#FC574E",
-    // ColorSwitch: "red",
   },
   "& .css-1dnugo-MuiSwitch-root .MuiSwitch-switchBase.Mui-checked": {
     color: "white",
@@ -150,26 +218,7 @@ export default function BasicModal({ modal, setModal }) {
   const {
     api_description,
     path,
-    created_at,
-    method,
-    isAccess,
-    isOffline,
-    isPublic
   } = formData;
-
-  // const [validateForm, setValidateForm] = React.useState({
-  //   profile_name_valid: false,
-  //   api_key_valid: false,
-  //   auth_calim_valid: false,
-  //   realm_key_valid: false,
-  // });
-
-  // const {
-  //   profile_name_valid,
-  //   api_key_valid,
-  //   auth_calim_valid,
-  //   realm_key_valid,
-  // } = validateForm;
 
   const onChange = (e) => {
     setError("");
@@ -213,8 +262,7 @@ export default function BasicModal({ modal, setModal }) {
               handleCloseModal();
               setScroll(false)
             }}
-        onScroll={() => setScroll(true)}
-
+            onScroll={() => setScroll(true)}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
             style={{ overflow: 'scroll', marginTop: scroll ? `` : `10rem` }}
@@ -223,18 +271,7 @@ export default function BasicModal({ modal, setModal }) {
               <Box sx={cloes}>
                 <Button
                   onClick={() => handleCloseModal()}
-                  sx={{
-                    display: "flex",
-                    justifyContent: "end",
-                    color: "#A3A4A2",
-                    minWidth: "2rem",
-                    minHeight: "2.5rem",
-                    animationTimeline: 5000,
-                    "&:hover": {
-                      opacity: 1,
-                      boxShadow: 4,
-                    },
-                  }}
+                  sx={closeIconStyle}
                 >
                   <CloseIcon />
                 </Button>
@@ -245,9 +282,7 @@ export default function BasicModal({ modal, setModal }) {
                   id="modal-modal-title"
                   variant="h5"
                   fontFamily={"normal normal 600 22px Poppins"}
-                  sx={{
-                    color: "#112849",
-                  }}
+                  sx={{ color: "#112849", }}
                 >
                   Create new endpoint
                 </Typography>
@@ -294,7 +329,7 @@ export default function BasicModal({ modal, setModal }) {
                   item xs={12}>
                       <ValidationTextField
                         // error={profile_name_valid}
-                        sx={sxStyle}
+                        sx={validationTextStyle}
                         name="profile_name"
                         onChange={onChange}
                         placeholder="Enter name"
@@ -322,7 +357,7 @@ export default function BasicModal({ modal, setModal }) {
                   item xs={12}>
                       <ValidationTextField
                         // error={profile_name_valid}
-                        sx={sxStyle}
+                        sx={validationTextStyle}
                         name="profile_name"
                         onChange={onChange}
                         placeholder="Enter description"
@@ -371,8 +406,7 @@ export default function BasicModal({ modal, setModal }) {
                   component={'span'}
                   item xs={12}>
                       <ValidationTextField
-                        // error={profile_name_valid}
-                        sx={sxStyle}
+                        sx={validationTextStyle}
                         name="profile_name"
                         onChange={onChange}
                         placeholder="Enter Path"
@@ -399,8 +433,7 @@ export default function BasicModal({ modal, setModal }) {
                   component={'span'}
                   item xs={12}>
                       <ValidationTextField
-                        // error={profile_name_valid}
-                        sx={sxStyle}
+                        sx={validationTextStyle}
                         name="profile_name"
                         onChange={onChange}
                         placeholder="Enter number"
@@ -427,8 +460,7 @@ export default function BasicModal({ modal, setModal }) {
                   component={'span'}
                   item xs={12}>
                       <ValidationTextField
-                        // error={profile_name_valid}
-                        sx={sxStyle}
+                        sx={validationTextStyle}
                         name="profile_name"
                         onChange={onChange}
                         placeholder="Enter value"
@@ -537,37 +569,13 @@ export default function BasicModal({ modal, setModal }) {
                   <Button
                     onClick={() => handleCloseModal(false)}
                     style={{ backgroundColor: "transparent" }}
-                    sx={{
-                      textTransform: "none",
-                      textDecoration: "underline",
-                      color: "#A3A4A2",
-                      my: 1.5,
-                      mr: 1,
-                      fontSize: 16,
-                      animationTimeline: 5000,
-                      "&:hover": {
-                        opacity: 1,
-                        color: "#FC574E",
-                      },
-                    }}
+                    sx={cancelBtnStyle}
                   >
                     Cancel
                   </Button>
                   <Button
                     onClick={() => handleAddProfile()}
-                    sx={{
-                      textTransform: "none",
-                      boxShadow: "none",
-                      fontSize: 16,
-                      padding: "6px 12px",
-                      borderRadius: "6px",
-                      backgroundColor: "#FC574E",
-                      color: "white",
-                      "&:hover": {
-                        backgroundColor: "#CA463E",
-                        boxShadow: "none",
-                      },
-                    }}
+                    sx={createBtnStyle}
                   >
                     Create Profile
                   </Button>
@@ -590,12 +598,7 @@ export default function BasicModal({ modal, setModal }) {
             <Box sx={SecondModalStyle}>
               <Box display="flex" justifyContent="center">
                 <Avatar
-                  sx={{
-                    alignItems: "center",
-                    bgcolor: "#e8f3eb",
-                    width: 70,
-                    height: 70,
-                  }}
+                  sx={checkStyle}
                 >
                   <CheckCircleOutlineIcon fontSize="large" color="success" />
                 </Avatar>
@@ -635,18 +638,7 @@ export default function BasicModal({ modal, setModal }) {
                   setDone(false);
                   setModal(true);
                 }}
-                sx={{
-                  my: 1,
-                  textTransform: "none",
-                  fontSize: 16,
-                  borderRadius: "6px",
-                  backgroundColor: "#FC574E",
-                  color: "white",
-                  "&:hover": {
-                    backgroundColor: "#CA463E",
-                    boxShadow: "none",
-                  },
-                }}
+                sx={createAnotherAccountStyle}
               >
                 Create Another Account
               </Button>
@@ -655,17 +647,7 @@ export default function BasicModal({ modal, setModal }) {
                   setModal(false);
                   setDone(false);
                 }}
-                sx={{
-                  my: 1,
-                  textTransform: "none",
-                  fontSize: 16,
-                  borderRadius: "6px",
-                  backgroundColor: "#ebe9e1",
-                  color: "#363d43",
-                  "&:hover": {
-                    backgroundColor: "#C7C7C1",
-                  },
-                }}
+                sx={doneBtnStyle}
               >
                 Ok
               </Button>

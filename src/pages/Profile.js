@@ -24,6 +24,26 @@ const Search = styled("div")(({ theme }) => ({
   },
 }));
 
+const searchInputStyle = {
+  ":hover": {
+    bgcolor: "#ebe9e1",
+    color: "#7e8282",
+  },
+  border: 1,
+  borderColor: "#EBE9E1",
+  borderRadius: 2,
+}
+
+const newProfileBtnStyle = {
+  ":hover": {
+    bgcolor: "#CA463E",
+    color: "white",
+  },
+  color: "white",
+  textTransform: 'none',
+  backgroundColor: "#FC574E",
+}
+
 const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
   height: "100%",
@@ -33,6 +53,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
 }));
+
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
@@ -76,7 +97,6 @@ export default function Profile() {
     });
   }
 
-
   function handleSearch(e){
     let q = e.target.value.trim()
     setSearch(q)
@@ -96,17 +116,7 @@ export default function Profile() {
           <Box mx={2} mb={12}>
             <Box display="flex" justifyContent="space-between" my={4}>
               <Box>
-                <Search
-                  sx={{
-                    ":hover": {
-                      bgcolor: "#ebe9e1",
-                      color: "#7e8282",
-                    },
-                    border: 1,
-                    borderColor: "#EBE9E1",
-                    borderRadius: 2,
-                  }}
-                >
+                <Search sx={searchInputStyle} >
                   <SearchIconWrapper>
                     <SearchIcon />
                   </SearchIconWrapper>
@@ -120,16 +130,8 @@ export default function Profile() {
               </Box>
               <Box>
                 <Button
-                onClick={() => setModal(true)}
-                  sx={{
-                    ":hover": {
-                      bgcolor: "#CA463E",
-                      color: "white",
-                    },
-                    color: "white",
-                    textTransform: 'none',
-                    backgroundColor: "#FC574E",
-                  }}
+                  onClick={() => setModal(true)}
+                  sx={newProfileBtnStyle}
                   variant="contained"
                 >
                   New Profile

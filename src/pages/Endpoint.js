@@ -21,7 +21,6 @@ import profileService from "../services/profileService"
 import ServiceList from "../components/Service/ServiceList";
 import ServiceModal from "../components/modal/ServiceModal";
 
-
 const theme = createTheme({
   palette: {
     primary: {
@@ -36,15 +35,47 @@ const theme = createTheme({
   },
 });
 
+const backarrowStyle = {
+  color: "#A3A4A2",
+  fontSize: 16,
+  minWidth: '3rem',
+  minHeight: '3rem',
+  mr: "1rem",
+  animationTimeline: 5000,
+     "&:hover": {
+        opacity: 1,
+        backgroundColor: "white",
+        boxShadow: 4,
+      },
+}
+
+const searchInputStyle = {
+  ":hover": {
+    bgcolor: "#ebe9e1",
+    color: "#7e8282",
+  },
+  border: 1,
+  borderColor: "#EBE9E1",
+  borderRadius: 2,
+  marginRight: "1rem"
+}
+
+const newEndpointBtnStyle = {
+  ":hover": {
+    bgcolor: "#CA463E",
+    color: "white",
+  },
+  color: "white",
+  textTransform: 'none',
+  backgroundColor: "#FC574E",
+}
+
 const SingleTab = styled(Tab)({
   "& .MuiTab-notchedTab ": {
     color: "#EBE9E1",
   },
   "& .Mui-selected": {
     color: "#EBE9E1",
-  },
-  "& .MuiTab-root.Mui-selected": {
-    // color: 'red'
   },
   "&:hover": {
     border: "#D4D2CB",
@@ -80,11 +111,11 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
 }));
+
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -114,7 +145,6 @@ export default function Endpoint() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
 
   React.useEffect(() => {
     setSearch("")
@@ -158,19 +188,7 @@ export default function Endpoint() {
         <Typography fontSize={24} fontWeight="bold" color="#A3A4A2"> 
         <Button
             onClick={() => navigate("/profiles")}
-            sx={{
-              color: "#A3A4A2",
-              fontSize: 16,
-              minWidth: '3rem',
-              minHeight: '3rem',
-              mr: "1rem",
-              animationTimeline: 5000,
-              "&:hover": {
-                opacity: 1,
-                backgroundColor: "white",
-                boxShadow: 4,
-              },
-            }}
+            sx={backarrowStyle}
           >
             <ArrowBackIcon />
           </Button>
@@ -192,16 +210,7 @@ export default function Endpoint() {
             <Box display="flex" justifyContent="space-between">
               <Box display="flex">
                 <Search
-                  sx={{
-                    ":hover": {
-                      bgcolor: "#ebe9e1",
-                      color: "#7e8282",
-                    },
-                    border: 1,
-                    borderColor: "#EBE9E1",
-                    borderRadius: 2,
-                    marginRight: "1rem"
-                  }}
+                  sx={searchInputStyle}
                 >
                   <SearchIconWrapper>
                     <SearchIcon />
@@ -218,15 +227,7 @@ export default function Endpoint() {
               <Box>
                 <Button
                 onClick={() => setModal(true)}
-                  sx={{
-                    ":hover": {
-                      bgcolor: "#CA463E",
-                      color: "white",
-                    },
-                    color: "white",
-                    textTransform: 'none',
-                    backgroundColor: "#FC574E",
-                  }}
+                  sx={newEndpointBtnStyle}
                   variant="contained"
                 >
                   New Endpoint
