@@ -58,7 +58,7 @@ function EndpointList({endpoints, handleAccessUpdate}) {
        </Box>
         :
         ''}
-    {endpoints.map((endpoint, serviceIndex) => ( 
+    {endpoints && endpoints.map((endpoint, serviceIndex) => ( 
       <Box key={serviceIndex} mb={2}>
       <Accordion >
         <AccordionSummary
@@ -73,7 +73,7 @@ function EndpointList({endpoints, handleAccessUpdate}) {
                 component="h5"
                 sx={{ width: "100%", color: "#112849" }}
               >
-                {endpoint.name}
+                {endpoint.title}
               </Typography>
               <Typography variant="div" component="div"  sx={{ width: "100%", color: '#7E8282',  }}>
               <Box sx={{ fontWeight: 'light',}}>{endpoint.description}</Box>
@@ -97,7 +97,7 @@ function EndpointList({endpoints, handleAccessUpdate}) {
             <CardContent>
               <Box display="flex">
                 <Grid sx={{ width: "15%" }}>
-                  { api.method === "Post" &&
+                  { api.method_type === "POST" &&
                   <Box
                     sx={{
                       border: '1px solid #C8E7D3',
@@ -109,10 +109,10 @@ function EndpointList({endpoints, handleAccessUpdate}) {
                       textAlign: "center",
                     }}
                   >
-                    {api.method}
+                    {api.method_type}
                   </Box>
                   }
-                  { api.method === "Get" &&
+                  { api.method_type === "GET" &&
                     <Box
                     sx={{
                       border: '1px solid #D0DBF7',
@@ -124,10 +124,10 @@ function EndpointList({endpoints, handleAccessUpdate}) {
                       textAlign: "center",
                     }}
                   >
-                    {api.method}
+                    {api.method_type}
                   </Box>
                     }
-                    { api.method === "Put" &&
+                    { api.method_type === "PUT" &&
                     <Box
                     sx={{
                       border: '1px solid #F7E5D8',
@@ -139,10 +139,10 @@ function EndpointList({endpoints, handleAccessUpdate}) {
                       textAlign: "center",
                     }}
                   >
-                    {api.method}
+                    {api.method_type}
                   </Box>
                     }
-                     { api.method === "Delete" &&
+                     { api.method_type === "DELETE" &&
                     <Box
                     sx={{
                        border: '1px solid #F54949',
@@ -154,14 +154,14 @@ function EndpointList({endpoints, handleAccessUpdate}) {
                       textAlign: "center",
                     }}
                   >
-                    {api.method}
+                    {api.method_type}
                   </Box>
                     }
                 </Grid>
                 <Grid sx={{ width: "60%" }}>
                   <Typography sx={{ mb: 4 }} color="text.secondary">
                     <span style={{fontWeight: 100, color: '#7E8282'}}>
-                      <span>0021 </span>
+                      <span>{api.version_number} </span>
                       <span
                         style={{
                           marginLeft: "0.75rem",
@@ -170,7 +170,7 @@ function EndpointList({endpoints, handleAccessUpdate}) {
                           borderRightColor: "#ebe9e1",
                         }}
                       ></span>
-                      <span>{api.isPublic ? 
+                      <span>{api.is_public_service ? 
                       <>
                       Public Service {' '}
                       <LockOpenIcon />
@@ -189,25 +189,25 @@ function EndpointList({endpoints, handleAccessUpdate}) {
                           borderRightColor: "#ebe9e1",
                         }}
                       ></span>
-                      <span>{api.isOffline ? 'Offline': 'Online'} Authentication</span>
+                      <span>{api.offline_authentication ? 'Offline': 'Online'} Authentication</span>
                     </span>
                   </Typography>
-                  <Typography sx={{color: '#112849'}}variant="body2">{api.path}</Typography>
+                  <Typography sx={{color: '#112849'}}variant="body2">{api.endpoint_path}</Typography>
                   <Typography sx={{color: '#7E8282'}}variant="body2">
-                    {api.api_description}
+                    {api.description}
                   </Typography>
-                  <Typography sx={{color: '#7E8282'}}variant="body2">Created at {api.created_at}</Typography>
+                  <Typography sx={{color: '#7E8282'}}variant="body2">Created at {api.created_date}</Typography>
                 </Grid>
                 <Grid sx={{ width: "5%", marginTop: 4 }}>
                   <FormGroup>
                     <FormControlLabel
                       value="start"
                       labelPlacement="start"
-                      control={<ColorSwitch checked={api.isAccess} 
-                      onChange={() => handleAccessUpdate(api, serviceIndex, i)} 
+                      control={<ColorSwitch checked={api.is_public_service} 
+                      onChange={() => handleAccessUpdate(api)} 
                       size="" />}
-                      sx={{color: api.isAccess ? `#FC574E`:``}}
-                      label={api.isAccess ?"Enabled":"Disabled"}
+                      sx={{color: api.is_public_service ? `#FC574E`:``}}
+                      label={api.is_public_service ?"Public":"Private"}
                     />
                   </FormGroup>
                 </Grid>

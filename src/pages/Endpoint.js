@@ -17,7 +17,6 @@ import { styled } from '@mui/system';
 import EndpointFilter from "../components/Endpoint/filter/EndpointFilter"
 import { createTheme, ThemeProvider} from '@mui/material/styles';
 import endpointService from "../services/endpointService";
-import profileService from "../services/profileService"
 import ServiceList from "../components/Service/ServiceList";
 import ServiceModal from "../components/modal/ServiceModal";
 
@@ -132,9 +131,13 @@ export default function Endpoint() {
   const [modal, setModal] = React.useState(false)
   const [serviceModal, setServiceModal] = React.useState(false)
   const [profileName, setProfileName] = React.useState("")
-  const [search, setSearch] = React.useState("")
+  const [endpointsSearch, setEndpointsSearch] = React.useState("")
+  const [servicesSearch, setServicesSearch] = React.useState("")
   const [queryList, setQueryList] = React.useState([])
   const [endpoints, setEndpoints] = React.useState([
+    { id: 0, name: "Loading..." },
+  ]);
+  const [services, setServices] = React.useState([
     { id: 0, name: "Loading..." },
   ]);
   const navigate = useNavigate()
@@ -147,36 +150,59 @@ export default function Endpoint() {
   };
 
   React.useEffect(() => {
-    setSearch("")
+    setProfileName(params.id)
+    setServicesSearch("")
+    setEndpointsSearch("")
     updateData();
-  }, [modal]);
+  }, [modal,serviceModal]);
   
   async function updateData() {
-    await endpointService.getEndpoint(params.id).then((result) => {
-      setProfileName(result.data.profile_name)
-      let data = result.data.services;
-      let profilesData = [];
-      for (const key in data) {
-        profilesData.push(data[key]);
-      }
-      setEndpoints(profilesData);
-      setQueryList(profilesData);
-    });
+    await endpointService.getService(params.id).then((result) => {
+      let data = result.data;
+      setServices(data)
+      setEndpoints(data)
+      setQueryList(data)
+    })
   }
 
-  async function handleAccessUpdate(data, serviceId, endpointId){
+  async function handleAccessUpdate(data){
     console.log(data)
-    data.isAccess = !data.isAccess
-   await endpointService.updateAccess(data, params.id, serviceId, endpointId)
+    let access = !data.is_public_service
+    const newData = {
+      endpoint_uuid: data.endpoint_uuid,
+      service_uuid: data.service_uuid,
+      title: data.title,
+      description: data.description,
+      endpoint_path: data.endpoint_path,
+      method_type: data.method_type,
+      auth_claim_value: data.auth_claim_value,
+      offline_authentication: data.offline_authentication,
+      version_number: data.version_number,
+      is_public_service: access
+    }
+   await endpointService.updateAccess(params.id, newData).then((res) => {
+    if(res)
     updateData()
+   }).catch((err) => console.log(err))
   }
 
-  function handleSearch(e){
+  function handleServicesSearch(e){
     let q = e.target.value.trim()
-    setSearch(q)
+    setServicesSearch(q)
     let allData = queryList
     allData = allData.filter((item) => {
-    return item.name.toLowerCase().indexOf(q.toLowerCase()) !== -1;
+    return item.title.toLowerCase().indexOf(q.toLowerCase()) !== -1;
+    }  );
+    setServices(allData)
+  }
+
+  function handleEndpointsSearch(e){
+    let q = e.target.value.trim()
+    setEndpointsSearch(q)
+    let allData = queryList
+    console.log(allData)
+    allData = allData.filter((item) => {
+    return item.title.toLowerCase().indexOf(q.toLowerCase()) !== -1;
     }  );
     setEndpoints(allData)
   }
@@ -225,8 +251,8 @@ export default function Endpoint() {
                     <SearchIcon />
                   </SearchIconWrapper>
                   <StyledInputBase
-                    onChange={handleSearch}
-                    value={search}
+                    onChange={handleServicesSearch}
+                    value={servicesSearch}
                     placeholder="Search Services..."
                     inputProps={{ "aria-label": "search" }}
                   />
@@ -252,7 +278,7 @@ export default function Endpoint() {
               </Box>
             </Box>
           </Box>
-          <ServiceList services={endpoints}/>
+          <ServiceList services={services}/>
         </TabPanel>
         <TabPanel sx={{ px: 2, pt: 0, pb: 12}} value="2">
         <Box my={3}>
@@ -265,8 +291,8 @@ export default function Endpoint() {
                     <SearchIcon />
                   </SearchIconWrapper>
                   <StyledInputBase
-                    onChange={handleSearch}
-                    value={search}
+                    onChange={handleEndpointsSearch}
+                    value={endpointsSearch}
                     placeholder="Search Endpoints..."
                     inputProps={{ "aria-label": "search" }}
                   />

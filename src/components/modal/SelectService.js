@@ -27,7 +27,7 @@ function getStyles(name, personName, theme) {
   };
 }
 
-export default function MultipleSelectPlaceholder() {
+export default function MultipleSelectPlaceholder({handleSelectService}) {
   const theme = useTheme();
   const params = useParams()
   const [personName, setPersonName] = React.useState([]);
@@ -35,12 +35,16 @@ export default function MultipleSelectPlaceholder() {
   const [names, setNames] = React.useState(["Loading..."]);
 
   React.useEffect(() => {
-    endpointService.getEndpoint(params.id).then((result) => {
-      if(result.data.services){
-        setNames(result.data.services)
+    getServices()
+  },[])
+
+  async function getServices() {
+   await endpointService.getService(params.id).then((result) => {
+      if(result.data){
+        setNames(result.data)
       }
     })
-  })
+  }
 
   const handleChange = (event) => {
     const {
@@ -49,13 +53,13 @@ export default function MultipleSelectPlaceholder() {
     setPersonName(
       typeof value === 'string' ? value.split(',') : value,
     );
+    handleSelectService(value)
   };
 
   return (
     <div>
       <FormControl size="small" sx={{ width: "100%" }}>
         <Select
-          multiple
           displayEmpty
           value={personName}
           onChange={handleChange}
@@ -88,10 +92,10 @@ export default function MultipleSelectPlaceholder() {
           {names.map((item, i) => (
             <MenuItem
               key={i}
-              value={item.name}
+              value={item.service_uuid}
               style={getStyles(item.name, personName, theme)}
             >
-              {item.name}
+              {item.title}
             </MenuItem>
           ))}
         </Select>

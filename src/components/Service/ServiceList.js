@@ -27,7 +27,19 @@ function ServiceList({services}) {
  
   return (
     <>
-    {services.map((service, i) => ( 
+    {services.length === 0 ? 
+        <Box sx={{ display: 'flex', justifyContent: 'center'}} mt={12}>
+         <Typography
+         variant="h6"
+         component="h5"
+         sx={{ color: "#112849" }}
+       >
+        No data found!
+       </Typography>
+       </Box>
+        :
+        ''}
+    {services && services.map((service, i) => ( 
       <Box key={i} mb={2}>
       <Accordion >
         <AccordionSummary
@@ -42,7 +54,7 @@ function ServiceList({services}) {
                 component="h5"
                 sx={{ width: "100%", color: "#112849" }}
               >
-                {service.name}
+                {service.title}
               </Typography>
               <Typography variant="div" component="div"  sx={{ width: "100%", color: '#7E8282',  }}>
               <Box sx={{ fontWeight: 'light',}}>{service.description}</Box>
@@ -58,14 +70,14 @@ function ServiceList({services}) {
                 component="h5"
                 sx={{ width: "100%" }}
               >
-                Service path/host: {service.host}
+                Service path/host: {service.service_path}
               </Typography>
               <Typography
                 variant="subtitle1"
                 component="h5"
                 sx={{ width: "100%" }}
               >
-               Service context: {service.context}
+               Service context: {service.context_name}
               </Typography>
           </Box>
         </AccordionDetails>

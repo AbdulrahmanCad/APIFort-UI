@@ -1,17 +1,18 @@
 import axios from '../api/axios';
+import authHeader from './authHeader';
 
-const API_URL = '/profile';
+const API_URL = '/admin-api';
 
 const getProfile = (id) => {
   return axios.get(API_URL + `/${id}.json`);
 };
 
 const getAllData = () => {
-  return axios.get(API_URL + ".json");
+  return axios.get(API_URL + "/profiles", {headers: authHeader()});
 };
 
 const postProfile = (data) => {
-  return axios.post(API_URL + ".json", data);
+  return axios.post(API_URL + "/profile", data, {headers: authHeader()});
 };
 
 const profileService = {

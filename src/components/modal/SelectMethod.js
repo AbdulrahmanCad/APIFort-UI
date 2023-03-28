@@ -17,10 +17,10 @@ const MenuProps = {
 };
 
 const names = [
-  'Post',
-  'Get',
-  'Put',
-  'Delete',
+  'POST',
+  'GET',
+  'PUT',
+  'DELETE',
 ];
 
 function getStyles(name, personName, theme) {
@@ -32,7 +32,7 @@ function getStyles(name, personName, theme) {
   };
 }
 
-export default function MultipleSelectPlaceholder() {
+export default function MultipleSelectPlaceholder({handleSelectMethod}) {
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
 
@@ -43,13 +43,13 @@ export default function MultipleSelectPlaceholder() {
     setPersonName(
       typeof value === 'string' ? value.split(',') : value,
     );
+    handleSelectMethod(value)
   };
 
   return (
     <div>
       <FormControl size="small" sx={{ width: "100%" }}>
         <Select
-          multiple
           displayEmpty
           value={personName}
           onChange={handleChange}
