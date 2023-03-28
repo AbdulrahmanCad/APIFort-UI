@@ -86,23 +86,20 @@ export default function Profile() {
   
   async function updateData() {
     await profileService.getAllData().then((result) => {
-      let data = result.data;
-      let profilesData = [];
-      for (const key in data) {
-        data[key].id = key;
-        profilesData.push(data[key]);
-      }
-      setProfiles(profilesData);
-      setQueryList(profilesData);
+      console.log("Testing the new api: ",result.data.data)
+      let data = result.data.data;
+      setProfiles(data);
+      setQueryList(data);
     });
   }
 
   function handleSearch(e){
     let q = e.target.value.trim()
+    console.log(q)
     setSearch(q)
     let allData = queryList
-    allData = allData.filter((item) => {
-    return item.profile_name.toLowerCase().indexOf(q.toLowerCase()) !== -1;
+    allData = allData.filter((item, i) => {
+    return item.realm.toLowerCase().indexOf(q.toLowerCase()) !== -1;
     }  );
     setProfiles(allData)
   }

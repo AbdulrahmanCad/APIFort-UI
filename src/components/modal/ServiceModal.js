@@ -8,12 +8,13 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { FormControl } from "@mui/material";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import profileService from "../../services/profileService";
+import endpointService from "../../services/endpointService";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HelpIcon from "@mui/icons-material/Help";
 import Tooltip from "@mui/material/Tooltip";
 import CloseIcon from "@mui/icons-material/Close";
 import styled from "@emotion/styled";
+import { useParams } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -114,7 +115,7 @@ const contant = {
   px: 6,
 };
 
-const cloes = {
+const close = {
   px: 1,
   pt: 2,
   display: "flex",
@@ -170,31 +171,31 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
   const [error, setError] = React.useState("");
   const [done, setDone] = React.useState(false);
 
+  const param = useParams()
+
   const [formData, setFormData] = React.useState({
-    profile_name: "",
-    api_key: "",
-    auth_calim_key: "",
-    realm_key: "",
-    number_of_services: "",
+    title: "",
+    description: "",
+    service_path: "",
+    context_name: "",
   });
 
   const {
-    profile_name,
-    api_key,
-    auth_calim_key,
-    realm_key,
-    number_of_services,
+    title,
+    description,
+    service_path,
+    context_name,
   } = formData;
 
   const [validateForm, setValidateForm] = React.useState({
-    profile_name_valid: false,
-    api_key_valid: false,
-    auth_calim_valid: false,
-    realm_key_valid: false,
+    title_valid: false,
+    description_valid: false,
+    service_path: false,
+    context_name_valid: false,
   });
 
   const {
-    profile_name_valid,
+    title_valid,
   } = validateForm;
 
   const onChange = (e) => {
@@ -207,10 +208,10 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
 
   async function handleAddProfile() {
     if (
-      profile_name === "" ||
-      api_key === "" ||
-      realm_key === "" ||
-      auth_calim_key === ""
+      title === "" ||
+      description === "" ||
+      context_name === "" ||
+      service_path === ""
     ) {
       setError("Please fill out all fields!");
       return;
@@ -218,16 +219,15 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
     setDone(true);
 
     const data = {
-      profile_name,
-      api_key,
-      auth_calim_key,
-      realm_key,
-      number_of_services,
+      title,
+      description,
+      service_path,
+      context_name,
     };
-    await profileService.postProfile(data).then((result) => {
+    await endpointService.postService(param.id, data).then((result) => {
       console.log(result);
       setDone(true);
-    });
+    }).catch((err) => console.log(err.response.data));
   }
 
   function handleCloseModal() {
@@ -247,7 +247,7 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
-              <Box sx={cloes}>
+              <Box sx={close}>
                 <Button
                   onClick={() => handleCloseModal()}
                   sx={closeBtnStyle}>
@@ -284,9 +284,9 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
                     </Tooltip>
                     <Grid item xs={12}>
                       <ValidationTextField
-                        error={profile_name_valid}
+                        error={title_valid}
                         sx={sxStyle}
-                        name="profile_name"
+                        name="title"
                         onChange={onChange}
                         placeholder="Enter name"
                       />
@@ -310,9 +310,9 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
                     </Tooltip>
                     <Grid item xs={12}>
                       <ValidationTextField
-                        error={profile_name_valid}
+                        error={title_valid}
                         sx={sxStyle}
-                        name="profile_name"
+                        name="description"
                         onChange={onChange}
                         placeholder="Enter description"
                       />
@@ -337,9 +337,9 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
                     </Tooltip>
                     <Grid item xs={12}>
                       <ValidationTextField
-                        error={profile_name_valid}
+                        error={title_valid}
                         sx={sxStyle}
-                        name="profile_name"
+                        name="service_path"
                         onChange={onChange}
                         placeholder="Enter path"
                       />
@@ -364,9 +364,9 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
                     </Tooltip>
                     <Grid item xs={12}>
                       <ValidationTextField
-                        error={profile_name_valid}
+                        error={title_valid}
                         sx={sxStyle}
-                        name="profile_name"
+                        name="context_name"
                         onChange={onChange}
                         placeholder="Enter context"
                       />
@@ -442,7 +442,7 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
                   font: "bold 14px/22px Poppins",
                 }}
               >
-                <span style={{ fontWeight: 'bold', color: "black" }}>{profile_name}</span>{" "}
+                <span style={{ fontWeight: 'bold', color: "black" }}>{title}</span>{" "}
                 profile has been successfully created.
               </Typography>
               <Button

@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { FormControl, FormControlLabel } from "@mui/material";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import profileService from "../../services/profileService";
+import endpointService from "../../services/endpointService";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HelpIcon from "@mui/icons-material/Help";
 import Tooltip from "@mui/material/Tooltip";
@@ -16,13 +16,14 @@ import styled from "@emotion/styled";
 import SelectMethod from "./SelectMethod";
 import SelectService from "./SelectService";
 import Switch from "@mui/material/Switch";
+import { useParams } from "react-router-dom";
 
 const style = {
   position: "absolute",
   top: "60%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  height: "110vh",
+  height: "100vh",
   width: "100%",
   display: "flex",
   flexDirection: "column",
@@ -192,32 +193,38 @@ export default function BasicModal({ modal, setModal }) {
   const [done, setDone] = React.useState(false);
   const [checked, setChecked] = React.useState(false);
   const [scroll, setScroll] = React.useState(false);
-  const [accessibility, setAccessibility] = React.useState(false);
   const [publicService, setPublicService] = React.useState(false);
+
+  const params = useParams()
 
   const toggleOffline = () => {
     setChecked((prev) => !prev);
   };
-  const toggleAccessibility = () => {
-    setAccessibility((prev) => !prev);
-  };
+
   const togglePublic = () => {
     setPublicService((prev) => !prev)
   }
 
   const [formData, setFormData] = React.useState({
-    api_description: "",
-    path: "",
-    created_at: "",
-    method: "",
-    isAccess:false,
-    isOffline: false,
-    isPublic: false
+    service_uuid: "",
+    title: "",
+    description: "",
+    endpoint_path: "",
+    auth_claim_value: "",
+    method_type: "",
+    offline_authentication: false,
+    is_public_services: false,
+    version_number: ""
   });
 
   const {
-    api_description,
-    path,
+    service_uuid,
+    title,
+    description,
+    endpoint_path,
+    auth_claim_value,
+    method_type,
+    version_number
   } = formData;
 
   const onChange = (e) => {
@@ -230,8 +237,13 @@ export default function BasicModal({ modal, setModal }) {
 
   async function handleAddProfile() {
     if (
-      path === "" ||
-      api_description === "" 
+      service_uuid === "" ||
+      title === "" ||
+      description === "" ||
+      endpoint_path === "" ||
+      auth_claim_value === "" ||
+      method_type === "" ||
+      version_number === ""
     ) {
       setError("Please fill out all fields!");
       return;
@@ -239,16 +251,39 @@ export default function BasicModal({ modal, setModal }) {
     setDone(true);
 
     const data = {
-      path
+       service_uuid,
+       title,
+       description,
+       endpoint_path,
+       auth_claim_value,
+       method_type,
+       offline_authentication: checked,
+       is_public_service: publicService,
+       version_number: Number(version_number)
     };
-    await profileService.postProfile(data).then((result) => {
+    console.log(data)
+    await endpointService.postEndpoint(params.id, data).then((result) => {
       console.log(result);
       setDone(true);
-    });
+    }).catch((err) => console.log(err.response.data));
   }
 
   function handleCloseModal() {
     setModal(false);
+  }
+
+  function handleSelectService(id){
+    setFormData((prevState) => ({
+      ...prevState,
+      "service_uuid": id,
+    }));
+  }
+
+  function handleSelectMethod(id){
+    setFormData((prevState) => ({
+      ...prevState,
+      "method_type": id,
+    }));
   }
 
   return (
@@ -265,7 +300,7 @@ export default function BasicModal({ modal, setModal }) {
             onScroll={() => setScroll(true)}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
-            style={{ overflow: 'scroll', marginTop: scroll ? `` : `10rem` }}
+            style={{ overflow: 'scroll', marginBottom: '0.2rem', marginTop: scroll ? `` : `10rem` }}
           >
             <Box sx={style}>
               <Box sx={cloes}>
@@ -304,7 +339,7 @@ export default function BasicModal({ modal, setModal }) {
                     <Grid 
                   component={'span'}
                   item xs={12}>
-                      <SelectService />
+                      <SelectService handleSelectService={handleSelectService}/>
                     </Grid>
                   </Typography>
                 </FormControl>
@@ -330,7 +365,7 @@ export default function BasicModal({ modal, setModal }) {
                       <ValidationTextField
                         // error={profile_name_valid}
                         sx={validationTextStyle}
-                        name="profile_name"
+                        name="title"
                         onChange={onChange}
                         placeholder="Enter name"
                       />
@@ -358,7 +393,7 @@ export default function BasicModal({ modal, setModal }) {
                       <ValidationTextField
                         // error={profile_name_valid}
                         sx={validationTextStyle}
-                        name="profile_name"
+                        name="description"
                         onChange={onChange}
                         placeholder="Enter description"
                       />
@@ -383,7 +418,7 @@ export default function BasicModal({ modal, setModal }) {
                     <Grid 
                   component={'span'}
                   item xs={12}>
-                      <SelectMethod />
+                      <SelectMethod handleSelectMethod={handleSelectMethod} />
                     </Grid>
                   </Typography>
                 </FormControl>
@@ -407,7 +442,7 @@ export default function BasicModal({ modal, setModal }) {
                   item xs={12}>
                       <ValidationTextField
                         sx={validationTextStyle}
-                        name="profile_name"
+                        name="endpoint_path"
                         onChange={onChange}
                         placeholder="Enter Path"
                       />
@@ -434,7 +469,7 @@ export default function BasicModal({ modal, setModal }) {
                   item xs={12}>
                       <ValidationTextField
                         sx={validationTextStyle}
-                        name="profile_name"
+                        name="version_number"
                         onChange={onChange}
                         placeholder="Enter number"
                       />
@@ -461,45 +496,14 @@ export default function BasicModal({ modal, setModal }) {
                   item xs={12}>
                       <ValidationTextField
                         sx={validationTextStyle}
-                        name="profile_name"
+                        name="auth_claim_value"
                         onChange={onChange}
                         placeholder="Enter value"
                       />
                     </Grid>
                   </Typography>
                 </FormControl>
-
-                <FormControl
-                  variant="outlined"
-                  sx={{my: 1, color: "#112849" }}
-                >
-                  <Typography
-                  component={'span'}
-                  >
-                    Accessibility{" "}
-                    <Tooltip
-                      placement="top"
-                      describeChild
-                      title="Tooltip text goes here."
-                    >
-                      <HelpIcon fontSize="inherit" />
-                    </Tooltip>
-                    <br />
-                    <FormControlLabel
-                      value="start"
-                      labelPlacement="start"
-                      control={
-                        <ColorSwitch
-                          checked={accessibility}
-                          onChange={toggleAccessibility}
-                          size=""
-                        />
-                      }
-                      sx={{ color: accessibility ? `#FC574E` : ``, m: 0 }}
-                      label={accessibility ? "Enabled" : "Disabled"}
-                    />
-                  </Typography>
-                </FormControl>
+                <Box display="flex" justifyContent="space-evenly" m={4}>
                 <FormControl
                   variant="outlined"
                   sx={{my: 1, color: "#112849" }}
@@ -558,7 +562,7 @@ export default function BasicModal({ modal, setModal }) {
                     />
                   </Typography>
                 </FormControl>
-
+                </Box>
                 <Typography sx={{ color: "red" }}>{error}</Typography>
                 <Box
                   height="2.5rem"

@@ -180,32 +180,33 @@ export default function BasicModal({ modal, setModal }) {
   const [done, setDone] = React.useState(false);
 
   const [formData, setFormData] = React.useState({
-    profile_name: "",
+    title: "",
     api_key: "",
-    auth_calim_key: "",
-    realm_key: "",
-    number_of_services: "",
+    auth_claim_key: "",
+    realm: "",
+    description: "Testing"
   });
 
   const {
-    profile_name,
+    title,
     api_key,
-    auth_calim_key,
-    realm_key,
+    auth_claim_key,
+    realm,
+    description
   } = formData;
 
   const [validateForm, setValidateForm] = React.useState({
-    profile_name_valid: false,
+    title_valid: false,
     api_key_valid: false,
     auth_calim_valid: false,
-    realm_key_valid: false,
+    realm_valid: false,
   });
 
   const {
-    profile_name_valid,
+    title_valid,
     api_key_valid,
     auth_calim_valid,
-    realm_key_valid,
+    realm_valid,
   } = validateForm;
 
   const onChange = (e) => {
@@ -234,10 +235,10 @@ export default function BasicModal({ modal, setModal }) {
 
   async function handleAddProfile() {
     if (
-      profile_name === "" ||
+      title === "" ||
       api_key === "" ||
-      realm_key === "" ||
-      auth_calim_key === ""
+      realm === "" ||
+      auth_claim_key === ""
     ) {
       setError("Please fill out all fields!");
       return;
@@ -245,15 +246,16 @@ export default function BasicModal({ modal, setModal }) {
     setDone(true);
 
     const data = {
-      profile_name,
+      title,
+      description,
       api_key,
-      auth_calim_key,
-      realm_key,
+      auth_claim_key,
+      realm,
     };
     await profileService.postProfile(data).then((result) => {
       console.log(result);
       setDone(true);
-    });
+    }).catch((err) => console.log(err.response.data));
   }
 
   function handleCloseModal() {
@@ -313,9 +315,9 @@ export default function BasicModal({ modal, setModal }) {
                   component={'span'}
                   item xs={12}>
                       <ValidationTextField
-                        error={profile_name_valid}
+                        error={title_valid}
                         sx={validationTextStyle}
-                        name="profile_name"
+                        name="title"
                         onChange={onChange}
                         placeholder="Enter name"
                       />
@@ -391,7 +393,7 @@ export default function BasicModal({ modal, setModal }) {
                         sx={validationTextStyle}
                         id="outlined-adornment-password"
                         type={showPassword2 ? "text" : "password"}
-                        name="auth_calim_key"
+                        name="auth_claim_key"
                         onChange={onChange}
                         placeholder="Enter key"
                         endAdornment={
@@ -434,11 +436,11 @@ export default function BasicModal({ modal, setModal }) {
                   item xs={12}>
                       <ValidationTextField
                         required
-                        error={realm_key_valid}
+                        error={realm_valid}
                         sx={validationTextStyle}
                         id="outlined-adornment-password"
                         type={showPassword3 ? "text" : "password"}
-                        name="realm_key"
+                        name="realm"
                         onChange={onChange}
                         placeholder="Enter key"
                         endAdornment={
@@ -531,7 +533,7 @@ export default function BasicModal({ modal, setModal }) {
                   font: "bold 14px/22px Poppins",
                 }}
               >
-                <span style={{ fontWeight: 'bold',   color: "black" }}>{profile_name}</span>{" "}
+                <span style={{ fontWeight: 'bold',   color: "black" }}>{title}</span>{" "}
                 profile has been successfully created.
               </Typography>
               <Button

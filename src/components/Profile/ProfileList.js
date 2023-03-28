@@ -47,19 +47,19 @@ const navigate = useNavigate()
         {profiles.map((profile, i) => (
           <Grid key={i} item xs={12} md={6} lg={4}>
             <ListItem sx={listItemStyle}
-              onClick={() => handleProfileClick(profile.id)}
+              onClick={() => handleProfileClick(profile.realm)}
               >
               <ListItemAvatar>
                 <Avatar sx={{backgroundColor: "#7968d3"}}>
-                  <Box color="white">{profile.profile_name && profile.profile_name.substring(0, 1)}</Box>
+                  <Box color="white">{profile.realm && profile.realm.substring(0, 1).toUpperCase()}</Box>
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary={profile.profile_name}
+                primary={profile.realm}
                 secondary={<span>
-                  <span>{profile.services && profile.services.length} Services </span>
+                  <span>{profile.total_services} Services </span>
                   <span style={{marginLeft: "0.75rem", marginRight: "0.75rem", borderRightStyle: "solid", borderRightColor: "#ebe9e1"}}></span>
-                  <span>{profile.services && profile.services.length} Endpoints</span>
+                  <span>{profile.total_endpoints} Endpoints</span>
                   </span>}
               />          
             </ListItem>
