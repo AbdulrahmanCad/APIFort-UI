@@ -64,7 +64,17 @@ const SecondModalStyle = {
   boxShadow: 2,
   px: 8,
   pt: 6,
+  "@media (min-width: 480px)": {
+    width: "100%",
+  },
 
+  "@media (min-width: 780px)": {
+    width: "32rem",
+  },
+
+  "@media (min-width: 1280px)": {
+    width: "42rem",
+  },
 };
 
 const ValidationTextField = styled(OutlinedInput)({
@@ -198,14 +208,14 @@ export default function BasicModal({ modal, setModal }) {
   const [validateForm, setValidateForm] = React.useState({
     title_valid: false,
     api_key_valid: false,
-    auth_calim_valid: false,
+    auth_claim_valid: false,
     realm_valid: false,
   });
 
   const {
     title_valid,
     api_key_valid,
-    auth_calim_valid,
+    auth_claim_valid,
     realm_valid,
   } = validateForm;
 
@@ -243,7 +253,6 @@ export default function BasicModal({ modal, setModal }) {
       setError("Please fill out all fields!");
       return;
     }
-    setDone(true);
 
     const data = {
       title,
@@ -255,7 +264,7 @@ export default function BasicModal({ modal, setModal }) {
     await profileService.postProfile(data).then((result) => {
       console.log(result);
       setDone(true);
-    }).catch((err) => console.log(err.response.data));
+    }).catch((err) => setError(err.response.data));
   }
 
   function handleCloseModal() {
@@ -377,11 +386,11 @@ export default function BasicModal({ modal, setModal }) {
                   <Typography
                   component={'span'}
                   >
-                    Auth Calim Key{" "}
+                    Auth Claim Key{" "}
                     <Tooltip
                       placement="top"
                       describeChild
-                      title="Auth Calim Key of your profile"
+                      title="Auth Claim Key of your profile"
                     >
                       <HelpIcon fontSize="inherit" />
                     </Tooltip>
@@ -389,7 +398,7 @@ export default function BasicModal({ modal, setModal }) {
                   component={'span'}
                   item xs={12}>
                       <ValidationTextField
-                        error={auth_calim_valid}
+                        error={auth_claim_valid}
                         sx={validationTextStyle}
                         id="outlined-adornment-password"
                         type={showPassword2 ? "text" : "password"}

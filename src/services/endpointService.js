@@ -1,7 +1,8 @@
-import axios from '../api/axios';
+import { api } from '../api/axios';
 import authHeader from './authHeader';
 
 const API_URL = '/admin-api';
+const axios = api;
 
 const getAllData = (name) => { 
   return axios.get(API_URL + "/" + name + "/endpoints");
@@ -19,6 +20,10 @@ const updateAccess = (name, data) => {
   return axios.put(API_URL + "/" + name + "/endpoint", data, {headers: authHeader()});
 }
 
+const updateEndpoint = (name, data) => {
+  return axios.put(API_URL + "/" + name + "/endpoint", data, {headers: authHeader()});
+}
+
 const postService = (profileName, data) => {
   return axios.post(API_URL + "/" + profileName + "/service", data, {headers: authHeader()});
 }
@@ -32,6 +37,7 @@ const endpointService = {
     getService,
     getEndpoint,
     updateAccess,
+    updateEndpoint,
     postService,
     postEndpoint
 };

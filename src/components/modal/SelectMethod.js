@@ -66,7 +66,7 @@ export default function MultipleSelectPlaceholder({handleSelectMethod}) {
             }
           }}
           input={<OutlinedInput />}
-          renderValue={(selected) => {
+          renderValue={(selected) => {  
             if (selected.length === 0) {
               return <em style={{fontSize: '12px', padding: 0}}>Select Method</em>;
             }

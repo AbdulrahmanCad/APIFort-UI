@@ -137,7 +137,17 @@ const SecondModalStyle = {
   boxShadow: 2,
   px: 8,
   pt: 6,
+  "@media (min-width: 480px)": {
+    width: "100%",
+  },
 
+  "@media (min-width: 780px)": {
+    width: "32rem",
+  },
+
+  "@media (min-width: 1280px)": {
+    width: "42rem",
+  },
 };
 
 const ValidationTextField = styled(OutlinedInput)({
@@ -216,7 +226,6 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
       setError("Please fill out all fields!");
       return;
     }
-    setDone(true);
 
     const data = {
       title,
@@ -227,7 +236,7 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
     await endpointService.postService(param.id, data).then((result) => {
       console.log(result);
       setDone(true);
-    }).catch((err) => console.log(err.response.data));
+    }).catch((err) => setError(err.response.data.message));
   }
 
   function handleCloseModal() {
@@ -428,7 +437,7 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
                   color: "#112849",
                 }}
               >
-                Profile Successfully Created!
+                Service Successfully Created!
               </Typography>
               <Typography
                 id="modal-modal-title"

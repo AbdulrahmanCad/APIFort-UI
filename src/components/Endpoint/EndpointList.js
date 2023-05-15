@@ -12,10 +12,13 @@ import {
   CardContent,
   FormGroup,
   FormControlLabel,
-  Switch
+  Switch,
+  Button
 } from "@mui/material";
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import HttpsIcon from '@mui/icons-material/Https';
+import EditIcon from '@mui/icons-material/Edit';
+import CloseIcon from "@mui/icons-material/Close";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -42,7 +45,28 @@ const ColorSwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
+const closeIconStyle = {
+  display: "flex",
+  justifyContent: "end",
+  color: "#A3A4A2",
+  minWidth: "2rem",
+  minHeight: "2.5rem",
+  animationTimeline: 5000,
+   "&:hover": {
+     opacity: 1,
+     boxShadow: 4,
+   },
+}
+
 function EndpointList({endpoints, handleAccessUpdate}) {
+
+  function handleEdit(id) {
+    console.log(id)
+  }
+
+  function handleDelete(id) {
+    console.log(id)
+  }
 
   return (
     <>
@@ -75,7 +99,7 @@ function EndpointList({endpoints, handleAccessUpdate}) {
               >
                 {endpoint.title}
               </Typography>
-              <Typography variant="div" component="div"  sx={{ width: "100%", color: '#7E8282',  }}>
+              <Typography variant="div" component="div" sx={{ width: "100%", color: '#7E8282',  }}>
               <Box sx={{ fontWeight: 'light',}}>{endpoint.description}</Box>
               </Typography>
             </Box>
@@ -95,8 +119,8 @@ function EndpointList({endpoints, handleAccessUpdate}) {
             sx={{ minWidth: 275, border: 1, borderColor: "#C7C7C1", mb: 1.5 }}
           >
             <CardContent>
-              <Box display="flex">
-                <Grid sx={{ width: "15%" }}>
+              <Grid container>
+                <Grid item xs={1}>
                   { api.method_type === "POST" &&
                   <Box
                     sx={{
@@ -104,7 +128,7 @@ function EndpointList({endpoints, handleAccessUpdate}) {
                       bgcolor: "#E8F3EB",
                       color: "#0D9943",
                       fontWeight: "bold",
-                      width: "8rem",
+                      width: "90%",
                       p: 1,
                       textAlign: "center",
                     }}
@@ -119,7 +143,7 @@ function EndpointList({endpoints, handleAccessUpdate}) {
                       bgcolor: "#E7EDFB",
                       color: "#124BD8",
                       fontWeight: "bold",
-                      width: "8rem",
+                      width: "90%",
                       p: 1,
                       textAlign: "center",
                     }}
@@ -134,7 +158,7 @@ function EndpointList({endpoints, handleAccessUpdate}) {
                       background: '#F9EFE7 0% 0% no-repeat padding-box',
                       color: "#DE6918",
                       fontWeight: "bold",
-                      width: "8rem",
+                      width: "90%",
                       p: 1,
                       textAlign: "center",
                     }}
@@ -149,7 +173,7 @@ function EndpointList({endpoints, handleAccessUpdate}) {
                       bgcolor: "#FFCCCB",
                       color: "#FF0000",
                       fontWeight: "bold",
-                      width: "8rem",
+                      width: "90%",
                       p: 1,
                       textAlign: "center",
                     }}
@@ -158,9 +182,9 @@ function EndpointList({endpoints, handleAccessUpdate}) {
                   </Box>
                     }
                 </Grid>
-                <Grid sx={{ width: "60%" }}>
-                  <Typography sx={{ mb: 4 }} color="text.secondary">
-                    <span style={{fontWeight: 100, color: '#7E8282'}}>
+                <Grid item xs={8}>
+                  <Typography color="text.secondary">
+                    <span style={{ fontWeight: 100, color: '#7E8282' }}>
                       <span>{api.version_number} </span>
                       <span
                         style={{
@@ -170,15 +194,15 @@ function EndpointList({endpoints, handleAccessUpdate}) {
                           borderRightColor: "#ebe9e1",
                         }}
                       ></span>
-                      <span>{api.is_public_service ? 
+                      <span style={{display: "inline-flex"}}>{api.is_public_service ? 
                       <>
                       Public Service {' '}
-                      <LockOpenIcon />
+                      <LockOpenIcon fontSize="small" />
                       </>
                       : 
                       <>
                       Private Service {' '}
-                      <HttpsIcon />
+                      <HttpsIcon fontSize="small" />
                       </>
                       } </span>
                       <span
@@ -198,7 +222,11 @@ function EndpointList({endpoints, handleAccessUpdate}) {
                   </Typography>
                   <Typography sx={{color: '#7E8282'}}variant="body2">Created at {api.created_date}</Typography>
                 </Grid>
-                <Grid sx={{ width: "5%", marginTop: 4 }}>
+                <Grid item xs={2} sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                    }}>
                   <FormGroup>
                     <FormControlLabel
                       value="start"
@@ -211,10 +239,19 @@ function EndpointList({endpoints, handleAccessUpdate}) {
                     />
                   </FormGroup>
                 </Grid>
-                <Grid sx={{ width: "20%" }}>
-                  
+                <Grid item xs={1} sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                    }}>
+                    {/* <Button onClick={() => handleEdit(api.endpoint_uuid)} sx={closeIconStyle}>
+                    <EditIcon fontSize="small" />
+                    </Button>
+                    <Button onClick={() => handleDelete(api.endpoint_uuid)} sx={closeIconStyle}>
+                    <CloseIcon fontSize="small" />
+                    </Button> */}
                 </Grid>
-              </Box>
+              </Grid>
             </CardContent>
           </Card>
           ))}

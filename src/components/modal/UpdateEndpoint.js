@@ -200,7 +200,7 @@ const ColorSwitch = styled(Switch)(({ theme }) => ({
 
 export default function BasicModal({ modal, setModal }) {
   const [error, setError] = React.useState("");
-  const [done, setDone] = React.useState(false);
+  const [done, setDone] = React.useState(true);
   const [checked, setChecked] = React.useState(false);
   const [scroll, setScroll] = React.useState(false);
   const [publicService, setPublicService] = React.useState(false);
@@ -271,7 +271,7 @@ export default function BasicModal({ modal, setModal }) {
        version_number: Number(version_number)
     };
     console.log(data)
-    await endpointService.postEndpoint(params.id, data).then((result) => {
+    await endpointService.updateEndpoint(params.id, data).then((result) => {
       console.log(result);
       setDone(true);
     }).catch((err) => setError(err.response.data));

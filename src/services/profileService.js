@@ -1,7 +1,8 @@
-import axios from '../api/axios';
+import { api } from '../api/axios';
 import authHeader from './authHeader';
 
 const API_URL = '/admin-api';
+const axios = api;
 
 const getProfile = (id) => {
   return axios.get(API_URL + `/${id}.json`);

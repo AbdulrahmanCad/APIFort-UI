@@ -3,6 +3,7 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { createTheme, ThemeProvider} from '@mui/material/styles';
 import Sidebar from "./components/Sidebar/Sidebar"
+import { AxiosInterceptor } from "./api/axios";
 
 const Profile = lazy (() => import("./pages/Profile"))
 const Endpoint = lazy (() => import("./pages/Endpoint"))
@@ -30,6 +31,7 @@ const theme = createTheme({
 
 function App() {
   return (<>
+  <AxiosInterceptor />
   <ThemeProvider theme={theme}>
   <Sidebar />
   <div style={mainBgStyle}>
