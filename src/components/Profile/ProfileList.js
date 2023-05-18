@@ -4,8 +4,11 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
-import { Grid, Typography, Box } from "@mui/material";
+import { Grid, Typography, Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import profileService from '../../services/profileService'
+import DeleteIcon from '@mui/icons-material/Delete';
+import SyncIcon from '@mui/icons-material/Sync';
 
 const listStyle = {
   width: "100%",
@@ -20,11 +23,30 @@ const listItemStyle = {
   border: "1px solid #c7c7c1", borderRadius: 2
 }
 
-export default function ProfileList({profiles}) {
+const closeIconStyle = {
+  display: "flex",
+  justifyContent: "end",
+  color: "#A3A4A2",
+  minWidth: "2rem",
+  minHeight: "2.5rem",
+  animationTimeline: 5000,
+   "&:hover": {
+     opacity: 1,
+     boxShadow: 4,
+   },
+}
+
+export default function ProfileList({profiles, setRefresh}) {
 const navigate = useNavigate()
 
   function handleProfileClick(id) {
     navigate("/profile/"+id)
+  }
+
+  function handleDelete(id) {
+    profileService.deleteProfile(id).then((result) => {
+      setRefresh(true)
+    })
   }
 
   return (
@@ -47,7 +69,7 @@ const navigate = useNavigate()
         {profiles.map((profile, i) => (
           <Grid key={i} item xs={12} md={6} lg={4}>
             <ListItem sx={listItemStyle}
-              onClick={() => handleProfileClick(profile.realm)}
+         
               >
               <ListItemAvatar>
                 <Avatar sx={{backgroundColor: "#7968d3"}}>
@@ -55,13 +77,17 @@ const navigate = useNavigate()
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
+                   onClick={() => handleProfileClick(profile.realm)}
                 primary={profile.realm}
                 secondary={<span>
                   <span>{profile.total_services} Services </span>
                   <span style={{marginLeft: "0.75rem", marginRight: "0.75rem", borderRightStyle: "solid", borderRightColor: "#ebe9e1"}}></span>
                   <span>{profile.total_endpoints} Endpoints</span>
                   </span>}
-              />          
+              />  
+                 <Button onClick={() => handleDelete(profile.client_profile_uuid)} sx={closeIconStyle}>
+                    <DeleteIcon style={{ color: 'red' }} fontSize="small" />
+                    </Button>          
             </ListItem>
           </Grid>
         ))}

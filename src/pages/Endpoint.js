@@ -129,6 +129,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Endpoint() {
   const [modal, setModal] = React.useState(false)
+  const [refresh, setRefresh] = React.useState(false)
   const [serviceModal, setServiceModal] = React.useState(false)
   const [profileName, setProfileName] = React.useState("")
   const [endpointsSearch, setEndpointsSearch] = React.useState("")
@@ -145,6 +146,8 @@ export default function Endpoint() {
 
   const [value, setValue] = React.useState('1');
 
+  const [checked, setChecked] = React.useState([false, false, false, false]);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -154,7 +157,7 @@ export default function Endpoint() {
     setServicesSearch("")
     setEndpointsSearch("")
     updateData();
-  }, [modal,serviceModal]);
+  }, [modal,serviceModal,refresh]);
   
   async function updateData() {
     await endpointService.getService(params.id).then((result) => {
@@ -187,23 +190,23 @@ export default function Endpoint() {
   }
 
   function handleServicesSearch(e){
-    let q = e.target.value.trim()
+    let q = e.target.value
     setServicesSearch(q)
     let allData = queryList
     allData = allData.filter((item) => {
     return item.title.toLowerCase().indexOf(q.toLowerCase()) !== -1;
-    }  );
+    });
     setServices(allData)
   }
 
   function handleEndpointsSearch(e){
-    let q = e.target.value.trim()
+    let q = e.target.value
     setEndpointsSearch(q)
     let allData = queryList
     console.log(allData)
     allData = allData.filter((item) => {
     return item.title.toLowerCase().indexOf(q.toLowerCase()) !== -1;
-    }  );
+    });
     setEndpoints(allData)
   }
 
@@ -278,7 +281,7 @@ export default function Endpoint() {
               </Box>
             </Box>
           </Box>
-          <ServiceList services={services}/>
+          <ServiceList setRefresh={setRefresh} services={services}/>
         </TabPanel>
         <TabPanel sx={{ px: 2, pt: 0, pb: 12}} value="2">
         <Box my={3}>
@@ -297,7 +300,7 @@ export default function Endpoint() {
                     inputProps={{ "aria-label": "search" }}
                   />
                 </Search>
-                <EndpointFilter />
+                <EndpointFilter checked={checked} setChecked={setChecked} />
               </Box>
               <Box>
                 <Button
@@ -310,7 +313,7 @@ export default function Endpoint() {
               </Box>
             </Box>
           </Box>
-          <EndpointList endpoints={endpoints} handleAccessUpdate={handleAccessUpdate}/>
+          <EndpointList setRefresh={setRefresh} checkedMethods={checked} endpoints={endpoints} handleAccessUpdate={handleAccessUpdate}/>
         </TabPanel>
       </TabContext> 
     </Box>        
