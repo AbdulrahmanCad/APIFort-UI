@@ -145,6 +145,8 @@ export default function Endpoint() {
 
   const [value, setValue] = React.useState('1');
 
+  const [checked, setChecked] = React.useState([false, false, false, false]);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -187,23 +189,22 @@ export default function Endpoint() {
   }
 
   function handleServicesSearch(e){
-    let q = e.target.value.trim()
+    let q = e.target.value
     setServicesSearch(q)
     let allData = queryList
     allData = allData.filter((item) => {
     return item.title.toLowerCase().indexOf(q.toLowerCase()) !== -1;
-    }  );
+    });
     setServices(allData)
   }
 
   function handleEndpointsSearch(e){
-    let q = e.target.value.trim()
+    let q = e.target.value
     setEndpointsSearch(q)
     let allData = queryList
-    console.log(allData)
     allData = allData.filter((item) => {
     return item.title.toLowerCase().indexOf(q.toLowerCase()) !== -1;
-    }  );
+    });
     setEndpoints(allData)
   }
 
@@ -297,7 +298,7 @@ export default function Endpoint() {
                     inputProps={{ "aria-label": "search" }}
                   />
                 </Search>
-                <EndpointFilter />
+                <EndpointFilter checked={checked} setChecked={setChecked} />
               </Box>
               <Box>
                 <Button
@@ -310,7 +311,7 @@ export default function Endpoint() {
               </Box>
             </Box>
           </Box>
-          <EndpointList endpoints={endpoints} handleAccessUpdate={handleAccessUpdate}/>
+          <EndpointList checkedMethods={checked} endpoints={endpoints} handleAccessUpdate={handleAccessUpdate}/>
         </TabPanel>
       </TabContext> 
     </Box>        

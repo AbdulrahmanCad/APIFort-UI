@@ -48,7 +48,7 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-export default function CustomizedMenus() {
+export default function CustomizedMenus({checked, setChecked}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [method, setMethod] = React.useState(false)
   const open = Boolean(method);
@@ -59,8 +59,6 @@ export default function CustomizedMenus() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const [checked, setChecked] = React.useState([false, false, false, false]);
 
   const handleChange1 = (event) => {
     setChecked([event.target.checked, checked[1], checked[2], checked[3]]);
