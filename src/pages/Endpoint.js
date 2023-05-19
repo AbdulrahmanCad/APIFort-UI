@@ -203,7 +203,6 @@ export default function Endpoint() {
     let q = e.target.value
     setEndpointsSearch(q)
     let allData = queryList
-    console.log(allData)
     allData = allData.filter((item) => {
     return item.title.toLowerCase().indexOf(q.toLowerCase()) !== -1;
     });
@@ -313,7 +312,9 @@ export default function Endpoint() {
               </Box>
             </Box>
           </Box>
+
           <EndpointList setRefresh={setRefresh} checkedMethods={checked} endpoints={endpoints} handleAccessUpdate={handleAccessUpdate}/>
+          <EndpointList checkedMethods={checked} endpoints={endpoints} handleAccessUpdate={handleAccessUpdate}/>
         </TabPanel>
       </TabContext> 
     </Box>        
