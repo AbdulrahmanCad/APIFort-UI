@@ -73,6 +73,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Profile() {
   const [modal, setModal] = React.useState(false)
+  const [refresh, setRefresh] = React.useState(false)
   const [search, setSearch] = React.useState("")
   const [queryList, setQueryList] = React.useState([])
   const [profiles, setProfiles] = React.useState([
@@ -82,7 +83,7 @@ export default function Profile() {
   React.useEffect(() => {
     setSearch("")
     updateData();
-  }, [modal]);
+  }, [modal, refresh]);
   
   async function updateData() {
     await profileService.getAllData().then((result) => {
@@ -135,7 +136,7 @@ export default function Profile() {
                 </Button>
               </Box>
             </Box>
-            <ProfileList profiles={profiles}/>
+            <ProfileList setRefresh={setRefresh} profiles={profiles}/>
           </Box>
         </Box>
       </Box>

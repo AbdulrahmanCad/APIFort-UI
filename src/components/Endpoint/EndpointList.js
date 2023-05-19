@@ -14,8 +14,13 @@ import {
   FormGroup,
   FormControlLabel,
   Switch,
-  Button
+  Button,
 } from "@mui/material";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import HttpsIcon from "@mui/icons-material/Https";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import endpointService from "../../services/endpointService";
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import HttpsIcon from '@mui/icons-material/Https';
 
@@ -43,6 +48,114 @@ const ColorSwitch = styled(Switch)(({ theme }) => ({
     color: "white",
   },
 }));
+
+const closeIconStyle = {
+  display: "flex",
+  justifyContent: "end",
+  color: "#A3A4A2",
+  minWidth: "2rem",
+  minHeight: "2.5rem",
+  animationTimeline: 5000,
+  "&:hover": {
+    opacity: 1,
+    boxShadow: 4,
+  },
+};
+
+function EndpointList({
+  endpoints,
+  handleAccessUpdate,
+  checkedMethods,
+  setRefresh,
+}) {
+  const [isFilter, setIsFilter] = React.useState(true);
+  const [loading, setLoading] = React.useState(true);
+  const [empty, setEmpty] = React.useState(false);
+  const [filteredEndpoints, setFilteredEndpoints] = React.useState([]);
+
+  const endpointsData = endpoints;
+
+  const params = useParams();
+
+  function handleEdit(id) {
+    console.log(id);
+  }
+
+  function handleDelete(id) {
+    endpointService.deleteEndpoint(params.id, id).then((result) => {
+      setRefresh(true);
+    });
+  }
+
+  React.useEffect(() => {
+    setLoading(true);
+    setEmpty(false);
+    let EndpointArray = [];
+    let filteredArray = [];
+    let countItems = false;
+    if (
+      !checkedMethods[0] &&
+      !checkedMethods[1] &&
+      !checkedMethods[2] &&
+      !checkedMethods[3]
+    ) {
+      setFilteredEndpoints(endpointsData);
+      setLoading(false);
+    } else {
+      endpointsData.map((endpoint, i) => {
+        endpoint.endpoints.map((api) => {
+          if (api.method_type === "POST" && checkedMethods[0]) {
+            filteredArray.push(api);
+          }
+          if (api.method_type === "GET" && checkedMethods[1]) {
+            filteredArray.push(api);
+          }
+          if (api.method_type === "PUT" && checkedMethods[2]) {
+            filteredArray.push(api);
+          }
+          if (api.method_type === "DELETE" && checkedMethods[3]) {
+            filteredArray.push(api);
+          }
+        });
+        if (filteredArray.length !== 0) {
+          countItems = true;
+        }
+        EndpointArray.push({
+          title: endpoint.title,
+          description: endpoint.description,
+          endpoints: filteredArray,
+        });
+        filteredArray = [];
+      });
+      setFilteredEndpoints(EndpointArray);
+      setLoading(false);
+      setEmpty(!countItems);
+    }
+  }, [endpoints, checkedMethods]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  } else {
+    return (
+      <>
+        {endpointsData.length === 0 || empty ? (
+          <Box sx={{ display: "flex", justifyContent: "center" }} mt={12}>
+            <Typography variant="h6" component="h5" sx={{ color: "#112849" }}>
+              No data found!
+            </Typography>
+          </Box>
+        ) : (
+          ""
+        )}
+        {filteredEndpoints &&
+          filteredEndpoints.map((endpoint, serviceIndex) => (
+            <Box key={serviceIndex} mb={2}>
+              {filteredEndpoints[serviceIndex].endpoints.length ? (
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
 
 function EndpointList({endpoints, handleAccessUpdate, checkedMethods}) {
 
@@ -168,11 +281,262 @@ function EndpointList({endpoints, handleAccessUpdate, checkedMethods}) {
                       textAlign: "center",
                     }}
                   >
-                    {api.method_type}
-                  </Box>
-                  }
-                  { api.method_type === "GET" &&
                     <Box
+
+                      display="flex"
+                      width="100%"
+                      justifyContent="space-between"
+                    >
+                      <Box display="flex" flexWrap="wrap" width="50%">
+                        <Typography
+                          variant="h6"
+                          component="h5"
+                          sx={{ width: "100%", color: "#112849" }}
+                        >
+                          {endpoint.title}
+                        </Typography>
+                        <Typography
+                          variant="div"
+                          component="div"
+                          sx={{ width: "100%", color: "#7E8282" }}
+                        >
+                          <Box sx={{ fontWeight: "light" }}>
+                            {endpoint.description}
+                          </Box>
+                        </Typography>
+                      </Box>
+                      <Box mt={2} mr={2}>
+                        <Typography
+                          sx={{ width: "100%", color: "#7E8282", font: "14px" }}
+                        >
+                          {filteredEndpoints[serviceIndex].endpoints &&
+                            filteredEndpoints[serviceIndex].endpoints
+                              .length}{" "}
+                          endpoints
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    {filteredEndpoints[serviceIndex].endpoints &&
+                      filteredEndpoints[serviceIndex].endpoints.map(
+                        (api, i) => (
+                          <div key={i}>
+                            <Card
+                              sx={{
+                                minWidth: 275,
+                                border: 1,
+                                borderColor: "#C7C7C1",
+                                mb: 1.5,
+                              }}
+                            >
+                              <CardContent>
+                                <Grid container>
+                                  <Grid item xs={1}>
+                                    {api.method_type === "POST" && (
+                                      <Box
+                                        sx={{
+                                          border: "1px solid #C8E7D3",
+                                          bgcolor: "#E8F3EB",
+                                          color: "#0D9943",
+                                          fontWeight: "bold",
+                                          width: "90%",
+                                          p: 1,
+                                          textAlign: "center",
+                                        }}
+                                      >
+                                        {api.method_type}
+                                      </Box>
+                                    )}
+                                    {api.method_type === "GET" && (
+                                      <Box
+                                        sx={{
+                                          border: "1px solid #D0DBF7",
+                                          bgcolor: "#E7EDFB",
+                                          color: "#124BD8",
+                                          fontWeight: "bold",
+                                          width: "90%",
+                                          p: 1,
+                                          textAlign: "center",
+                                        }}
+                                      >
+                                        {api.method_type}
+                                      </Box>
+                                    )}
+                                    {api.method_type === "PUT" && (
+                                      <Box
+                                        sx={{
+                                          border: "1px solid #F7E5D8",
+                                          background:
+                                            "#F9EFE7 0% 0% no-repeat padding-box",
+                                          color: "#DE6918",
+                                          fontWeight: "bold",
+                                          width: "90%",
+                                          p: 1,
+                                          textAlign: "center",
+                                        }}
+                                      >
+                                        {api.method_type}
+                                      </Box>
+                                    )}
+                                    {api.method_type === "DELETE" && (
+                                      <Box
+                                        sx={{
+                                          border: "1px solid #F54949",
+                                          bgcolor: "#FFCCCB",
+                                          color: "#FF0000",
+                                          fontWeight: "bold",
+                                          width: "90%",
+                                          p: 1,
+                                          textAlign: "center",
+                                        }}
+                                      >
+                                        {api.method_type}
+                                      </Box>
+                                    )}
+                                  </Grid>
+                                  <Grid item xs={8}>
+                                    <Typography color="text.secondary">
+                                      <span
+                                        style={{
+                                          fontWeight: 100,
+                                          color: "#7E8282",
+                                        }}
+                                      >
+                                        <span>{api.version_number} </span>
+                                        <span
+                                          style={{
+                                            marginLeft: "0.75rem",
+                                            marginRight: "0.75rem",
+                                            borderRightStyle: "solid",
+                                            borderRightColor: "#ebe9e1",
+                                          }}
+                                        ></span>
+                                        <span
+                                          style={{ display: "inline-flex" }}
+                                        >
+                                          {api.is_public_service ? (
+                                            <>
+                                              Public Service{" "}
+                                              <LockOpenIcon fontSize="small" />
+                                            </>
+                                          ) : (
+                                            <>
+                                              Private Service{" "}
+                                              <HttpsIcon fontSize="small" />
+                                            </>
+                                          )}{" "}
+                                        </span>
+                                        <span
+                                          style={{
+                                            marginLeft: "0.75rem",
+                                            marginRight: "0.75rem",
+                                            borderRightStyle: "solid",
+                                            borderRightColor: "#ebe9e1",
+                                          }}
+                                        ></span>
+                                        <span>
+                                          {api.offline_authentication
+                                            ? "Offline"
+                                            : "Online"}{" "}
+                                          Authentication
+                                        </span>
+                                      </span>
+                                    </Typography>
+                                    <Typography
+                                      sx={{ color: "#112849" }}
+                                      variant="body2"
+                                    >
+                                      {api.endpoint_path}
+                                    </Typography>
+                                    <Typography
+                                      sx={{ color: "#7E8282" }}
+                                      variant="body2"
+                                    >
+                                      {api.description}
+                                    </Typography>
+                                    <Typography
+                                      sx={{ color: "#7E8282" }}
+                                      variant="body2"
+                                    >
+                                      Created at {api.created_date}
+                                    </Typography>
+                                  </Grid>
+                                  <Grid
+                                    item
+                                    xs={2}
+                                    sx={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                    }}
+                                  >
+                                    <FormGroup>
+                                      <FormControlLabel
+                                        value="start"
+                                        labelPlacement="start"
+                                        control={
+                                          <ColorSwitch
+                                            checked={api.is_public_service}
+                                            onChange={() =>
+                                              handleAccessUpdate(api)
+                                            }
+                                            size=""
+                                          />
+                                        }
+                                        sx={{
+                                          color: api.is_public_service
+                                            ? `#FC574E`
+                                            : ``,
+                                        }}
+                                        label={
+                                          api.is_public_service
+                                            ? "Public"
+                                            : "Private"
+                                        }
+                                      />
+                                    </FormGroup>
+                                  </Grid>
+                                  <Grid
+                                    item
+                                    xs={1}
+                                    sx={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                    }}
+                                  >
+                                    {/* <Button onClick={() => handleEdit(api.endpoint_uuid)} sx={closeIconStyle}>
+                    <EditIcon fontSize="small" />
+                    </Button> */}
+                                    <Button
+                                      onClick={() =>
+                                        handleDelete(api.endpoint_uuid)
+                                      }
+                                      sx={closeIconStyle}
+                                    >
+                                      <DeleteIcon
+                                        style={{ color: "red" }}
+                                        fontSize="small"
+                                      />
+                                    </Button>
+                                  </Grid>
+                                </Grid>
+                              </CardContent>
+                            </Card>
+                          </div>
+                        )
+                      )}
+                  </AccordionDetails>
+                </Accordion>
+              ) : (
+                <></>
+              )}
+            </Box>
+          ))}
+      </>
+    );
+  }
                     sx={{
                       border: '1px solid #D0DBF7',
                       bgcolor: "#E7EDFB",

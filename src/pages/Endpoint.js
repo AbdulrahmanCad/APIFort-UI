@@ -129,6 +129,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Endpoint() {
   const [modal, setModal] = React.useState(false)
+  const [refresh, setRefresh] = React.useState(false)
   const [serviceModal, setServiceModal] = React.useState(false)
   const [profileName, setProfileName] = React.useState("")
   const [endpointsSearch, setEndpointsSearch] = React.useState("")
@@ -156,7 +157,7 @@ export default function Endpoint() {
     setServicesSearch("")
     setEndpointsSearch("")
     updateData();
-  }, [modal,serviceModal]);
+  }, [modal,serviceModal,refresh]);
   
   async function updateData() {
     await endpointService.getService(params.id).then((result) => {
@@ -279,7 +280,7 @@ export default function Endpoint() {
               </Box>
             </Box>
           </Box>
-          <ServiceList services={services}/>
+          <ServiceList setRefresh={setRefresh} services={services}/>
         </TabPanel>
         <TabPanel sx={{ px: 2, pt: 0, pb: 12}} value="2">
         <Box my={3}>
@@ -311,6 +312,8 @@ export default function Endpoint() {
               </Box>
             </Box>
           </Box>
+
+          <EndpointList setRefresh={setRefresh} checkedMethods={checked} endpoints={endpoints} handleAccessUpdate={handleAccessUpdate}/>
           <EndpointList checkedMethods={checked} endpoints={endpoints} handleAccessUpdate={handleAccessUpdate}/>
         </TabPanel>
       </TabContext> 
