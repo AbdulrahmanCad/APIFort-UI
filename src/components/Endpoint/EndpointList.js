@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import MuiAccordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -17,8 +18,6 @@ import {
 } from "@mui/material";
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import HttpsIcon from '@mui/icons-material/Https';
-import EditIcon from '@mui/icons-material/Edit';
-import CloseIcon from "@mui/icons-material/Close";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -45,32 +44,67 @@ const ColorSwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-const closeIconStyle = {
-  display: "flex",
-  justifyContent: "end",
-  color: "#A3A4A2",
-  minWidth: "2rem",
-  minHeight: "2.5rem",
-  animationTimeline: 5000,
-   "&:hover": {
-     opacity: 1,
-     boxShadow: 4,
-   },
-}
+function EndpointList({endpoints, handleAccessUpdate, checkedMethods}) {
 
-function EndpointList({endpoints, handleAccessUpdate}) {
+  const [loading, setLoading] = React.useState(true)
+  const [empty, setEmpty] = React.useState(false)
+  const [filteredEndpoints, setFilteredEndpoints] = React.useState([])
 
-  function handleEdit(id) {
-    console.log(id)
-  }
-
-  function handleDelete(id) {
-    console.log(id)
-  }
+  const endpointsData = endpoints;
+  
+  React.useEffect(() => {
+    setLoading(true)
+    setEmpty(false)
+    let EndpointArray = []
+    let filteredArray = []
+    let countItems = false
+    if(!checkedMethods[0] && !checkedMethods[1] && !checkedMethods[2] && !checkedMethods[3]){
+      setFilteredEndpoints(endpointsData)
+      setLoading(false)
+    } else {
+      endpointsData.map((endpoint, i) => {
+        endpoint.endpoints.map((api) =>{
+          if(api.method_type === "POST" && checkedMethods[0]){
+            filteredArray.push(api)
+          } 
+          if(api.method_type === "GET" && checkedMethods[1]){
+            filteredArray.push(api)
+          } 
+          if(api.method_type === "PUT" && checkedMethods[2]){
+            filteredArray.push(api)
+          } 
+          if(api.method_type === "DELETE" && checkedMethods[3]){
+            filteredArray.push(api)
+          } 
+        })
+        if(filteredArray.length !== 0){
+          countItems = true
+        }
+        EndpointArray.push({
+          title: endpoint.title,
+          description: endpoint.description,
+          endpoints: filteredArray
+        })
+        filteredArray = []
+      }
+      )
+      setFilteredEndpoints(EndpointArray)
+      setLoading(false)
+      setEmpty(!countItems)
+    }
+  },[endpoints, checkedMethods])
+  
+  if(loading){
+    return (
+      <div>
+        Loading...
+        </div>
+    )
+  } else {
 
   return (
     <>
-     {endpoints.length === 0 ? 
+     {endpointsData.length === 0 || empty ? 
         <Box sx={{ display: 'flex', justifyContent: 'center'}} mt={12}>
          <Typography
          variant="h6"
@@ -82,8 +116,9 @@ function EndpointList({endpoints, handleAccessUpdate}) {
        </Box>
         :
         ''}
-    {endpoints && endpoints.map((endpoint, serviceIndex) => ( 
+    {filteredEndpoints && filteredEndpoints.map((endpoint, serviceIndex) => ( 
       <Box key={serviceIndex} mb={2}>
+    {filteredEndpoints[serviceIndex].endpoints.length ? 
       <Accordion >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -107,17 +142,17 @@ function EndpointList({endpoints, handleAccessUpdate}) {
               <Typography
                 sx={{ width: "100%", color: "#7E8282", font: "14px" }}
               >
-               {endpoint.endpoints && endpoint.endpoints.length} endpoints
+               {filteredEndpoints[serviceIndex].endpoints && filteredEndpoints[serviceIndex].endpoints.length} endpoints 
               </Typography>
             </Box>
           </Box>
         </AccordionSummary>
         <AccordionDetails>
-          {endpoint.endpoints && endpoint.endpoints.map((api, i) => (
+          {filteredEndpoints[serviceIndex].endpoints && filteredEndpoints[serviceIndex].endpoints.map((api, i) => (
+            <div key={i}>
           <Card
-            key={i}
             sx={{ minWidth: 275, border: 1, borderColor: "#C7C7C1", mb: 1.5 }}
-          >
+          > 
             <CardContent>
               <Grid container>
                 <Grid item xs={1}>
@@ -166,7 +201,7 @@ function EndpointList({endpoints, handleAccessUpdate}) {
                     {api.method_type}
                   </Box>
                     }
-                     { api.method_type === "DELETE" &&
+                     { api.method_type === "DELETE" && 
                     <Box
                     sx={{
                        border: '1px solid #F54949',
@@ -239,28 +274,23 @@ function EndpointList({endpoints, handleAccessUpdate}) {
                     />
                   </FormGroup>
                 </Grid>
-                <Grid item xs={1} sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                    }}>
-                    {/* <Button onClick={() => handleEdit(api.endpoint_uuid)} sx={closeIconStyle}>
-                    <EditIcon fontSize="small" />
-                    </Button>
-                    <Button onClick={() => handleDelete(api.endpoint_uuid)} sx={closeIconStyle}>
-                    <CloseIcon fontSize="small" />
-                    </Button> */}
-                </Grid>
+                
               </Grid>
+             
             </CardContent>
           </Card>
+          </div>
           ))}
         </AccordionDetails>
       </Accordion>
+      : 
+      <></>
+      }
       </Box>
     ))}
     </>
-  );
+  )
+    };
 }
 
 export default EndpointList;
