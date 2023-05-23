@@ -1,5 +1,5 @@
 import * as React from "react";
-import ProfileList from "../components/Health/ProfileHealthList";
+import ProfileHealthList from "../components/Health/ProfileHealthList";
 import { styled, alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import SearchIcon from "@mui/icons-material/Search";
@@ -96,9 +96,10 @@ export default function Profile() {
     setSearch(q)
     let allData = queryList
     allData = allData.filter((item, i) => {
-    return item.realm.toLowerCase().indexOf(q.toLowerCase()) !== -1;
+    return item.name.toLowerCase().indexOf(q.toLowerCase()) !== -1;
     }  );
     setProfiles(allData)
+    
   }
 
   return (
@@ -117,13 +118,13 @@ export default function Profile() {
                   <StyledInputBase
                     onChange={handleSearch}
                     value={search}
-                    placeholder="Search Profiles…"
+                    placeholder="Search Health…"
                     inputProps={{ "aria-label": "search" }}
                   />
                 </Search>
               </Box>
             </Box>
-            <ProfileList profiles={profiles}/>
+            <ProfileHealthList profiles={profiles}/>
           </Box>
         </Box>
       </Box>
