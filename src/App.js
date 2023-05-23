@@ -7,6 +7,7 @@ import { AxiosInterceptor } from "./api/axios";
 
 const Profile = lazy (() => import("./pages/Profile"))
 const Endpoint = lazy (() => import("./pages/Endpoint"))
+const Health = lazy (() => import("./pages/Health"))
 
 var mainBgStyle = {
   backgroundColor : '#F4F3EE',
@@ -33,17 +34,17 @@ function App() {
   return (<>
   <AxiosInterceptor />
   <ThemeProvider theme={theme}>
+  <Router>
   <Sidebar />
   <div style={mainBgStyle}>
-  
-  <Router>
     <Routes>
       <Route path="/profile" element={<Profile />}></Route>
       <Route path="/profile/:id" element={<Endpoint />}></Route>
+      <Route path="/health" element={<Health />}></Route>
       <Route path="*" element={<Navigate to="/profile" replace />}/>
     </Routes>
-  </Router>
   </ div>
+  </Router>
   </ThemeProvider>
   </>);
 }

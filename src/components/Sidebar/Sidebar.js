@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -10,7 +11,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import profileIcon from "../../assets/icons/profileIcon.jpg";
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import EqualizerIcon from '@mui/icons-material/Equalizer';
 
 const drawerWidth = 250;
 
@@ -63,6 +65,16 @@ const Drawer = styled(MuiDrawer, {
 
 export default function MiniDrawer() {
   const [open, setOpen] = React.useState(false);
+  const [path, setPath] = React.useState("/profile");
+  const [pages, setPages] = React.useState([{text:"Profiles", route:"profile"},
+  {text:"Health", route:"health"}]);
+
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  React.useEffect(() => {
+    setPath(location.pathname.substring(1))
+  },[location])
 
   const handleDrawerClose = () => {
     setOpen((prev) => !prev);
@@ -88,14 +100,15 @@ export default function MiniDrawer() {
           </DrawerHeader>
           <Divider />
           <List>
-            {["Profiles"].map((text, index) => (
+            {pages.map((item, index) => (
               <ListItem
-                style={{ backgroundColor: "#FC574E" }}
-                key={text}
+                style={{ backgroundColor: `${ path === item.route ? '#FC574E': ''}` }}
+                key={index}
                 disablePadding
                 sx={{ display: "block" }}
               >
                 <ListItemButton
+                  onClick={() => {navigate(`/${item.route}`)}}
                   sx={{
                     minHeight: 48,
                     justifyContent: open ? "initial" : "center",
@@ -109,10 +122,11 @@ export default function MiniDrawer() {
                       justifyContent: "center",
                     }}
                   >
-                    <img src={profileIcon} alt="icon"/>
+                    { item.text === "Profiles" && <ListAltIcon style={{ color: 'white' }}  /> }
+                    { item.text === "Health" && <EqualizerIcon style={{ color: 'white' }}  /> }
                   </ListItemIcon>
                   <ListItemText
-                    primary={text}
+                    primary={item.text}
                     sx={{ color: "white", opacity: open ? 1 : 0 }}
                   />
                 </ListItemButton>
