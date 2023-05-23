@@ -312,9 +312,7 @@ export default function Endpoint() {
               </Box>
             </Box>
           </Box>
-
           <EndpointList setRefresh={setRefresh} checkedMethods={checked} endpoints={endpoints} handleAccessUpdate={handleAccessUpdate}/>
-          <EndpointList checkedMethods={checked} endpoints={endpoints} handleAccessUpdate={handleAccessUpdate}/>
         </TabPanel>
       </TabContext> 
     </Box>        
