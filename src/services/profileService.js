@@ -20,11 +20,16 @@ const deleteProfile = (id) => {
   return axios.delete(API_URL + "/profile/" + id, {headers: authHeader()});
 }
 
+const syncProfile = (id) => {
+  return axios.post(API_URL + "/cache/" + id, {headers: authHeader()});
+}
+
 const profileService = {
     getProfile,
     getAllData,
     postProfile,
-    deleteProfile
+    deleteProfile,
+    syncProfile
 };
 
 export default profileService;

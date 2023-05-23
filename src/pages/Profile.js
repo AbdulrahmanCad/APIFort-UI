@@ -86,7 +86,7 @@ export default function Profile() {
   }, [modal, refresh]);
   
   async function updateData() {
-    await profileService.getAllData().then((result) => {consol
+    await profileService.getAllData().then((result) => {
       let data = result.data.data;
       setProfiles(data);
       setQueryList(data);

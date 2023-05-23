@@ -14,12 +14,14 @@ const AxiosInterceptor = () => {
     setOpen(false);
   };
 
-  api.interceptors.response.use(
-    (response) => {
-      if (response.config.method === 'delete') {
-        setMessage('Item deleted successfully');
-        setOpen(true);
-      }
+api.interceptors.response.use(
+  (response) => {
+    if (response.config.method === 'delete') {
+      setMessage('Item deleted successfully');
+      setOpen(true);
+    } else if (response.config.method === 'post') {
+      setMessage('Success');
+      setOpen(true);
       return response;
     },
     (error) => {
@@ -29,7 +31,16 @@ const AxiosInterceptor = () => {
       }
       return Promise.reject(error);
     }
-  );
+    return response;
+  },
+  (error) => {
+    if (error.response.status === 400) {
+      setMessage(`Error: ${error.response.data.message}`);
+      setOpen(true);
+    }
+    return Promise.reject(error);
+  }
+);
 
   return (
     <Snackbar
@@ -45,7 +56,7 @@ const AxiosInterceptor = () => {
         sx: {
           background: "red"
         }
-      }}
+     }}
     />
   );
 };
