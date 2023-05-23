@@ -140,7 +140,7 @@ function EndpointList({endpoints, handleAccessUpdate, checkedMethods, setRefresh
          component="h5"
          sx={{ color: "#112849" }}
        >
-        No data found!
+        No data found!  
        </Typography>
        </Box>
         :

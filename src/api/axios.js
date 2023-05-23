@@ -22,6 +22,14 @@ api.interceptors.response.use(
     } else if (response.config.method === 'post') {
       setMessage('Success');
       setOpen(true);
+      return response;
+    },
+    (error) => {
+      if (error.response.status === 400) {
+        setMessage(`Error: ${error.response.data.message}`);
+        setOpen(true);
+      }
+      return Promise.reject(error);
     }
     return response;
   },
