@@ -1,13 +1,12 @@
 import * as React from "react";
-import ProfileList from "../components/Profile/ProfileList";
+import ProfileHealthList from "../components/Health/ProfileHealthList";
 import { styled, alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import SearchIcon from "@mui/icons-material/Search";
-import { Button, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import InputBase from "@mui/material/InputBase";
-import Modal from "../components/modal/ProfileModal";
-import profileService from "../services/profileService";
+import healthService from "../services/healthService";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -72,8 +71,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Profile() {
-  const [modal, setModal] = React.useState(false)
-  const [refresh, setRefresh] = React.useState(false)
   const [search, setSearch] = React.useState("")
   const [queryList, setQueryList] = React.useState([])
   const [profiles, setProfiles] = React.useState([
@@ -83,11 +80,12 @@ export default function Profile() {
   React.useEffect(() => {
     setSearch("")
     updateData();
-  }, [modal, refresh]);
+  }, []);
   
   async function updateData() {
-    await profileService.getAllData().then((result) => {consol
-      let data = result.data.data;
+    await healthService.getHealth().then((result) => {
+      console.log("Testing the new api: ",result.data.checks)
+      let data = result.data.checks;
       setProfiles(data);
       setQueryList(data);
     });
@@ -95,20 +93,20 @@ export default function Profile() {
 
   function handleSearch(e){
     let q = e.target.value.trim()
-    console.log(q)
     setSearch(q)
     let allData = queryList
     allData = allData.filter((item, i) => {
-    return item.realm.toLowerCase().indexOf(q.toLowerCase()) !== -1;
+    return item.name.toLowerCase().indexOf(q.toLowerCase()) !== -1;
     }  );
     setProfiles(allData)
+    
   }
 
   return (
     <>
       <CssBaseline />
       <Box width={"100%"} my={4} ml={12} mr={4}>
-        <Typography fontSize={24} fontWeight="bold" color="#A3A4A2"> Profiles </Typography>
+        <Typography fontSize={24} fontWeight="bold" color="#A3A4A2"> Profiles Health Check </Typography>
         <Box display="grid" mt={4} mb={24} backgroundColor="white">
           <Box mx={2} mb={12}>
             <Box display="flex" justifyContent="space-between" my={4}>
@@ -120,26 +118,16 @@ export default function Profile() {
                   <StyledInputBase
                     onChange={handleSearch}
                     value={search}
-                    placeholder="Search Profiles…"
+                    placeholder="Search Health…"
                     inputProps={{ "aria-label": "search" }}
                   />
                 </Search>
               </Box>
-              <Box>
-                <Button
-                  onClick={() => setModal(true)}
-                  sx={newProfileBtnStyle}
-                  variant="contained"
-                >
-                  New Profile
-                </Button>
-              </Box>
             </Box>
-            <ProfileList setRefresh={setRefresh} profiles={profiles}/>
+            <ProfileHealthList profiles={profiles}/>
           </Box>
         </Box>
       </Box>
-      <Modal setModal={setModal} modal={modal} />
     </>
   );
 }
