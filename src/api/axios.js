@@ -16,6 +16,10 @@ const AxiosInterceptor = () => {
 
   api.interceptors.response.use(
     (response) => {
+      if (response.config.method === 'delete') {
+        setMessage('Item deleted successfully');
+        setOpen(true);
+      }
       return response;
     },
     (error) => {
