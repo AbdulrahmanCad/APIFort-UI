@@ -86,8 +86,7 @@ export default function Profile() {
   }, [modal, refresh]);
   
   async function updateData() {
-    await profileService.getAllData().then((result) => {
-      console.log("Testing the new api: ",result.data.data)
+    await profileService.getAllData().then((result) => {consol
       let data = result.data.data;
       setProfiles(data);
       setQueryList(data);
