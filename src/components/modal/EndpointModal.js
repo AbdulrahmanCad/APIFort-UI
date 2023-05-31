@@ -270,9 +270,7 @@ export default function BasicModal({ modal, setModal }) {
        is_public_service: publicService,
        version_number: Number(version_number)
     };
-    console.log(data)
     await endpointService.postEndpoint(params.id, data).then((result) => {
-      console.log(result);
       setDone(true);
     }).catch((err) => setError(err.response.data));
   }

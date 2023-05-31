@@ -185,7 +185,7 @@ export default function Endpoint() {
    await endpointService.updateAccess(params.id, newData).then((res) => {
     if(res)
     updateData()
-   }).catch((err) => console.log(err))
+   })
   }
 
   function handleServicesSearch(e){

@@ -262,7 +262,6 @@ export default function BasicModal({ modal, setModal }) {
       realm,
     };
     await profileService.postProfile(data).then((result) => {
-      console.log(result);
       setDone(true);
     }).catch((err) => setError(err.response.data));
   }

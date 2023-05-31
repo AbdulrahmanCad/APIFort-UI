@@ -65,8 +65,8 @@ const Drawer = styled(MuiDrawer, {
 
 export default function MiniDrawer() {
   const [open, setOpen] = React.useState(false);
-  const [path, setPath] = React.useState("/profile");
-  const [pages, setPages] = React.useState([{text:"Profiles", route:"profile"},
+  const [path, setPath] = React.useState("/profiles");
+  const [pages, setPages] = React.useState([{text:"Profiles", route:"profiles"},
   {text:"Health", route:"health"}]);
 
   const navigate = useNavigate()

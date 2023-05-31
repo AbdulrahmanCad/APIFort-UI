@@ -39,10 +39,10 @@ function App() {
   <Sidebar />
   <div style={mainBgStyle}>
     <Routes>
-      <Route path="/profile" element={<Protected component={Profile}/>}></Route>
-      <Route path="/profile/:id" element={<Protected component={Endpoint}/>}></Route>
+      <Route path="/profiles" element={<Protected component={Profile}/>}></Route>
+      <Route path="/profiles/:id" element={<Protected component={Endpoint}/>}></Route>
       <Route path="/health" element={<Protected component={Health}/>}></Route>
-      <Route path="*" element={<Navigate to="/profile" replace />}/>
+      <Route path="*" element={<Navigate to="/profiles" replace />}/>
     </Routes>
   </ div>
   </Router>

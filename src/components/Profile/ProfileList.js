@@ -42,7 +42,7 @@ export default function ProfileList({ profiles, setRefresh }) {
   const navigate = useNavigate();
 
   function handleProfileClick(id) {
-    navigate("/profile/" + id);
+    navigate("/profiles/" + id);
   }
 
   function handleDelete(id) {

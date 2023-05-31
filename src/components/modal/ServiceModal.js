@@ -234,7 +234,6 @@ export default function BasicModal({ serviceModal, setServiceModal }) {
       context_name,
     };
     await endpointService.postService(param.id, data).then((result) => {
-      console.log(result);
       setDone(true);
     }).catch((err) => setError(err.response.data.message));
   }
