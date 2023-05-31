@@ -129,7 +129,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Endpoint() {
   const [modal, setModal] = React.useState(false)
-  const [refresh, setRefresh] = React.useState(false)
+  const [refresh, setRefresh] = React.useState("")
   const [serviceModal, setServiceModal] = React.useState(false)
   const [profileName, setProfileName] = React.useState("")
   const [endpointsSearch, setEndpointsSearch] = React.useState("")
@@ -169,7 +169,6 @@ export default function Endpoint() {
   }
 
   async function handleAccessUpdate(data){
-    console.log(data)
     let access = !data.is_public_service
     const newData = {
       endpoint_uuid: data.endpoint_uuid,

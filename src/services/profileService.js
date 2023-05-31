@@ -1,31 +1,25 @@
 import { api } from '../api/axios';
-import authHeader from './authHeader';
 
 const API_URL = '/admin-api';
 const axios = api;
 
-const getProfile = (id) => {
-  return axios.get(API_URL + `/${id}.json`);
-};
-
 const getAllData = () => {
-  return axios.get(API_URL + "/profiles", {headers: authHeader()});
+  return axios.get(API_URL + "/profiles",);
 };
 
 const postProfile = (data) => {
-  return axios.post(API_URL + "/profile", data, {headers: authHeader()});
+  return axios.post(API_URL + "/profile", data,);
 };
 
 const deleteProfile = (id) => {
-  return axios.delete(API_URL + "/profile/" + id, {headers: authHeader()});
+  return axios.delete(API_URL + "/profile/" + id,);
 }
 
 const syncProfile = (id) => {
-  return axios.post(API_URL + "/cache/" + id, {headers: authHeader()});
+  return axios.post(API_URL + "/cache/" + id,{},);
 }
 
 const profileService = {
-    getProfile,
     getAllData,
     postProfile,
     deleteProfile,

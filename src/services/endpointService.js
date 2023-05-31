@@ -1,5 +1,4 @@
 import { api } from "../api/axios";
-import authHeader from "./authHeader";
 
 const API_URL = "/admin-api";
 const axios = api;
@@ -9,51 +8,35 @@ const getAllData = (name) => {
 };
 
 const getEndpoint = (name) => {
-  return axios.get(API_URL + "/" + name + "/endpoints", {
-    headers: authHeader(),
-  });
+  return axios.get(API_URL + "/" + name + "/endpoints",);
 };
 
 const getService = (name) => {
-  return axios.get(API_URL + "/" + name + "/service", {
-    headers: authHeader(),
-  });
+  return axios.get(API_URL + "/" + name + "/service",);
 };
 
 const updateAccess = (name, data) => {
-  return axios.put(API_URL + "/" + name + "/endpoint", data, {
-    headers: authHeader(),
-  });
+  return axios.put(API_URL + "/" + name + "/endpoint", data,);
 };
 
 const updateEndpoint = (name, data) => {
-  return axios.put(API_URL + "/" + name + "/endpoint", data, {
-    headers: authHeader(),
-  });
+  return axios.put(API_URL + "/" + name + "/endpoint", data,);
 };
 
 const postService = (profileName, data) => {
-  return axios.post(API_URL + "/" + profileName + "/service", data, {
-    headers: authHeader(),
-  });
+  return axios.post(API_URL + "/" + profileName + "/service", data,);
 };
 
 const deleteService = (serviceName, context) => {
-  return axios.delete(API_URL + "/" + serviceName + "/service/" + context, {
-    headers: authHeader(),
-  });
+  return axios.delete(API_URL + "/" + serviceName + "/service/" + context,);
 };
 
 const postEndpoint = (profileName, data) => {
-  return axios.post(API_URL + "/" + profileName + "/endpoint", data, {
-    headers: authHeader(),
-  });
+  return axios.post(API_URL + "/" + profileName + "/endpoint", data,);
 };
 
 const deleteEndpoint = (profileName, id) => {
-  return axios.delete(API_URL + "/" + profileName + "/endpoint/" + id, {
-    headers: authHeader(),
-  });
+  return axios.delete(API_URL + "/" + profileName + "/endpoint/" + id,);
 };
 
 const endpointService = {

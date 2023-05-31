@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import { createTheme, ThemeProvider} from '@mui/material/styles';
 import Sidebar from "./components/Sidebar/Sidebar"
 import { AxiosInterceptor } from "./api/axios";
+import Protected from "./Protected";
 
 const Profile = lazy (() => import("./pages/Profile"))
 const Endpoint = lazy (() => import("./pages/Endpoint"))
@@ -38,9 +39,9 @@ function App() {
   <Sidebar />
   <div style={mainBgStyle}>
     <Routes>
-      <Route path="/profile" element={<Profile />}></Route>
-      <Route path="/profile/:id" element={<Endpoint />}></Route>
-      <Route path="/health" element={<Health />}></Route>
+      <Route path="/profile" element={<Protected component={Profile}/>}></Route>
+      <Route path="/profile/:id" element={<Protected component={Endpoint}/>}></Route>
+      <Route path="/health" element={<Protected component={Health}/>}></Route>
       <Route path="*" element={<Navigate to="/profile" replace />}/>
     </Routes>
   </ div>

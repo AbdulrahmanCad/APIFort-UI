@@ -47,13 +47,13 @@ export default function ProfileList({ profiles, setRefresh }) {
 
   function handleDelete(id) {
     profileService.deleteProfile(id).then((result) => {
-      setRefresh(true);
+      setRefresh(id);
     });
   }
 
   function handleSync(id) {
     profileService.syncProfile(id).then((result) => {
-      setRefresh(true);
+      setRefresh(id);
     });
   }
 
@@ -98,7 +98,7 @@ export default function ProfileList({ profiles, setRefresh }) {
                   </span>
                 }
               />
-              <Button onClick={() => handleSync(profile.client_profile_uuid)} sx={closeIconStyle}>
+              <Button onClick={() => handleSync(profile.realm)} sx={closeIconStyle}>
               <SyncIcon style={{ color: "blue" }} fontSize="small" />
               </Button>
               <Button

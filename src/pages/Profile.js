@@ -58,7 +58,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -73,7 +72,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Profile() {
   const [modal, setModal] = React.useState(false)
-  const [refresh, setRefresh] = React.useState(false)
+  const [refresh, setRefresh] = React.useState("")
   const [search, setSearch] = React.useState("")
   const [queryList, setQueryList] = React.useState([])
   const [profiles, setProfiles] = React.useState([
@@ -95,7 +94,6 @@ export default function Profile() {
 
   function handleSearch(e){
     let q = e.target.value.trim()
-    console.log(q)
     setSearch(q)
     let allData = queryList
     allData = allData.filter((item, i) => {

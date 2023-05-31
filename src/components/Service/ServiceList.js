@@ -40,7 +40,7 @@ function ServiceList({ services, setRefresh }) {
 
   function handleDelete(id) {
     endpointService.deleteService(params.id, id).then((result) => {
-      setRefresh(true);
+      setRefresh(id);
     });
   }
   return (

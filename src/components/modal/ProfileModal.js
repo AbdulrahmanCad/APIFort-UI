@@ -192,7 +192,7 @@ export default function BasicModal({ modal, setModal }) {
   const [formData, setFormData] = React.useState({
     title: "",
     api_key: "",
-    auth_claim_key: "",
+    auth_claim_key: "realm_access",
     realm: "",
     description: "Testing"
   });
@@ -383,7 +383,7 @@ export default function BasicModal({ modal, setModal }) {
                   variant="outlined"
                   sx={formInputStyle}
                 >
-                  <Typography
+                  <Typography 
                   component={'span'}
                   >
                     Auth Claim Key{" "}
@@ -400,27 +400,10 @@ export default function BasicModal({ modal, setModal }) {
                       <ValidationTextField
                         error={auth_claim_valid}
                         sx={validationTextStyle}
-                        id="outlined-adornment-password"
-                        type={showPassword2 ? "text" : "password"}
                         name="auth_claim_key"
+                        value={auth_claim_key}
                         onChange={onChange}
                         placeholder="Enter key"
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleClickShowPasswordAuth}
-                              onMouseDown={handleMouseDownPasswordAuth}
-                              edge="end"
-                            >
-                              {showPassword2 ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        }
                       />
                     </Grid>
                   </Typography>
@@ -429,7 +412,7 @@ export default function BasicModal({ modal, setModal }) {
                   variant="outlined"
                   sx={formInputStyle}
                 >
-                  <Typography
+                  <Typography 
                   component={'span'}
                   >
                     Realm Key{" "}
@@ -444,35 +427,16 @@ export default function BasicModal({ modal, setModal }) {
                   component={'span'}
                   item xs={12}>
                       <ValidationTextField
-                        required
                         error={realm_valid}
                         sx={validationTextStyle}
-                        id="outlined-adornment-password"
-                        type={showPassword3 ? "text" : "password"}
                         name="realm"
                         onChange={onChange}
-                        placeholder="Enter key"
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleClickShowPasswordRealm}
-                              onMouseDown={handleMouseDownPasswordRealm}
-                              edge="end"
-                            >
-                              {showPassword3 ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        }
+                        placeholder="Enter realm"
                       />
                     </Grid>
                   </Typography>
                 </FormControl>
-
+           
                 <Typography sx={{ color: "red" }}>{error}</Typography>
                 <Box
                   height="2.5rem"

@@ -71,13 +71,9 @@ function EndpointList({endpoints, handleAccessUpdate, checkedMethods, setRefresh
   
   const params = useParams()
 
-  function handleEdit(id) {
-    console.log(id)
-  }
-
   function handleDelete(id) {
     endpointService.deleteEndpoint(params.id, id).then((result) => {
-      setRefresh(true)
+      setRefresh(id)
     })
   }
 
@@ -291,6 +287,7 @@ function EndpointList({endpoints, handleAccessUpdate, checkedMethods, setRefresh
                   alignItems: "center",
                   justifyContent: "center",
                     }}>
+                  { api.method_type === "GET" || api.method_type === "POST" ? 
                   <FormGroup>
                     <FormControlLabel
                       value="start"
@@ -301,7 +298,12 @@ function EndpointList({endpoints, handleAccessUpdate, checkedMethods, setRefresh
                       sx={{color: api.is_public_service ? `#FC574E`:``}}
                       label={api.is_public_service ?"Public":"Private"}
                     />
+                  </FormGroup> 
+                  :
+                  <FormGroup>
+                    <Typography variant="p">{api.is_public_service ?"Public":"Private"}</Typography>
                   </FormGroup>
+                  }
                 </Grid>
                 <Grid item xs={1} sx={{
                   display: "flex",

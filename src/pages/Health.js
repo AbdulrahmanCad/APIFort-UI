@@ -33,16 +33,6 @@ const searchInputStyle = {
   borderRadius: 2,
 }
 
-const newProfileBtnStyle = {
-  ":hover": {
-    bgcolor: "#CA463E",
-    color: "white",
-  },
-  color: "white",
-  textTransform: 'none',
-  backgroundColor: "#FC574E",
-}
-
 const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
   height: "100%",
@@ -72,6 +62,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Profile() {
   const [search, setSearch] = React.useState("")
+  const [loading, setLoading] = React.useState(true)
+  const [mainStatus, setMainStatus] = React.useState("")
   const [queryList, setQueryList] = React.useState([])
   const [profiles, setProfiles] = React.useState([
     { id: 0, profile_name: "Loading..." },
@@ -84,10 +76,13 @@ export default function Profile() {
   
   async function updateData() {
     await healthService.getHealth().then((result) => {
-      console.log("Testing the new api: ",result.data.checks)
+      let mainStatus = result.data.status
       let data = result.data.checks;
+      setMainStatus(mainStatus)
       setProfiles(data);
       setQueryList(data);
+    }).finally((error) => {
+      setLoading(false)
     });
   }
 
@@ -124,7 +119,11 @@ export default function Profile() {
                 </Search>
               </Box>
             </Box>
-            <ProfileHealthList profiles={profiles}/>
+            { loading ? 
+            <Typography fontSize={12} fontWeight="bold"> Loading ... </Typography>
+            :
+            <ProfileHealthList mainStatus={mainStatus} profiles={profiles}/>
+              }
           </Box>
         </Box>
       </Box>
