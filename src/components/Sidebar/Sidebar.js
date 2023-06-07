@@ -11,9 +11,9 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import ListAltIcon from '@mui/icons-material/ListAlt';
-import EqualizerIcon from '@mui/icons-material/Equalizer';
-import LogoutIcon from '@mui/icons-material/Logout';
+import ListAltIcon from "@mui/icons-material/ListAlt";
+import EqualizerIcon from "@mui/icons-material/Equalizer";
+import LogoutIcon from "@mui/icons-material/Logout";
 import Cookies from "js-cookie";
 
 const drawerWidth = 250;
@@ -22,7 +22,7 @@ const openedMixin = (theme) => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.easeInOut,
-    duration: '0.3s',
+    duration: "0.3s",
   }),
   overflowX: "hidden",
 });
@@ -30,7 +30,7 @@ const openedMixin = (theme) => ({
 const closedMixin = (theme) => ({
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.easeInOut,
-    duration: '0.3s',
+    duration: "0.3s",
   }),
   overflowX: "hidden",
   width: `calc(${theme.spacing(7)} + 1px)`,
@@ -64,30 +64,32 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-
 export default function MiniDrawer() {
   const [open, setOpen] = React.useState(false);
   const [path, setPath] = React.useState("/profiles");
-  const [pages, setPages] = React.useState([{text:"Profiles", route:"profiles"},
-  {text:"Health", route:"health"}]);
+  const [pages, setPages] = React.useState([
+    { text: "Profiles", route: "profiles" },
+    { text: "Health", route: "health" },
+  ]);
 
-  const navigate = useNavigate()
-  const location = useLocation()
+  const navigate = useNavigate();
+  const location = useLocation();
 
   React.useEffect(() => {
-    setPath(location.pathname.substring(1))
-  },[location])
+    setPath(location.pathname.substring(1));
+  }, [location]);
 
   const handleDrawerClose = () => {
     setOpen((prev) => !prev);
   };
 
-  function handleLogout(){
+  function handleLogout() {
     Cookies.remove("tokenValue");
+    Cookies.remove("tokenAddedAt");
     Cookies.remove("tokenExpiresAt");
     Cookies.remove("client");
     Cookies.remove("secret");
-    window.location.href = "/login"
+    window.location.href = "/login";
   }
 
   return (
@@ -112,13 +114,17 @@ export default function MiniDrawer() {
           <List>
             {pages.map((item, index) => (
               <ListItem
-                style={{ backgroundColor: `${ path === item.route ? '#FC574E': ''}` }}
+                style={{
+                  backgroundColor: `${path === item.route ? "#FC574E" : ""}`,
+                }}
                 key={index}
                 disablePadding
                 sx={{ display: "block" }}
               >
                 <ListItemButton
-                  onClick={() => {navigate(`/${item.route}`)}}
+                  onClick={() => {
+                    navigate(`/${item.route}`);
+                  }}
                   sx={{
                     minHeight: 48,
                     justifyContent: open ? "initial" : "center",
@@ -132,8 +138,12 @@ export default function MiniDrawer() {
                       justifyContent: "center",
                     }}
                   >
-                    { item.text === "Profiles" && <ListAltIcon style={{ color: 'white' }}  /> }
-                    { item.text === "Health" && <EqualizerIcon style={{ color: 'white' }}  /> }
+                    {item.text === "Profiles" && (
+                      <ListAltIcon style={{ color: "white" }} />
+                    )}
+                    {item.text === "Health" && (
+                      <EqualizerIcon style={{ color: "white" }} />
+                    )}
                   </ListItemIcon>
                   <ListItemText
                     primary={item.text}
@@ -144,32 +154,34 @@ export default function MiniDrawer() {
             ))}
           </List>
 
-          <List style={{ marginTop: `auto` }} >
+          <List style={{ marginTop: `auto` }}>
             <ListItem>
               <ListItemButton
-                  onClick={() => {handleLogout()}}
+                onClick={() => {
+                  handleLogout();
+                }}
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
                   sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
                   }}
                 >
-                <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                    }}
-                  >
-                  <LogoutIcon style={{ color: 'white' }}  />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Logout"
-                    sx={{ color: "white", opacity: open ? 1 : 0 }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            </List>
+                  <LogoutIcon style={{ color: "white" }} />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Logout"
+                  sx={{ color: "white", opacity: open ? 1 : 0 }}
+                />
+              </ListItemButton>
+            </ListItem>
+          </List>
         </Drawer>
       </div>
     </Box>

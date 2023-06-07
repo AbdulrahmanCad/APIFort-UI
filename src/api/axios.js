@@ -17,6 +17,7 @@ const setTokenCookie = (client, secret, token) => {
   Cookies.set("secret", secret, { expires, secure: true, sameSite: 'strict' });
   Cookies.set("tokenValue", token, { expires, secure: true, sameSite: 'strict' });
   Cookies.set("tokenExpiresAt", expires.getTime(), { expires });
+  Cookies.set("tokenAddedAt", Date.now(), { expires });
 };
 
 const AxiosInterceptor = () => {
@@ -48,12 +49,14 @@ const AxiosInterceptor = () => {
       } else {
         Cookies.remove("tokenValue");
         Cookies.remove("tokenExpiresAt");
+        Cookies.remove("tokenAddedAt");
         Cookies.remove("client");
         Cookies.remove("secret");
       }
     } else {
         Cookies.remove("tokenValue");
         Cookies.remove("tokenExpiresAt");
+        Cookies.remove("tokenAddedAt");
         Cookies.remove("client");
         Cookies.remove("secret");
     }
@@ -94,12 +97,14 @@ const AxiosInterceptor = () => {
 
    const checkTokenExpiration = () => {
     const tokenExpiresAt = Cookies.get("tokenExpiresAt");
+    const tokenAddedAt = Cookies.get("tokenAddedAt");
     const client = Cookies.get("client");
     const secret = Cookies.get("secret");
-    if (tokenExpiresAt) {
+    if (tokenAddedAt && tokenExpiresAt) {
       const now = Date.now();
+      const timeSinceAdded = now - tokenAddedAt;
       const timeUntilExpires = tokenExpiresAt - now;
-      if (timeUntilExpires < 0.1 * 60 * 60 * 1000) {
+      if (timeSinceAdded > 36 || timeUntilExpires < 0.1 * 60 * 60 * 1000) {
         if(client && secret){
         authService.signIn(client, secret)
         }
