@@ -16,7 +16,7 @@ function Protected(props) {
       checkCookie()
     }, [location.pathname]);
 
-    async function checkCookie() {
+    function checkCookie() {
       const tokenValue = Cookies.get("tokenValue");
       const tokenExpiresAt = Cookies.get("tokenExpiresAt");
         if(tokenValue && tokenExpiresAt){

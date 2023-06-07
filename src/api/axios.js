@@ -11,13 +11,11 @@ const api = axios.create({
 
 
 const setTokenCookie = (client, secret, token) => {
-  const expires = new Date();
-  expires.setHours(expires.getHours() + 1);
-  Cookies.set("client", client, { expires });
-  Cookies.set("secret", secret, { expires, secure: true, sameSite: 'strict' });
-  Cookies.set("tokenValue", token, { expires, secure: true, sameSite: 'strict' });
-  Cookies.set("tokenExpiresAt", expires.getTime(), { expires });
-  Cookies.set("tokenAddedAt", Date.now(), { expires });
+  Cookies.set("client", client);
+  Cookies.set("secret", secret, { secure: true, sameSite: 'strict' });
+  Cookies.set("tokenValue", token, { secure: true, sameSite: 'strict' });
+  Cookies.set("tokenExpiresAt", Date.now() + 360000);
+  Cookies.set("tokenAddedAt", Date.now());
 };
 
 const AxiosInterceptor = () => {

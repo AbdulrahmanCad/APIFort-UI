@@ -11,8 +11,8 @@ const API_URL = "http://localhost:8180/realms/master/protocol/openid-connect";
 const Login = (props) => {
 
 const [err, setErr] = React.useState("") 
-const [client, setClient] = React.useState("backend-client") 
-const [secret, setSecret] = React.useState("QRcmVrIxzIzQ1sXznMzVGZybc7M4fuXX")
+const [client, setClient] = React.useState("") 
+const [secret, setSecret] = React.useState("")
 const [open, setOpen] = React.useState(false);
 const [message, setMessage] = React.useState("");
 const [severity, setSeverity] = React.useState("success");
@@ -82,7 +82,10 @@ React.useEffect(() => {
               variant="outlined"
               fullWidth
               value={client}
-              onChange={(e) => setClient(e.target.value)}
+              onChange={(e) => {
+                setErr("")
+                setClient(e.target.value)
+              } }
             />
              <Typography variant="h6" sx={{ textAlign: 'left', my: 2 }}>
             Client Secret
@@ -93,7 +96,10 @@ React.useEffect(() => {
               variant="outlined"
               fullWidth
               value={secret}
-              onChange={(e) => setSecret(e.target.value)}
+              onChange={(e) => {
+                setErr("")
+                setSecret(e.target.value)
+              } }
             />
             <Button
               variant="contained"
