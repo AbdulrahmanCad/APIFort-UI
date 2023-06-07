@@ -13,6 +13,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
+import LogoutIcon from '@mui/icons-material/Logout';
+import Cookies from "js-cookie";
 
 const drawerWidth = 250;
 
@@ -80,6 +82,14 @@ export default function MiniDrawer() {
     setOpen((prev) => !prev);
   };
 
+  function handleLogout(){
+    Cookies.remove("tokenValue");
+    Cookies.remove("tokenExpiresAt");
+    Cookies.remove("client");
+    Cookies.remove("secret");
+    window.location.href = "/login"
+  }
+
   return (
     <Box display="flex" sx={{ backgroundColor: "#052056" }}>
       <CssBaseline />
@@ -133,6 +143,33 @@ export default function MiniDrawer() {
               </ListItem>
             ))}
           </List>
+
+          <List style={{ marginTop: `auto` }} >
+            <ListItem>
+              <ListItemButton
+                  onClick={() => {handleLogout()}}
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                  }}
+                >
+                <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                  <LogoutIcon style={{ color: 'white' }}  />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="Logout"
+                    sx={{ color: "white", opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            </List>
         </Drawer>
       </div>
     </Box>

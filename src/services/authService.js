@@ -1,25 +1,31 @@
 import axios from "axios";
 import { setTokenCookie } from "../api/axios";
+import Cookies from "js-cookie";
 
 const API_URL = "http://localhost:8180/realms/master/protocol/openid-connect";
 
-const setCookie = () => {
+const signIn = (clientId, clientSecret) => {
 
 let urlencoded = new URLSearchParams();
-urlencoded.append("client_id", "backend-client");
+urlencoded.append("client_id", clientId);
 urlencoded.append("grant_type", "client_credentials");
-urlencoded.append("client_secret", "QRcmVrIxzIzQ1sXznMzVGZybc7M4fuXX");
+urlencoded.append("client_secret", clientSecret);
 
 axios.post(API_URL + "/token", urlencoded, 
 { headers: { 'Content-Type': 'application/x-www-form-urlencoded'},})
     .then((result) => {
       let token = result.data.access_token;
-      setTokenCookie(token);
+      setTokenCookie(clientId, clientSecret, token);
+    }).catch((error) => {
+      Cookies.remove("tokenValue");
+      Cookies.remove("tokenExpiresAt");
+      Cookies.remove("client");
+      Cookies.remove("secret");
     });
 };
 
 const authService = {
-  setCookie,
+  signIn,
 };
 
 export default authService;
