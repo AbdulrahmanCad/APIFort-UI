@@ -104,7 +104,7 @@ const AxiosInterceptor = () => {
       const now = Date.now();
       const timeSinceAdded = now - tokenAddedAt;
       const timeUntilExpires = tokenExpiresAt - now;
-      if (timeSinceAdded > 36 || timeUntilExpires < 0.1 * 60 * 60 * 1000) {
+      if (timeSinceAdded > 360000 || timeUntilExpires < 0.1 * 60 * 60 * 1000) {
         if(client && secret){
         authService.signIn(client, secret)
         }
